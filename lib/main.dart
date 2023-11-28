@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:rpm/Views/ShopPart/ShopHomeScreen/ProductDescriptionScreen/add_to_cart_provider.dart';
 import 'package:rpm/controllers/login_controller.dart';
+import 'package:rpm/controllers/service_req/emer_service_controller.dart';
+import 'package:rpm/controllers/service_req/schedule_service_controller.dart';
 import 'package:rpm/controllers/signup_controller.dart';
 import 'package:rpm/firebase_options.dart';
 import 'Views/ShopPart/Auth/SplashScreen/splash_screen.dart';
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => CountProvider()),
           ChangeNotifierProvider(create: (_) => SignupController()),
           ChangeNotifierProvider(create: (_) => LoginController()),
+          ChangeNotifierProvider(create: (_) => ScheduleServiceController()),
+          ChangeNotifierProvider(create: (_) => EmergencyServiceController()),
         ],
         child: ScreenUtilInit(
           minTextAdapt: true,

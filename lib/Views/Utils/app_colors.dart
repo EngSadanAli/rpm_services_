@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class AppColors{
+class AppColors {
   static Color blackColor = const Color(0xff000000);
   static Color grayTextColor = const Color(0xff000000);
   static Color textFieldBorderColor = const Color(0xff0061BF);
@@ -15,9 +15,6 @@ class AppColors{
   static Color greenTextColor = const Color(0xff2DC071);
   static Color greySeTextColor = const Color(0xffEDEDED);
   static Color garyIconColor = const Color(0xffA7B5BF);
-
-
-
 
   static Color mainButton2Color = const Color(0xffBA5EEF);
   static Color floatingButton = const Color(0xffBA5EEF);
