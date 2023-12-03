@@ -8,6 +8,7 @@ import 'package:rpm/Views/ShopPart/Auth/Components/big_text.dart';
 import 'package:rpm/Views/ShopPart/ShopHomeScreen/ProductDescriptionScreen/add_to_cart_provider.dart';
 import 'package:rpm/Views/Utils/app_colors.dart';
 import 'package:rpm/Views/Utils/app_images.dart';
+import 'package:rpm/controllers/services/session_manager.dart';
 import '../../PaymentSection/SuccessScreen/success_screen.dart';
 
 class AddToCartScreen extends StatefulWidget {
@@ -334,7 +335,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                CustomText(title: "Mr Jhon",
+                CustomText(title: SessionController().name.toString(),
                   fontSize: 15.50.sp,
                   fontWeight: FontWeight.w400,
                   color: AppColors.whiteColor,

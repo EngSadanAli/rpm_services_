@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rpm/Views/EmergencyServiceScreen/engine_service_screen.dart';
 import 'package:rpm/Views/Utils/app_colors.dart';
+import 'package:rpm/controllers/services/session_manager.dart';
 import '../Views/ScheduleServiceScreen/schedule_service_screen.dart';
 import '../Views/ShopPart/Auth/Components/big_text.dart';
 import 'bottom_navigation_bar.dart';
@@ -26,7 +27,7 @@ class SelectionScreen extends StatelessWidget {
                 height: 43.h,
               ),
               CustomText(
-                title: "Welcome Mr Jhon",
+                title: "Welcome ${SessionController().name}",
                 color: AppColors.whiteColor,
                 fontWeight: FontWeight.w400,
                 fontSize: 15.85.sp,
@@ -116,7 +117,7 @@ class SelectionTwoScreen extends StatelessWidget {
                 height: 43.h,
               ),
               CustomText(
-                title: "Welcome Mr Jhon",
+                title: "Welcome ${SessionController().name.toString()}",
                 color: AppColors.whiteColor,
                 fontWeight: FontWeight.w400,
                 fontSize: 15.85.sp,

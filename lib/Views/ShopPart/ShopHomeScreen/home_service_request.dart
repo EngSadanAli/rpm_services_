@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:rpm/Views/LocationScreen/my_location_screen.dart';
 import 'package:rpm/Views/SettingScreen/NotificationScreen/notification_screen.dart';
 import 'package:rpm/Views/ShopPart/Auth/LogInScreen/login_screen.dart';
 import 'package:rpm/Views/ShopPart/ShopHomeScreen/ProductDescriptionScreen/product_description_screen.dart';
@@ -77,25 +79,25 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                     thickness: 1,
                     color: Colors.black,
                   ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.signal_cellular_alt,
-                      color: AppColors.whiteColor,
-                    ),
-                    title: CustomText(
-                      title: "Stats",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15.sp,
-                      color: AppColors.whiteColor,
-                    ),
-                    onTap: () {
-                      // Add your onTap logic for item 1
-                    },
-                  ),
-                  Divider(
-                    thickness: 1,
-                    color: Colors.black,
-                  ),
+                  // ListTile(
+                  //   leading: Icon(
+                  //     Icons.signal_cellular_alt,
+                  //     color: AppColors.whiteColor,
+                  //   ),
+                  //   title: CustomText(
+                  //     title: "Stats",
+                  //     fontWeight: FontWeight.w700,
+                  //     fontSize: 15.sp,
+                  //     color: AppColors.whiteColor,
+                  //   ),
+                  //   onTap: () {
+                  //     // Add your onTap logic for item 1
+                  //   },
+                  // ),
+                  // Divider(
+                  //   thickness: 1,
+                  //   color: Colors.black,
+                  // ),
                   ListTile(
                     leading: Icon(
                       Icons.menu_book,
@@ -128,6 +130,7 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                     ),
                     onTap: () {
                       // Add your onTap logic for item 1
+                      Get.to(MyWishlistScreen());
                     },
                   ),
                   Divider(
@@ -267,90 +270,90 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomText(
-                title: "Shop Parts",
-                color: AppColors.blackColor,
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
-              ),
-              SizedBox(
-                height: 30.h,
-              ),
-              SizedBox(
-                height: 140.h,
-                child: ListView(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(8),
-                      padding:
-                          EdgeInsets.only(left: 15.w, right: 10.w, top: 12.h),
-                      height: 131.h,
-                      width: 234.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.r),
-                        color: AppColors.textFieldBorderColor,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomText(
-                            title: "Repair Service",
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Image.asset(
-                                AppImages.servicesImg,
-                                width: 141.w,
-                                height: 100.h,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(8),
-                      padding:
-                          EdgeInsets.only(left: 15.w, right: 10.w, top: 12.h),
-                      height: 131.h,
-                      width: 234.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.r),
-                        color: AppColors.textFieldBorderColor,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomText(
-                            title: "Book Service",
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Image.asset(
-                                AppImages.servicesImg,
-                                width: 141.w,
-                                height: 100.h,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // CustomText(
+              //   title: "Shop Parts",
+              //   color: AppColors.blackColor,
+              //   fontSize: 20.sp,
+              //   fontWeight: FontWeight.bold,
+              // ),
+              // SizedBox(
+              //   height: 30.h,
+              // ),
+              // SizedBox(
+              //   height: 140.h,
+              //   child: ListView(
+              //     shrinkWrap: true,
+              //     scrollDirection: Axis.horizontal,
+              //     children: [
+              //       Container(
+              //         margin: EdgeInsets.all(8),
+              //         padding:
+              //             EdgeInsets.only(left: 15.w, right: 10.w, top: 12.h),
+              //         height: 131.h,
+              //         width: 234.h,
+              //         decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(10.r),
+              //           color: AppColors.textFieldBorderColor,
+              //         ),
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             CustomText(
+              //               title: "Repair Service",
+              //               fontSize: 16.sp,
+              //               fontWeight: FontWeight.w400,
+              //               color: Colors.white,
+              //             ),
+              //             Row(
+              //               crossAxisAlignment: CrossAxisAlignment.end,
+              //               mainAxisAlignment: MainAxisAlignment.end,
+              //               children: [
+              //                 Image.asset(
+              //                   AppImages.servicesImg,
+              //                   width: 141.w,
+              //                   height: 100.h,
+              //                 ),
+              //               ],
+              //             ),
+              //           ],
+              //         ),
+              // ),
+              //       Container(
+              //         margin: EdgeInsets.all(8),
+              //         padding:
+              //             EdgeInsets.only(left: 15.w, right: 10.w, top: 12.h),
+              //         height: 131.h,
+              //         width: 234.h,
+              //         decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(10.r),
+              //           color: AppColors.textFieldBorderColor,
+              //         ),
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             CustomText(
+              //               title: "Book Service",
+              //               fontSize: 16.sp,
+              //               fontWeight: FontWeight.w400,
+              //               color: Colors.white,
+              //             ),
+              //             Row(
+              //               crossAxisAlignment: CrossAxisAlignment.end,
+              //               mainAxisAlignment: MainAxisAlignment.end,
+              //               children: [
+              //                 Image.asset(
+              //                   AppImages.servicesImg,
+              //                   width: 141.w,
+              //                   height: 100.h,
+              //                 ),
+              //               ],
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               SizedBox(
                 height: 22.h,
               ),
@@ -363,195 +366,276 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
               SizedBox(
                 height: 10.h,
               ),
-              GridView.builder(
-                shrinkWrap: true,
-                itemCount: 4,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200,
-                  childAspectRatio: 1.5 / 2,
-                  crossAxisSpacing: 12,
-                  mainAxisExtent: 140,
-                  mainAxisSpacing: 20,
-                ),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(right: 16.w, left: 5),
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.to(ProductDescriptionScreen());
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.only(top: 10.h, left: 8.w, right: 8.w),
-                        height: 146.h,
-                        width: 165.w,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColors.grayText),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black
-                                  .withOpacity(0.25), // Shadow color
-                              spreadRadius: 0,
-                              blurRadius: 4,
-                              offset:
-                                  Offset(0, 4), // Offset in x and y direction
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Image.asset(AppImages.pngWingImg),
-                            SizedBox(
-                              height: 4.h,
-                            ),
-                            CustomText(
-                              title: "Car Rim",
-                              color: AppColors.blackColor,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            SizedBox(
-                              height: 6.h,
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CustomText(
-                                  title: "1200",
-                                  color: AppColors.blackColor.withOpacity(.50),
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                SizedBox(
-                                  width: 10.w,
-                                ),
-                                CustomText(
-                                  title: "1000",
-                                  color: AppColors.blackColor.withOpacity(.50),
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                SizedBox(
-                                  width: 10.w,
-                                ),
-                                CustomText(
-                                  title: "10% off",
-                                  color: AppColors.redTextColor,
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w400,
+              StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('products')
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong');
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Text("Loading");
+                  }
+
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.docs.length,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200,
+                      childAspectRatio: 1.5 / 2,
+                      crossAxisSpacing: 12,
+                      mainAxisExtent: 140,
+                      mainAxisSpacing: 20,
+                    ),
+                    itemBuilder: (context, index) {
+                      var snap = snapshot.data!.docs[index];
+                      return Padding(
+                        padding: EdgeInsets.only(right: 16.w, left: 5),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(ProductDescriptionScreen(snap: snap));
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                top: 10.h, left: 8.w, right: 8.w),
+                            height: 146.h,
+                            width: 165.w,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: AppColors.grayText),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black
+                                      .withOpacity(0.25), // Shadow color
+                                  spreadRadius: 0,
+                                  blurRadius: 4,
+                                  offset: Offset(
+                                      0, 4), // Offset in x and y direction
                                 ),
                               ],
-                            )
-                          ],
+                            ),
+                            child: Column(
+                              children: [
+                                Image.asset(AppImages.pngWingImg),
+                                SizedBox(
+                                  height: 4.h,
+                                ),
+                                CustomText(
+                                  title: snap['title'],
+                                  color: AppColors.blackColor,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                SizedBox(
+                                  height: 6.h,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CustomText(
+                                      title: "\$",
+                                      color:
+                                          AppColors.blackColor.withOpacity(.50),
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    CustomText(
+                                      title: snap['price'],
+                                      color:
+                                          AppColors.blackColor.withOpacity(.50),
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    CustomText(
+                                      title: "10% off",
+                                      color: AppColors.redTextColor,
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    StreamBuilder<DocumentSnapshot>(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('products')
+                                          .doc(snap['docId'])
+                                          .snapshots(),
+                                      builder:
+                                          (context, AsyncSnapshot snapshot) {
+                                        if (snapshot.hasError) {
+                                          return Text('Something went wrong');
+                                        }
+
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Text("Loading");
+                                        }
+
+                                        return GestureDetector(
+                                          onTap: () async {
+                                            try {
+                                              if (snapshot.data
+                                                  .get("favorite")
+                                                  .contains(SessionController()
+                                                      .userId)) {
+                                                await FirebaseFirestore.instance
+                                                    .collection('products')
+                                                    .doc(snap['docId'])
+                                                    .update({
+                                                  'favorite':
+                                                      FieldValue.arrayRemove([
+                                                    SessionController().userId
+                                                  ])
+                                                });
+                                              } else {
+                                                await FirebaseFirestore.instance
+                                                    .collection('products')
+                                                    .doc(snap['docId'])
+                                                    .update({
+                                                  'favorite':
+                                                      FieldValue.arrayUnion([
+                                                    SessionController().userId
+                                                  ])
+                                                });
+                                              }
+                                            } catch (e) {}
+                                          },
+                                          child: Center(
+                                              child: Icon(
+                                            snapshot.data
+                                                    .get("favorite")
+                                                    .contains(
+                                                        SessionController()
+                                                            .userId)
+                                                ? Icons.favorite
+                                                : Icons.favorite_border,
+                                            size: 14.sp,
+                                            color: AppColors.grayText,
+                                          )),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   );
                 },
               ),
+
               SizedBox(
                 height: 30.h,
               ),
-              CustomText(
-                title: "Recently Viewed",
-                color: AppColors.blackColor,
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
-              GridView.builder(
-                shrinkWrap: true,
-                itemCount: 2,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200,
-                  childAspectRatio: 1.5 / 2,
-                  crossAxisSpacing: 12,
-                  mainAxisExtent: 140,
-                  mainAxisSpacing: 20,
-                ),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(right: 16.w, left: 5),
-                    child: Container(
-                      padding:
-                          EdgeInsets.only(top: 10.h, left: 8.w, right: 8.w),
-                      height: 146.h,
-                      width: 165.w,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: AppColors.grayText),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black54
-                                .withOpacity(0.35), // Shadow color
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 3), // Offset in x and y direction
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(AppImages.carSteering),
-                          SizedBox(
-                            height: 4.h,
-                          ),
-                          CustomText(
-                            title: "Car Steering",
-                            color: AppColors.blackColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          SizedBox(
-                            height: 6.h,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CustomText(
-                                title: "1200",
-                                color: AppColors.blackColor.withOpacity(.50),
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              CustomText(
-                                title: "1000",
-                                color: AppColors.blackColor.withOpacity(.50),
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              CustomText(
-                                title: "10% off",
-                                color: AppColors.redTextColor,
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(
-                height: 15.h,
-              )
+              // CustomText(
+              //   title: "Recently Viewed",
+              //   color: AppColors.blackColor,
+              //   fontSize: 20.sp,
+              //   fontWeight: FontWeight.bold,
+              // ),
+              // SizedBox(
+              //   height: 15.h,
+              // ),
+              // GridView.builder(
+              //   shrinkWrap: true,
+              //   itemCount: 2,
+              //   physics: NeverScrollableScrollPhysics(),
+              //   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              //     maxCrossAxisExtent: 200,
+              //     childAspectRatio: 1.5 / 2,
+              //     crossAxisSpacing: 12,
+              //     mainAxisExtent: 140,
+              //     mainAxisSpacing: 20,
+              //   ),
+              //   itemBuilder: (context, index) {
+              //     return Padding(
+              //       padding: EdgeInsets.only(right: 16.w, left: 5),
+              //       child: Container(
+              //         padding:
+              //             EdgeInsets.only(top: 10.h, left: 8.w, right: 8.w),
+              //         height: 146.h,
+              //         width: 165.w,
+              //         decoration: BoxDecoration(
+              //           color: Colors.white,
+              //           borderRadius: BorderRadius.circular(10),
+              //           border: Border.all(color: AppColors.grayText),
+              //           boxShadow: [
+              //             BoxShadow(
+              //               color: Colors.black54
+              //                   .withOpacity(0.35), // Shadow color
+              //               spreadRadius: 2,
+              //               blurRadius: 5,
+              //               offset: Offset(0, 3), // Offset in x and y direction
+              //             ),
+              //           ],
+              //         ),
+              //         child: Column(
+              //           children: [
+              //             Image.asset(AppImages.carSteering),
+              //             SizedBox(
+              //               height: 4.h,
+              //             ),
+              //             CustomText(
+              //               title: "Car Steering",
+              //               color: AppColors.blackColor,
+              //               fontSize: 16.sp,
+              //               fontWeight: FontWeight.w400,
+              //             ),
+              //             SizedBox(
+              //               height: 6.h,
+              //             ),
+              //             Row(
+              //               crossAxisAlignment: CrossAxisAlignment.center,
+              //               mainAxisAlignment: MainAxisAlignment.center,
+              //               children: [
+              //                 CustomText(
+              //                   title: "1200",
+              //                   color: AppColors.blackColor.withOpacity(.50),
+              //                   fontSize: 10.sp,
+              //                   fontWeight: FontWeight.w400,
+              //                 ),
+              //                 SizedBox(
+              //                   width: 10.w,
+              //                 ),
+              //                 CustomText(
+              //                   title: "1000",
+              //                   color: AppColors.blackColor.withOpacity(.50),
+              //                   fontSize: 10.sp,
+              //                   fontWeight: FontWeight.w400,
+              //                 ),
+              //                 SizedBox(
+              //                   width: 10.w,
+              //                 ),
+              //                 CustomText(
+              //                   title: "10% off",
+              //                   color: AppColors.redTextColor,
+              //                   fontSize: 10.sp,
+              //                   fontWeight: FontWeight.w400,
+              //                 ),
+              //               ],
+              //             )
+              //           ],
+              //         ),
+              //       ),
+              //     );
+              //   },
+              // ),
+              // SizedBox(
+              //   height: 15.h,
+              // )
             ],
           ),
         ),

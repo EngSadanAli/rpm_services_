@@ -15,20 +15,21 @@ class AppNavigationBar extends StatefulWidget {
   @override
   State<AppNavigationBar> createState() => _AppNavigationBarState();
 }
+
 class _AppNavigationBarState extends State<AppNavigationBar> {
   int Index = 0;
-  List<Widget>  widgetList = [
-     HomeServicesRequest(),
-    MyLocationScreen(),
+  List<Widget> widgetList = [
+    HomeServicesRequest(),
+    MyWishlistScreen(),
     EngineServiceScreen(),
     AddToCartScreen(),
-     SettingScreen(),
+    SettingScreen(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: SizedBox(
-        height: 78,
+        height: 86,
         width: 428,
         child: BottomNavigationBar(
             selectedItemColor: AppColors.textFieldBorderColor,
@@ -40,22 +41,36 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
             unselectedFontSize: 12,
             type: BottomNavigationBarType.fixed,
             // backgroundColor: Colors.transparent,
-            onTap: (index){
+            onTap: (index) {
               setState(() {
-                Index=index;
+                Index = index;
               });
             },
             currentIndex: Index,
-            items:  [
-              BottomNavigationBarItem(icon: Icon(Icons.home_outlined,), label: "Home"),
-              BottomNavigationBarItem(icon: Icon(Icons.favorite_border,), label: "Wishlist"),
-              BottomNavigationBarItem(icon: Image.asset(AppImages.sirenImg,color: Colors.red,),label: "Emergency"),
-              BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: "Cart"),
-              BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: "Setting")
-            ]
-        ),
+            items: [
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home_outlined,
+                  ),
+                  label: "Home"),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.favorite_border,
+                  ),
+                  label: "Wishlist"),
+              BottomNavigationBarItem(
+                  icon: Image.asset(
+                    AppImages.sirenImg,
+                    color: Colors.red,
+                  ),
+                  label: "Emergency"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.shopping_cart_outlined), label: "Cart"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings_outlined), label: "Setting")
+            ]),
       ),
-      body:  widgetList[Index],
+      body: widgetList[Index],
     );
   }
 }
@@ -74,7 +89,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
 //     return [
 //
 //       HomeServicesRequest(),
-//       MyLocationScreen(),
+//       MyWishlistScreen(),
 //       EngineServiceScreen(),
 //       AddToCartScreen(),
 //       SettingScreen(),

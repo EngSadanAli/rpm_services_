@@ -51,23 +51,23 @@ class SettingScreen extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            SettingContainerWidget(
-              onTap: () {
-                Get.to(const NotificationScreen());
-              },
-              title: "Notification",
-              icon: const Icon(Icons.notifications_outlined),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            SettingContainerWidget(
-              onTap: () {},
-              title: "Theme",
-              icon: const Icon(
-                Icons.wb_sunny,
-              ),
-            ),
+            // SettingContainerWidget(
+            //   onTap: () {
+            //     Get.to(const NotificationScreen());
+            //   },
+            //   title: "Notification",
+            //   icon: const Icon(Icons.notifications_outlined),
+            // ),
+            // SizedBox(
+            //   height: 10.h,
+            // ),
+            // SettingContainerWidget(
+            //   onTap: () {},
+            //   title: "Theme",
+            //   icon: const Icon(
+            //     Icons.wb_sunny,
+            //   ),
+            // ),
             SizedBox(
               height: 10.h,
             ),
