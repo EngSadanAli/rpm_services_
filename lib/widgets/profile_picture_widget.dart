@@ -92,6 +92,7 @@ class PickImageDailog extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
+            tileColor: AppColors.hintText,
             onTap: () {
               ProfileController().pickImage(context, ImageSource.camera);
               Navigator.pop(context);
@@ -103,6 +104,7 @@ class PickImageDailog extends StatelessWidget {
             title: const Text('Camera'),
           ),
           ListTile(
+            tileColor: AppColors.hintText,
             onTap: () {
               ProfileController().pickImage(context, ImageSource.gallery);
               Navigator.pop(context);

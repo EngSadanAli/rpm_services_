@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:rpm/Views/ShopPart/ShopHomeScreen/ProductDescriptionScreen/add_to_cart_provider.dart';
 import 'package:rpm/controllers/login_controller.dart';
+import 'package:rpm/controllers/order/order_controller.dart';
 import 'package:rpm/controllers/profile_controller.dart';
 import 'package:rpm/controllers/service_req/emer_service_controller.dart';
 import 'package:rpm/controllers/service_req/schedule_service_controller.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => ScheduleServiceController()),
           ChangeNotifierProvider(create: (_) => EmergencyServiceController()),
           ChangeNotifierProvider(create: (_) => ProfileController()),
+          ChangeNotifierProvider(create: (_) => OrderController()),
         ],
         child: ScreenUtilInit(
           minTextAdapt: true,

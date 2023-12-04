@@ -62,6 +62,8 @@ class ScheduleServiceController with ChangeNotifier {
           'selectedDate': selectedDate,
           'selectedTime': selectedTime,
           'image': newUrl,
+          'status': 'pending',
+          'type': 'normal',
         };
         // saving user data in database
         ScheduleServiceRepository().scheduleService(docId, data);

@@ -40,6 +40,7 @@ class SignupController with ChangeNotifier {
           role: role,
           uid: value.user!.uid,
           phone: '',
+          cart: [],
         );
         SessionController().userId = value.user!.uid.toString();
         SessionController().email = value.user!.email.toString();

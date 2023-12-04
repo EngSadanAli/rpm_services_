@@ -62,15 +62,53 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
           color: AppColors.blackColor,
         ),
         actions: [
-          IconButton(
-            onPressed: () {
-              // Get.to(AddToCartScreen());
+          StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('users')
+                .doc(SessionController().userId)
+                .snapshots(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasError) {
+                return Text('Something went wrong');
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text("Loading");
+              }
+
+              return GestureDetector(
+                onTap: () async {
+                  try {
+                    if (snapshot.data
+                        .get("cart")
+                        .contains(widget.snap['docId'])) {
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(SessionController().userId)
+                          .update({
+                        'cart': FieldValue.arrayRemove([widget.snap['docId']])
+                      });
+                    } else {
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(SessionController().userId)
+                          .update({
+                        'cart': FieldValue.arrayUnion([widget.snap['docId']])
+                      });
+                    }
+                  } catch (e) {}
+                },
+                child: Center(
+                    child: Icon(
+                  snapshot.data.get("cart").contains(widget.snap['docId'])
+                      ? Icons.shopping_cart
+                      : Icons.shopping_cart_checkout_outlined,
+                  size: 14.sp,
+                  color: AppColors.grayText,
+                )),
+              );
             },
-            icon: Icon(
-              Icons.shopping_cart_outlined,
-              color: AppColors.blackColor,
-            ),
-          )
+          ),
         ],
       ),
       body: Padding(

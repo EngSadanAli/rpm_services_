@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,7 @@ class AddToCartScreen extends StatefulWidget {
   @override
   State<AddToCartScreen> createState() => _AddToCartScreenState();
 }
+
 class _AddToCartScreenState extends State<AddToCartScreen> {
   bool _value = false;
   bool _value1 = false;
@@ -55,7 +57,10 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 15.w, right: 15.w,),
+          padding: EdgeInsets.only(
+            left: 15.w,
+            right: 15.w,
+          ),
           child: Column(
             children: [
               Container(
@@ -68,183 +73,238 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomText(title: "Order Summery",
-                      fontSize: 15.50.sp,
+                      CustomText(
+                        title: "Order Summery",
+                        fontSize: 15.50.sp,
                         fontWeight: FontWeight.w400,
                         color: AppColors.textColorB,
                       ),
-                      SizedBox(height: 10.h,),
-                      Divider(color: Color(0xffE8E8E8),thickness: 1,),
-                      SizedBox(height: 15.h,),
-                      Container(
-                        child: Row(
-                          children: [
-                            Image.asset(AppImages.cartRimImg,height: 81.h,width: 81.w,),
-                            Padding(
-                              padding:  EdgeInsets.only(left: 10.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      CustomText(title: "Car Rim",
-                                        fontSize: 16.50.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.blackColor.withOpacity(.87),
-                                      ),
-                                      SizedBox(width: 120.w,),
-                                      GestureDetector(
-                                        onTap: (){},
-                                        child: Icon(Icons.close,size: 15.sp,
-                                          color: AppColors.blackColor.withOpacity(.38),),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 8.h,),
-                                  CustomText(title: "\$${ 1000}",
-                                    fontSize: 15.50.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xffD7D6D6),
-                                  ),
-                                  SizedBox(height: 10.h,),
-                                  Container(
-                                    height: 26.h,
-                                    width: 69.49.w,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4),
-                                      border: Border.all(color: AppColors.greySeTextColor),
-                                    ),
-                                    child: Center(
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Divider(
+                        color: Color(0xffE8E8E8),
+                        thickness: 1,
+                      ),
+                      SizedBox(height: 15.h),
+                      StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(SessionController().userId)
+                            .snapshots(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasError) {
+                            return Text('Something went wrong');
+                          }
+
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Text("Loading");
+                          }
+
+                          return SizedBox(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data!.get('cart').length,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                var snap = snapshot.data!.get('cart')[index];
+                                return FutureBuilder(
+                                  future: FirebaseFirestore.instance
+                                      .collection('products')
+                                      .doc(snap)
+                                      .get(),
+                                  builder: (context, snapshot) {
+                                    var prodImage =
+                                        snapshot.data!.get('productImage')[0];
+                                    var prodPrice = snapshot.data!.get('price');
+                                    var prodTitle = snapshot.data!.get('title');
+                                    return Container(
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          GestureDetector(
-                                              onTap: (){
-                                                countProvider.decrement();
-                                              },
-                                              child: Icon(Icons.remove, size: 9.sp, color: AppColors.secondGTextColor)),
-                                          CustomText(
-                                            title: countProvider.count.toString(),
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 10.sp,
-                                            color: AppColors.secondGTextColor,
+                                          Image.network(
+                                            prodImage,
+                                            height: 81.h,
+                                            width: 81.w,
                                           ),
-                                          GestureDetector(
-                                              onTap: (){
-                                                countProvider.increment();
-                                              },
-                                              child: Icon(Icons.add, size: 9.sp, color: AppColors.secondGTextColor)),
+                                          Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 10.w),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    CustomText(
+                                                      title: prodTitle,
+                                                      fontSize: 16.50.sp,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: AppColors
+                                                          .blackColor
+                                                          .withOpacity(.87),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 100.w,
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        FirebaseFirestore
+                                                            .instance
+                                                            .collection('users')
+                                                            .doc(
+                                                                SessionController()
+                                                                    .userId)
+                                                            .update({
+                                                          'cart': FieldValue
+                                                              .arrayRemove(
+                                                                  [snap])
+                                                        });
+                                                      },
+                                                      child: Icon(
+                                                        Icons.close,
+                                                        size: 15.sp,
+                                                        color: AppColors
+                                                            .blackColor
+                                                            .withOpacity(.38),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 8.h,
+                                                ),
+                                                SizedBox(
+                                                  child: CustomText(
+                                                    title: "\$ ${prodPrice}",
+                                                    fontSize: 15.50.sp,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color(0xffD7D6D6),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10.h,
+                                                ),
+                                                Container(
+                                                  height: 26.h,
+                                                  width: 69.49.w,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4),
+                                                    border: Border.all(
+                                                        color: AppColors
+                                                            .greySeTextColor),
+                                                  ),
+                                                  child: Center(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        GestureDetector(
+                                                            onTap: () {
+                                                              countProvider
+                                                                  .decrement();
+                                                            },
+                                                            child: Icon(
+                                                                Icons.remove,
+                                                                size: 9.sp,
+                                                                color: AppColors
+                                                                    .secondGTextColor)),
+                                                        CustomText(
+                                                          title: countProvider
+                                                              .count
+                                                              .toString(),
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 10.sp,
+                                                          color: AppColors
+                                                              .secondGTextColor,
+                                                        ),
+                                                        GestureDetector(
+                                                            onTap: () {
+                                                              countProvider
+                                                                  .increment();
+                                                            },
+                                                            child: Icon(
+                                                                Icons.add,
+                                                                size: 9.sp,
+                                                                color: AppColors
+                                                                    .secondGTextColor)),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
                                         ],
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          );
+                        },
                       ),
-                      Container(
-                        child: Row(
-                          children: [
-                            Image.asset(AppImages.cartRimImg,height: 81.h,width: 81.w,),
-                            Padding(
-                              padding:  EdgeInsets.only(left: 10.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      CustomText(title: "Car Rim",
-                                        fontSize: 16.50.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.blackColor.withOpacity(.87),
-                                      ),
-                                      SizedBox(width: 120.w,),
-                                      GestureDetector(
-                                        onTap: (){},
-                                        child: Icon(Icons.close,size: 15.sp,
-                                          color: AppColors.blackColor.withOpacity(.38),),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 8.h,),
-                                  CustomText(title: "\$${ 1000}",
-                                    fontSize: 15.50.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xffD7D6D6),
-                                  ),
-                                  SizedBox(height: 10.h,),
-                                  Container(
-                                    height: 26.h,
-                                    width: 69.49.w,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4),
-                                      border: Border.all(color: AppColors.greySeTextColor),
-                                    ),
-                                    child: Center(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          GestureDetector(
-                                              onTap: (){
-                                                countProvider.decrement();
-                                              },
-                                              child: Icon(Icons.remove, size: 9.sp, color: AppColors.secondGTextColor)),
-                                          CustomText(
-                                            title: countProvider.count.toString(),
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 10.sp,
-                                            color: AppColors.secondGTextColor,
-                                          ),
-                                          GestureDetector(
-                                              onTap: (){
-                                                countProvider.increment();
-                                              },
-                                              child: Icon(Icons.add, size: 9.sp, color: AppColors.secondGTextColor)),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                      SizedBox(
+                        height: 15.h,
                       ),
-                      SizedBox(height: 15.h,),
-                      Divider(color: Color(0xffE8E8E8),thickness: 1,),
-                      SizedBox(height: 10.h,),
+                      Divider(
+                        color: Color(0xffE8E8E8),
+                        thickness: 1,
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
                       AddToCartRowText(
                         title: "Delivery Charges",
-                        text: "\$${ 20.00}",
+                        text: "\$${20.00}",
                       ),
-                      SizedBox(height: 8.h,),
+                      SizedBox(
+                        height: 8.h,
+                      ),
                       AddToCartRowText(
                         title: "GST (19%)",
-                        text: "\$${ 40.00}",
+                        text: "\$${40.00}",
                       ),
-                      SizedBox(height: 8.h,),
+                      SizedBox(
+                        height: 8.h,
+                      ),
                       AddToCartRowText(
                         title: "Discount",
-                        text: "\$${ 10}%",
+                        text: "\$${10}%",
                       ),
-                      SizedBox(height: 10.h,),
-                      Divider(color: Color(0xffE8E8E8),thickness: 1,),
-                      SizedBox(height: 10.h,),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Divider(
+                        color: Color(0xffE8E8E8),
+                        thickness: 1,
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CustomText(title: "Total",
+                          CustomText(
+                            title: "Total",
                             fontSize: 12.50.sp,
                             fontWeight: FontWeight.w400,
                             color: AppColors.blackColor.withOpacity(.90),
                           ),
-                          CustomText(title: "\$${2.15933}",
+                          CustomText(
+                            title: "\$${2.15933}",
                             fontSize: 12.50.sp,
                             fontWeight: FontWeight.w400,
                             color: AppColors.textColorB,
@@ -255,13 +315,45 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 80.h,),
+              SizedBox(
+                height: 80.h,
+              ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     _showProceedDialog(context);
+                  //   },
+                  //   child: Container(
+                  //     width: 143,
+                  //     height: 38,
+                  //     decoration: BoxDecoration(
+                  //         boxShadow: [
+                  //           BoxShadow(
+                  //             color:
+                  //                 Colors.grey.withOpacity(0.35), // Shadow color
+                  //             spreadRadius: 2,
+                  //             blurRadius: 5,
+                  //             offset:
+                  //                 Offset(1, 3), // Offset in x and y direction
+                  //           ),
+                  //         ],
+                  //         borderRadius: BorderRadius.circular(10),
+                  //         color: Color(0xffF3F5F7)),
+                  //     child: Center(
+                  //       child: Text('Continue Shopping',
+                  //           style: TextStyle(
+                  //               fontSize: 11.sp,
+                  //               fontWeight: FontWeight.w400,
+                  //               color: AppColors.textFieldBorderColor)),
+                  //     ),
+                  //   ),
+                  // ),
                   GestureDetector(
-                    onTap: (){
-                      _showProceedDialog(context);
+                    onTap: () {
+                      // _showContinueDialog(context);
+                      Get.to(AddressScreen());
                     },
                     child: Container(
                       width: 143,
@@ -269,39 +361,12 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                       decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.35), // Shadow color
+                              color: Colors.black
+                                  .withOpacity(0.25), // Shadow color
                               spreadRadius: 2,
                               blurRadius: 5,
-                              offset: Offset(1, 3), // Offset in x and y direction
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(10),
-                          color: Color(0xffF3F5F7)),
-                      child: Center(
-                        child: Text('Continue Shopping',
-                            style: TextStyle(
-                                fontSize: 11.sp,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.textFieldBorderColor)),
-                      ),
-                    ),
-                  ),
-
-                  GestureDetector(
-                    onTap: (){
-                      _showContinueDialog(context);
-
-                    },
-                    child: Container(
-                      width: 143,
-                      height: 38,
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.25), // Shadow color
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: Offset(0, 3), // Offset in x and y direction
+                              offset:
+                                  Offset(0, 3), // Offset in x and y direction
                             ),
                           ],
                           borderRadius: BorderRadius.circular(10),
@@ -335,20 +400,22 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                CustomText(title: SessionController().name.toString(),
+                CustomText(
+                  title: SessionController().name.toString(),
                   fontSize: 15.50.sp,
                   fontWeight: FontWeight.w400,
                   color: AppColors.whiteColor,
                 ),
                 SizedBox(height: 10.h),
-                CustomText(title: "What would  you Like To ",
+                CustomText(
+                  title: "What would  you Like To ",
                   fontSize: 10.56.sp,
                   fontWeight: FontWeight.w400,
                   color: AppColors.whiteColor,
                 ),
                 SizedBox(height: 30.h),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     // Get.to(AppNavigationBar());
                   },
                   child: Container(
@@ -362,7 +429,9 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(AppImages.addressImg),
-                        SizedBox(width: 10.w,),
+                        SizedBox(
+                          width: 10.w,
+                        ),
                         CustomText(
                           title: "Pick-Up Order",
                           color: AppColors.blackColor,
@@ -375,7 +444,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                 ),
                 SizedBox(height: 15.h),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     Get.to(AddressScreen());
                   },
                   child: Container(
@@ -389,7 +458,9 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(AppImages.expressDeliveryImg),
-                        SizedBox(width: 10.w,),
+                        SizedBox(
+                          width: 10.w,
+                        ),
                         CustomText(
                           title: "Delivery     ",
                           color: AppColors.blackColor,
@@ -404,8 +475,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
               ],
             ),
           ),
-          actions: [
-          ],
+          actions: [],
         );
       },
     );
@@ -422,30 +492,33 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                CustomText(title: "Payment Methods",
+                CustomText(
+                  title: "Payment Methods",
                   fontSize: 17.50.sp,
                   fontWeight: FontWeight.w400,
                   color: AppColors.blackColor.withOpacity(.87),
                 ),
                 SizedBox(height: 10.h),
-                CustomText(title: "Select a payment method to continue.",
+                CustomText(
+                  title: "Select a payment method to continue.",
                   fontSize: 11.56.sp,
                   fontWeight: FontWeight.w400,
                   color: AppColors.blackColor.withOpacity(.38),
                 ),
                 SizedBox(height: 30.h),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     // Get.to(AppNavigationBar());
                   },
                   child: Container(
                     width: 289.w,
                     height: 52.w,
-                    padding: EdgeInsets.only(left: 20.w,right: 20.w),
+                    padding: EdgeInsets.only(left: 20.w, right: 20.w),
                     decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.35), // Shadow color
+                            color:
+                                Colors.grey.withOpacity(0.35), // Shadow color
                             spreadRadius: 2,
                             blurRadius: 5,
                             offset: Offset(1, 3), // Offset in x and y direction
@@ -458,7 +531,9 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(AppImages.creditCardImg),
-                        SizedBox(width: 10.w,),
+                        SizedBox(
+                          width: 10.w,
+                        ),
                         CustomText(
                           title: "Credit Card",
                           color: AppColors.blackColor,
@@ -466,51 +541,53 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                           fontSize: 13.85.sp,
                         ),
                         Spacer(), // Initialize it as false initially
-                      InkWell(
-                      onTap: () {
-                setState(() {
-                _value = !_value;
-                });
-                },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _value == true ? Colors.blue : Colors.grey,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: _value == true
-                          ? Icon(
-                        Icons.check,
-                        size: 15.0.sp,
-                        color: Colors.white,
-                      )
-                          : Icon(
-                        Icons.check_box_outline_blank,
-                        size: 15.0,
-                        color: _value == true ? Colors.blue : Colors.grey,
-                      ),
-                    ),
-                  ),
-                )
-
-              ],
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              _value = !_value;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _value == true ? Colors.blue : Colors.grey,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: _value == true
+                                  ? Icon(
+                                      Icons.check,
+                                      size: 15.0.sp,
+                                      color: Colors.white,
+                                    )
+                                  : Icon(
+                                      Icons.check_box_outline_blank,
+                                      size: 15.0,
+                                      color: _value == true
+                                          ? Colors.blue
+                                          : Colors.grey,
+                                    ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
                 SizedBox(height: 15.h),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     Get.to(AddressScreen());
                   },
                   child: Container(
-                    padding: EdgeInsets.only(left: 20.w,right: 20.w),
+                    padding: EdgeInsets.only(left: 20.w, right: 20.w),
                     width: 289.w,
                     height: 52.w,
                     decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.35), // Shadow color
+                            color:
+                                Colors.grey.withOpacity(0.35), // Shadow color
                             spreadRadius: 2,
                             blurRadius: 5,
                             offset: Offset(1, 3), // Offset in x and y direction
@@ -523,14 +600,16 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Image.asset(AppImages.moneyCashImg),
-                        SizedBox(width: 10.w,),
+                        SizedBox(
+                          width: 10.w,
+                        ),
                         CustomText(
                           title: "Cash",
                           color: AppColors.blackColor,
                           fontWeight: FontWeight.w400,
                           fontSize: 13.85.sp,
                         ),
-                    Spacer(),
+                        Spacer(),
                         InkWell(
                           onTap: () {
                             setState(() {
@@ -540,21 +619,24 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                           child: Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: _value1 == true ? Colors.blue : Colors.grey,
+                              color:
+                                  _value1 == true ? Colors.blue : Colors.grey,
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(2.0),
                               child: _value1 == true
                                   ? Icon(
-                                Icons.check,
-                                size: 15.0.sp,
-                                color: Colors.white,
-                              )
+                                      Icons.check,
+                                      size: 15.0.sp,
+                                      color: Colors.white,
+                                    )
                                   : Icon(
-                                Icons.check_box_outline_blank,
-                                size: 15.0,
-                                color: _value1 == true ? Colors.blue : Colors.grey,
-                              ),
+                                      Icons.check_box_outline_blank,
+                                      size: 15.0,
+                                      color: _value1 == true
+                                          ? Colors.blue
+                                          : Colors.grey,
+                                    ),
                             ),
                           ),
                         ),
@@ -566,20 +648,22 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                 Row(
                   children: [
                     InkWell(
-                      onTap: (){
+                      onTap: () {
                         Navigator.pop(context);
                       },
                       child: Container(
-                        padding: EdgeInsets.only(left: 20.w,right: 20.w),
+                        padding: EdgeInsets.only(left: 20.w, right: 20.w),
                         width: 100.w,
                         height: 38.w,
                         decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.35), // Shadow color
+                                color: Colors.grey
+                                    .withOpacity(0.35), // Shadow color
                                 spreadRadius: 2,
                                 blurRadius: 5,
-                                offset: Offset(1, 3), // Offset in x and y direction
+                                offset:
+                                    Offset(1, 3), // Offset in x and y direction
                               ),
                             ],
                             borderRadius: BorderRadius.circular(17.r),
@@ -594,9 +678,11 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 20.w,),
+                    SizedBox(
+                      width: 20.w,
+                    ),
                     InkWell(
-                      onTap: (){
+                      onTap: () {
                         Get.to(const SuccessScreen());
                       },
                       child: Container(
@@ -606,10 +692,12 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                         decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.35), // Shadow color
+                                color: Colors.grey
+                                    .withOpacity(0.35), // Shadow color
                                 spreadRadius: 2,
                                 blurRadius: 5,
-                                offset: Offset(1, 3), // Offset in x and y direction
+                                offset:
+                                    Offset(1, 3), // Offset in x and y direction
                               ),
                             ],
                             borderRadius: BorderRadius.circular(17.r),

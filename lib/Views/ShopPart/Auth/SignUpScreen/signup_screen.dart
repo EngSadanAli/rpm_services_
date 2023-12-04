@@ -193,118 +193,118 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                InkWell(
-                  onTap: () {
-                    if (selectedValue == null || selectedValue!.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Please select your role'),
-                        ),
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                LoginScreen()), // Replace with the desired screen
-                      );
-                    }
-                  },
-                  child: Container(
-                    height: 50.0,
-                    width: 340.0,
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(
-                        color: AppColors
-                            .textFieldBorderColor, // Customize the border color
-                        width: 1.5,
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        DropdownButtonHideUnderline(
-                          child: DropdownButton2<String>(
-                            isExpanded: true,
-                            hint: Row(
-                              children: [
-                                Text(
-                                  'Select Your Role',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.textFieldTextColor,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                            underline: Divider(
-                              height: 4,
-                              color: Colors.red,
-                            ),
-                            items: items
-                                .map((String item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: TextStyle(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w400,
-                                          color: AppColors.blackColor,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ))
-                                .toList(),
-                            value: selectedValue,
-                            onChanged: (String? value) {
-                              setState(() {
-                                selectedValue = value;
-                              });
-                            },
-                            buttonStyleData: ButtonStyleData(
-                              height: 40.h,
-                              width: 290.w,
-                              // elevation: 2,
-                            ),
-                            iconStyleData: IconStyleData(
-                              icon: Icon(
-                                Icons.keyboard_arrow_down,
-                              ),
-                              iconSize: 18.sp,
-                              iconEnabledColor: AppColors.textFieldBorderColor,
-                              iconDisabledColor: Colors.grey,
-                            ),
-                            dropdownStyleData: DropdownStyleData(
-                              maxHeight: 200,
-                              width: 200,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14),
-                                color: Color(0xffF9F9F9),
-                              ),
-                              scrollbarTheme: ScrollbarThemeData(
-                                radius: const Radius.circular(40),
-                                thickness: MaterialStateProperty.all<double>(6),
-                                thumbVisibility:
-                                    MaterialStateProperty.all<bool>(true),
-                              ),
-                            ),
-                            menuItemStyleData: const MenuItemStyleData(
-                              height: 40,
-                              padding: EdgeInsets.only(left: 14, right: 14),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // SizedBox(
+                //   height: 20.h,
+                // ),
+                // InkWell(
+                //   onTap: () {
+                //     if (selectedValue == null || selectedValue!.isEmpty) {
+                //       ScaffoldMessenger.of(context).showSnackBar(
+                //         SnackBar(
+                //           content: Text('Please select your role'),
+                //         ),
+                //       );
+                //     } else {
+                //       Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) =>
+                //                 LoginScreen()), // Replace with the desired screen
+                //       );
+                //     }
+                //   },
+                //   child: Container(
+                //     height: 50.0,
+                //     width: 340.0,
+                //     padding: EdgeInsets.all(10.0),
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(10.0),
+                //       border: Border.all(
+                //         color: AppColors
+                //             .textFieldBorderColor, // Customize the border color
+                //         width: 1.5,
+                //       ),
+                //     ),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         DropdownButtonHideUnderline(
+                //           child: DropdownButton2<String>(
+                //             isExpanded: true,
+                //             hint: Row(
+                //               children: [
+                //                 Text(
+                //                   'Select Your Role',
+                //                   style: TextStyle(
+                //                     fontSize: 14,
+                //                     fontWeight: FontWeight.bold,
+                //                     color: AppColors.textFieldTextColor,
+                //                   ),
+                //                   overflow: TextOverflow.ellipsis,
+                //                 ),
+                //               ],
+                //             ),
+                //             underline: Divider(
+                //               height: 4,
+                //               color: Colors.red,
+                //             ),
+                //             items: items
+                //                 .map((String item) => DropdownMenuItem<String>(
+                //                       value: item,
+                //                       child: Text(
+                //                         item,
+                //                         style: TextStyle(
+                //                           fontSize: 14.sp,
+                //                           fontWeight: FontWeight.w400,
+                //                           color: AppColors.blackColor,
+                //                         ),
+                //                         overflow: TextOverflow.ellipsis,
+                //                       ),
+                //                     ))
+                //                 .toList(),
+                //             value: selectedValue,
+                //             onChanged: (String? value) {
+                //               setState(() {
+                //                 selectedValue = value;
+                //               });
+                //             },
+                //             buttonStyleData: ButtonStyleData(
+                //               height: 40.h,
+                //               width: 290.w,
+                //               // elevation: 2,
+                //             ),
+                //             iconStyleData: IconStyleData(
+                //               icon: Icon(
+                //                 Icons.keyboard_arrow_down,
+                //               ),
+                //               iconSize: 18.sp,
+                //               iconEnabledColor: AppColors.textFieldBorderColor,
+                //               iconDisabledColor: Colors.grey,
+                //             ),
+                //             dropdownStyleData: DropdownStyleData(
+                //               maxHeight: 200,
+                //               width: 200,
+                //               decoration: BoxDecoration(
+                //                 borderRadius: BorderRadius.circular(14),
+                //                 color: Color(0xffF9F9F9),
+                //               ),
+                //               scrollbarTheme: ScrollbarThemeData(
+                //                 radius: const Radius.circular(40),
+                //                 thickness: MaterialStateProperty.all<double>(6),
+                //                 thumbVisibility:
+                //                     MaterialStateProperty.all<bool>(true),
+                //               ),
+                //             ),
+                //             menuItemStyleData: const MenuItemStyleData(
+                //               height: 40,
+                //               padding: EdgeInsets.only(left: 14, right: 14),
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 SizedBox(
                   height: 29.h,
                 ),
@@ -337,43 +337,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             color: AppColors.whiteColor,
                           ),
                         )),
-                SizedBox(
-                  height: 50.h,
-                ),
-                CustomText(
-                    title: "or continue with",
-                    color: AppColors.blackColor.withOpacity(0.70),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.sp),
-                SizedBox(
-                  height: 25.h,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image.asset(
-                      AppImages.fbImg,
-                      width: 30.w,
-                      height: 30.h,
-                    ),
-                    // SizedBox(width: 54.h,),
-                    Image.asset(
-                      AppImages.instImg,
-                      width: 30.w,
-                      height: 30.h,
-                    ),
-                    // SizedBox(width: 54.h,),
-                    Image.asset(
-                      AppImages.googleImg,
-                      width: 30.w,
-                      height: 30.h,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 40.h,
-                ),
+                // SizedBox(
+                //   height: 50.h,
+                // ),
+                // CustomText(
+                //     title: "or continue with",
+                //     color: AppColors.blackColor.withOpacity(0.70),
+                //     fontWeight: FontWeight.w400,
+                //     fontSize: 14.sp),
+                // SizedBox(
+                //   height: 25.h,
+                // ),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //   children: [
+                //     Image.asset(
+                //       AppImages.fbImg,
+                //       width: 30.w,
+                //       height: 30.h,
+                //     ),
+                //     // SizedBox(width: 54.h,),
+                //     Image.asset(
+                //       AppImages.instImg,
+                //       width: 30.w,
+                //       height: 30.h,
+                //     ),
+                //     // SizedBox(width: 54.h,),
+                //     Image.asset(
+                //       AppImages.googleImg,
+                //       width: 30.w,
+                //       height: 30.h,
+                //     ),
+                //   ],
+                // ),
+                SizedBox(height: 40.h),
                 RichTextWidgets(
                   title: 'Already have an Account? ',
                   text: 'Sign In',

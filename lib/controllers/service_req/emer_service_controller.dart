@@ -58,6 +58,8 @@ class EmergencyServiceController with ChangeNotifier {
           'uid': SessionController().userId,
           'phone': SessionController().phone,
           'image': newUrl,
+          'status': 'pending',
+          'type': 'emg',
         };
         // saving user data in database
         ScheduleServiceRepository().scheduleService(docId, data);
