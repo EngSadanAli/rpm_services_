@@ -10,6 +10,7 @@ import 'package:rpm/Views/ShopPart/ShopHomeScreen/ProductDescriptionScreen/produ
 import 'package:rpm/Views/Utils/app_images.dart';
 import 'package:rpm/Views/profile/profile_screen.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
+import 'package:rpm/utils/utils.dart';
 import 'package:rpm/widgets/network_image_widget.dart';
 import '../../../widgets/custom_drawer.dart';
 import '../../Utils/app_colors.dart';
@@ -496,6 +497,10 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                                                       FieldValue.arrayRemove([
                                                     SessionController().userId
                                                   ])
+                                                }).then((value) {
+                                                  Utils.flushBarDoneMessage(
+                                                      'Item removed from favorite',
+                                                      context);
                                                 });
                                               } else {
                                                 await FirebaseFirestore.instance
@@ -506,6 +511,10 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                                                       FieldValue.arrayUnion([
                                                     SessionController().userId
                                                   ])
+                                                }).then((value) {
+                                                  Utils.flushBarDoneMessage(
+                                                      'Item added to favorite',
+                                                      context);
                                                 });
                                               }
                                             } catch (e) {}

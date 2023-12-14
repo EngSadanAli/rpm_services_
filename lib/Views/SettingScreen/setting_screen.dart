@@ -73,19 +73,43 @@ class SettingScreen extends StatelessWidget {
             ),
             SettingContainerWidget(
               onTap: () {
-                FirebaseAuth.instance.signOut().then((value) {
-                  SessionController().userId = '';
-                  SessionController().profilePic = '';
-                  SessionController().name = '';
-                  SessionController().email = '';
-                  SessionController().phone = '';
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LoginScreen(),
-                      ),
-                      (route) => false);
-                });
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog.adaptive(
+                      title: Text('Logout'),
+                      content: Text('Are you sure you want to logout?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            // // Perform logout action here
+                            // Navigator.of(context).pop(); // Close the dialog
+                            FirebaseAuth.instance.signOut().then((value) {
+                              SessionController().userId = '';
+                              SessionController().profilePic = '';
+                              SessionController().name = '';
+                              SessionController().email = '';
+                              SessionController().phone = '';
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginScreen(),
+                                  ),
+                                  (route) => false);
+                            });
+                          },
+                          child: Text('OK'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          child: Text('Cancel'),
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
               title: "LogOut",
               icon: const Icon(Icons.logout_outlined),

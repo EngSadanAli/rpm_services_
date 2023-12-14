@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:rpm/Views/ShopPart/ShopHomeScreen/ProductDescriptionScreen/add_to_cart_provider.dart';
+import 'package:rpm/Views/Utils/app_colors.dart';
 import 'package:rpm/controllers/login_controller.dart';
 import 'package:rpm/controllers/order/order_controller.dart';
 import 'package:rpm/controllers/profile_controller.dart';
@@ -44,10 +45,11 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               title: 'RPM App Client Copy',
               theme: ThemeData(
-                primarySwatch: Colors.blue,
-                textTheme:
-                    Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
-              ),
+                  primarySwatch: Colors.blue,
+                  textTheme:
+                      Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
+                  dialogTheme:
+                      DialogTheme(backgroundColor: AppColors.grayText)),
               home: SplashView(),
             );
           },

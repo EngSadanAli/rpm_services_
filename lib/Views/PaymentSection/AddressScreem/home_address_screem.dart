@@ -10,7 +10,6 @@ import 'package:rpm/Views/ShopPart/Auth/Components/big_text.dart';
 import 'package:rpm/Views/Utils/app_colors.dart';
 import 'package:rpm/controllers/order/order_controller.dart';
 
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/utils.dart';
@@ -338,82 +337,82 @@ class AddressScreen extends StatelessWidget {
   }
 
   Future<void> makePayment(newBooking, BuildContext context) async {
-    try {
-      paymentIntentData =
-          await createPaymentIntent('20', 'USD'); //json.decode(response.body);
-      // print('Response body==>${response.body.toString()}');
-      await Stripe.instance
-          .initPaymentSheet(
-              paymentSheetParameters: SetupPaymentSheetParameters(
-                  setupIntentClientSecret:
-                      'sk_test_51N4hnjHdtYoR4UCNhBKf9oJ1DiNOUoBCE8YhDvCVhXk5iuexbD12EbnoFmAsT8FRdlP0cLQmLENxHTuTUuSZwbYd00pACXrK3C',
-                  paymentIntentClientSecret:
-                      paymentIntentData!['client_secret'],
-                  //applePay: PaymentSheetApplePay.,
-                  //googlePay: true,
-                  //testEnv: true,
-                  customFlow: true,
-                  style: ThemeMode.system,
-                  // merchantCountryCode: 'US',
-                  merchantDisplayName: 'Kashif'))
-          .then((value) {});
+    //   try {
+    //     paymentIntentData =
+    //         await createPaymentIntent('20', 'USD'); //json.decode(response.body);
+    //     // print('Response body==>${response.body.toString()}');
+    //     await Stripe.instance
+    //         .initPaymentSheet(
+    //             paymentSheetParameters: SetupPaymentSheetParameters(
+    //                 setupIntentClientSecret:
+    //                     'sk_test_51N4hnjHdtYoR4UCNhBKf9oJ1DiNOUoBCE8YhDvCVhXk5iuexbD12EbnoFmAsT8FRdlP0cLQmLENxHTuTUuSZwbYd00pACXrK3C',
+    //                 paymentIntentClientSecret:
+    //                     paymentIntentData!['client_secret'],
+    //                 //applePay: PaymentSheetApplePay.,
+    //                 //googlePay: true,
+    //                 //testEnv: true,
+    //                 customFlow: true,
+    //                 style: ThemeMode.system,
+    //                 // merchantCountryCode: 'US',
+    //                 merchantDisplayName: 'Kashif'))
+    //         .then((value) {});
 
-      ///now finally display payment sheeet
-      displayPaymentSheet(newBooking, context);
-    } catch (e, s) {
-      print('Payment exception:$e$s');
-    }
-  }
+    //     ///now finally display payment sheeet
+    //     displayPaymentSheet(newBooking, context);
+    //   } catch (e, s) {
+    //     print('Payment exception:$e$s');
+    //   }
+    // }
 
-  displayPaymentSheet(newBooking, context) async {
-    try {
-      await Stripe.instance
-          .presentPaymentSheet(
-              //       parameters: PresentPaymentSheetParameters(
-              // clientSecret: paymentIntentData!['client_secret'],
-              // confirmPayment: true,
-              // )
-              )
-          .then((newValue) async {
-        // await bookings.doc(widget.shopUid).set({
-        //   'shopUid': widget.shopUid,
-        //   'shopName': widget.shopName,
-        //   'shopAddress': widget.shopAddress,
-        //   'bookings': [SessionController().userId],
-        // }).then((value) => bookings
-        //         .doc(widget.shopUid)
-        //         .collection('bookings')
-        //         .doc(bookingDocId!)
-        //         .set(newBooking.toJson())
-        //         .then((value) async {
-        //       Navigator.pop;
-        //       Utils.flushBarDoneMessage("Booking Added", BuildContext, context);
-        //       print("Booking Added");
-        //     }).catchError((error) => print("Failed to add booking: $error")));
+    // displayPaymentSheet(newBooking, context) async {
+    //   try {
+    //     await Stripe.instance
+    //         .presentPaymentSheet(
+    //             //       parameters: PresentPaymentSheetParameters(
+    //             // clientSecret: paymentIntentData!['client_secret'],
+    //             // confirmPayment: true,
+    //             // )
+    //             )
+    //         .then((newValue) async {
+    //       // await bookings.doc(widget.shopUid).set({
+    //       //   'shopUid': widget.shopUid,
+    //       //   'shopName': widget.shopName,
+    //       //   'shopAddress': widget.shopAddress,
+    //       //   'bookings': [SessionController().userId],
+    //       // }).then((value) => bookings
+    //       //         .doc(widget.shopUid)
+    //       //         .collection('bookings')
+    //       //         .doc(bookingDocId!)
+    //       //         .set(newBooking.toJson())
+    //       //         .then((value) async {
+    //       //       Navigator.pop;
+    //       //       Utils.flushBarDoneMessage("Booking Added", BuildContext, context);
+    //       //       print("Booking Added");
+    //       //     }).catchError((error) => print("Failed to add booking: $error")));
 
-        print('payment intent' + paymentIntentData!['id'].toString());
-        print(
-            'payment intent' + paymentIntentData!['client_secret'].toString());
-        print('payment intent' + paymentIntentData!['amount'].toString());
-        print('payment intent' + paymentIntentData.toString());
-        //orderPlaceApi(paymentIntentData!['id'].toString());
+    //       print('payment intent' + paymentIntentData!['id'].toString());
+    //       print(
+    //           'payment intent' + paymentIntentData!['client_secret'].toString());
+    //       print('payment intent' + paymentIntentData!['amount'].toString());
+    //       print('payment intent' + paymentIntentData.toString());
+    //       //orderPlaceApi(paymentIntentData!['id'].toString());
 
-        Utils.toastMessage('paid successfully');
+    //       Utils.toastMessage('paid successfully');
 
-        paymentIntentData = null;
-      }).onError((error, stackTrace) {
-        print('Exception/DISPLAYPAYMENTSHEET==> $error $stackTrace');
-      });
-    } on StripeException catch (e) {
-      print('Exception/DISPLAYPAYMENTSHEET==> $e');
-      showDialog(
-          context: context,
-          builder: (_) => const AlertDialog(
-                content: Text("Cancelled "),
-              ));
-    } catch (e) {
-      print('$e');
-    }
+    //       paymentIntentData = null;
+    //     }).onError((error, stackTrace) {
+    //       print('Exception/DISPLAYPAYMENTSHEET==> $error $stackTrace');
+    //     });
+    //   } on StripeException catch (e) {
+    //     print('Exception/DISPLAYPAYMENTSHEET==> $e');
+    //     showDialog(
+    //         context: context,
+    //         builder: (_) => const AlertDialog(
+    //               content: Text("Cancelled "),
+    //             ));
+    //   } catch (e) {
+    //     print('$e');
+    //   }
   }
 
   //  Future<Map<String, dynamic>>

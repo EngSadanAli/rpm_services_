@@ -9,6 +9,7 @@ import 'package:rpm/Views/ShopPart/AddToCartScreen/add_to_cart_screen.dart';
 import 'package:rpm/Views/ShopPart/Auth/Components/big_text.dart';
 import 'package:rpm/Views/ShopPart/ShopHomeScreen/ProductDescriptionScreen/add_to_cart_provider.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
+import 'package:rpm/utils/utils.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../Utils/app_colors.dart';
 
@@ -87,6 +88,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                           .doc(SessionController().userId)
                           .update({
                         'cart': FieldValue.arrayRemove([widget.snap['docId']])
+                      }).then((value) {
+                        Utils.flushBarDoneMessage(
+                            'Item removed from cart', context);
                       });
                     } else {
                       await FirebaseFirestore.instance
@@ -94,6 +98,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                           .doc(SessionController().userId)
                           .update({
                         'cart': FieldValue.arrayUnion([widget.snap['docId']])
+                      }).then((value) {
+                        Utils.flushBarDoneMessage(
+                            'Item added to cart', context);
                       });
                     }
                   } catch (e) {}
@@ -226,6 +233,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                   .update({
                                 'favorite': FieldValue.arrayRemove(
                                     [SessionController().userId])
+                              }).then((value) {
+                                Utils.flushBarDoneMessage(
+                                    'Item removed from cart', context);
                               });
                             } else {
                               await FirebaseFirestore.instance
@@ -234,6 +244,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                                   .update({
                                 'favorite': FieldValue.arrayUnion(
                                     [SessionController().userId])
+                              }).then((value) {
+                                Utils.flushBarDoneMessage(
+                                    'Item added to cart', context);
                               });
                             }
                           } catch (e) {}

@@ -61,9 +61,9 @@ class LoginController with ChangeNotifier {
 
           // Navigator.pushNamedAndRemoveUntil(
           //     context, RouteName.barberdashboardView, (route) => false);
-          Utils.toastMessage("login successfully");
+          Utils.flushBarDoneMessage("login successfully", context);
         }
-        Utils.toastMessage("login successfully");
+        Utils.flushBarDoneMessage("login successfully", context);
       } else {
         if (kDebugMode) {
           print('Document does not exist on the database');

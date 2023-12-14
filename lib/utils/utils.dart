@@ -21,7 +21,7 @@ class Utils {
         fontSize: 16);
   }
 
-  static void flushBarDoneMessage(String message, BuildContext, context) {
+  static void flushBarDoneMessage(String message, BuildContext context) {
     showFlushbar(
         context: context,
         flushbar: Flushbar(

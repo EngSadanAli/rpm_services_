@@ -30,7 +30,7 @@ class SelectionScreen extends StatelessWidget {
                 title: "Welcome ${SessionController().name}",
                 color: AppColors.whiteColor,
                 fontWeight: FontWeight.w400,
-                fontSize: 15.85.sp,
+                fontSize: 13.85.sp,
               ),
               SizedBox(
                 height: 10.h,

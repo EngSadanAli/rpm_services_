@@ -13,7 +13,6 @@ import '../CommunicationScreen/video_text_communication_screen.dart';
 import '../ServiceChargesScreen/service_charges_screen.dart';
 import '../ShopPart/Auth/Components/big_text.dart';
 import '../Utils/app_colors.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 
 class MyWishlistScreen extends StatelessWidget {
@@ -80,13 +79,13 @@ class MyWishlistScreen extends StatelessWidget {
               maxCrossAxisExtent: 200,
               childAspectRatio: 1.5 / 2,
               crossAxisSpacing: 12,
-              mainAxisExtent: 140,
+              mainAxisExtent: 150,
               mainAxisSpacing: 20,
             ),
             itemBuilder: (context, index) {
               var snap = snapshot.data!.docs[index];
               return Padding(
-                padding: EdgeInsets.only(right: 16.w, left: 5),
+                padding: EdgeInsets.only(right: 10.w, left: 10),
                 child: GestureDetector(
                   onTap: () {
                     Get.to(ProductDescriptionScreen(snap: snap));
@@ -179,6 +178,10 @@ class MyWishlistScreen extends StatelessWidget {
                                             .update({
                                           'favorite': FieldValue.arrayRemove(
                                               [SessionController().userId])
+                                        }).then((value) {
+                                          Utils.flushBarDoneMessage(
+                                              'Item removed from favorite',
+                                              context);
                                         });
                                       } else {
                                         await FirebaseFirestore.instance
@@ -187,6 +190,10 @@ class MyWishlistScreen extends StatelessWidget {
                                             .update({
                                           'favorite': FieldValue.arrayUnion(
                                               [SessionController().userId])
+                                        }).then((value) {
+                                          Utils.flushBarDoneMessage(
+                                              'Item added to favorite',
+                                              context);
                                         });
                                       }
                                     } catch (e) {}
