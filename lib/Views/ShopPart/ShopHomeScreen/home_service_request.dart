@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:rpm/Views/LocationScreen/my_location_screen.dart';
 import 'package:rpm/Views/SettingScreen/NotificationScreen/notification_screen.dart';
 import 'package:rpm/Views/ShopPart/Auth/LogInScreen/login_screen.dart';
+import 'package:rpm/Views/ShopPart/ShopHomeScreen/HelpScreen.dart';
 import 'package:rpm/Views/ShopPart/ShopHomeScreen/ProductDescriptionScreen/product_description_screen.dart';
 import 'package:rpm/Views/Utils/app_images.dart';
 import 'package:rpm/Views/profile/profile_screen.dart';
@@ -151,6 +152,7 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                     ),
                     onTap: () {
                       // Add your onTap logic for item 1
+                      Get.to(HelpScreen());
                     },
                   ),
                   Divider(
@@ -165,33 +167,58 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                     color: Colors.black,
                   ),
                   ListTile(
-                    leading: Icon(
-                      Icons.logout,
-                      color: AppColors.whiteColor,
-                    ),
-                    title: CustomText(
-                      title: "LogOut",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15.sp,
-                      color: AppColors.whiteColor,
-                    ),
-                    onTap: () {
-                      // Add your onTap logic for item 1
-                      FirebaseAuth.instance.signOut().then((value) {
-                        SessionController().userId = '';
-                        SessionController().profilePic = '';
-                        SessionController().name = '';
-                        SessionController().email = '';
-                        SessionController().phone = '';
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
-                            ),
-                            (route) => false);
-                      });
-                    },
-                  ),
+                      leading: Icon(
+                        Icons.logout,
+                        color: AppColors.whiteColor,
+                      ),
+                      title: CustomText(
+                        title: "LogOut",
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15.sp,
+                        color: AppColors.whiteColor,
+                      ),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog.adaptive(
+                              title: Text('Logout'),
+                              content: Text('Are you sure you want to logout?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    // // Perform logout action here
+                                    // Navigator.of(context).pop(); // Close the dialog
+                                    FirebaseAuth.instance
+                                        .signOut()
+                                        .then((value) {
+                                      SessionController().userId = '';
+                                      SessionController().profilePic = '';
+                                      SessionController().name = '';
+                                      SessionController().email = '';
+                                      SessionController().phone = '';
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => LoginScreen(),
+                                          ),
+                                          (route) => false);
+                                    });
+                                  },
+                                  child: Text('OK'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // Close the dialog
+                                  },
+                                  child: Text('Cancel'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }),
                   Divider(
                     thickness: 1,
                     color: Colors.black,

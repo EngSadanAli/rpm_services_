@@ -27,7 +27,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.blue,
         elevation: 0,
         centerTitle: true,
         leading: IconButton(

@@ -22,6 +22,7 @@ class AddressScreen extends StatelessWidget {
   final cityController = TextEditingController();
   final addressController = TextEditingController();
   final phoneController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   Map<String, dynamic>? paymentIntentData;
   @override
   Widget build(BuildContext context) {
@@ -60,276 +61,283 @@ class AddressScreen extends StatelessWidget {
         child: Padding(
             padding: EdgeInsets.only(left: 16.w, right: 16.w),
             child: Consumer<OrderController>(
-              builder: (context, value, child) => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomText(
-                    title: "Delivery Address",
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.blackColor,
-                  ),
-                  SizedBox(height: 21.sp),
-                  Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3),
-                          color: Color(0xffF8F8F8)),
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(left: 4.w, right: 4.w, top: 20.h),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomText(
-                              title: "Full Name",
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.blackColor,
-                            ),
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            AddressTextFieldWidget(
-                              readOnly: false,
-                              controller: nameController,
-                              onFieldSubmittedValue: (newValue) {},
-                              keyBoardType: TextInputType.text,
-                              obscureText: false,
-                              hint: 'Your Name',
-                              onChange: (value) {},
-                              validator: (value) {
-                                if (!GetUtils.isEmail(value!)) {
-                                  return "Please enter Your Name";
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 37.h),
-                            CustomText(
-                              title: "Email Address",
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.blackColor,
-                            ),
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            AddressTextFieldWidget(
-                              readOnly: false,
-                              controller: emailController,
-                              onFieldSubmittedValue: (newValue) {},
-                              keyBoardType: TextInputType.emailAddress,
-                              obscureText: false,
-                              hint: 'example@email.com',
-                              onChange: (value) {},
-                              validator: (value) {
-                                if (!GetUtils.isEmail(value!)) {
-                                  return "Please enter Your Valid Email";
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 30.h),
-                            Row(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CustomText(
-                                      title: "City",
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.blackColor,
-                                    ),
-                                    SizedBox(
-                                      height: 5.h,
-                                    ),
-                                    SizedBox(
-                                      height: 45.h,
-                                      width: 154.w,
-                                      child: AddressTextFieldWidget(
-                                        readOnly: false,
-                                        controller: cityController,
-                                        onFieldSubmittedValue: (newValue) {},
-                                        keyBoardType: TextInputType.text,
-                                        obscureText: false,
-                                        hint: 'Your City',
-                                        onChange: (value) {},
-                                        validator: (value) {
-                                          if (!GetUtils.isEmail(value!)) {
-                                            return "Please enter Your City";
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 10.w,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CustomText(
-                                      title: "Postal Address",
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.blackColor,
-                                    ),
-                                    SizedBox(
-                                      height: 5.h,
-                                    ),
-                                    SizedBox(
-                                      height: 45.h,
-                                      width: 154.w,
-                                      child: AddressTextFieldWidget(
-                                        readOnly: false,
-                                        controller: addressController,
-                                        onFieldSubmittedValue: (newValue) {},
-                                        keyBoardType: TextInputType.text,
-                                        obscureText: false,
-                                        hint: 'Your City',
-                                        onChange: (value) {},
-                                        validator: (value) {
-                                          if (!GetUtils.isEmail(value!)) {
-                                            return "Please enter Your Address";
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 24.h),
-                            CustomText(
-                              title: "Phone Number",
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.blackColor,
-                            ),
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            AddressTextFieldWidget(
-                              readOnly: false,
-                              controller: phoneController,
-                              onFieldSubmittedValue: (newValue) {},
-                              keyBoardType: TextInputType.phone,
-                              obscureText: false,
-                              hint: 'Phone Number',
-                              onChange: (value) {},
-                              validator: (value) {
-                                if (!GetUtils.isEmail(value!)) {
-                                  return "Please enter Your Phone Number";
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(
-                              height: 20.h,
-                            ),
-                          ],
-                        ),
-                      ),
+              builder: (context, value, child) => Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      title: "Delivery Address",
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.blackColor,
                     ),
-                  ),
-                  SizedBox(
-                    height: 60.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      // InkWell(
-                      //   onTap: (){
-                      //     Get.to(AppNavigationBar());
-                      //   },
-                      //   child: Container(
-                      //     width: 143,
-                      //     height: 38,
-                      //     decoration: BoxDecoration(
-                      //         boxShadow: [
-                      //           BoxShadow(
-                      //             color: Colors.grey.withOpacity(0.35), // Shadow color
-                      //             spreadRadius: 2,
-                      //             blurRadius: 5,
-                      //             offset: Offset(1, 3), // Offset in x and y direction
-                      //           ),
-                      //         ],
-                      //         borderRadius: BorderRadius.circular(10),
-                      //         color: Color(0xffF3F5F7)),
-                      //     child: Center(
-                      //       child: Text('Continue Shopping',
-                      //           style: TextStyle(
-                      //               fontSize: 11.sp,
-                      //               fontWeight: FontWeight.w400,
-                      //               color: AppColors.textFieldBorderColor)),
-                      //     ),
-                      //   ),
-                      // ),
-                      Expanded(child: SizedBox()),
-                      GestureDetector(
-                        onTap: () {
-                          // _showReviewDialog(context);
-                          // log('make============');
-                          // makePayment('newBooking', context);
-                          var docId = Uuid().v4();
-                          FirebaseFirestore.instance
-                              .collection('orders')
-                              .doc(docId)
-                              .set({
-                            docId: docId,
-                            'name': nameController.text.trim(),
-                            'email': emailController.text.trim(),
-                            'city': cityController.text.trim(),
-                            'postalCode': addressController.text.trim(),
-                            'phone': phoneController.text.trim(),
-                          }).then((value) {
-                            FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(SessionController().userId)
-                                .update({'cart': []});
-                            nameController.clear();
-                            emailController.clear();
-                            cityController.clear();
-                            addressController.clear();
-                            phoneController.clear();
-                            navigator!.pop(context);
-                            // navigator!.pop(context);
-                            Utils.toastMessage('You Have Bought this item');
-                          });
-                        },
-                        child: Container(
-                          width: 143,
-                          height: 38,
-                          decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black
-                                      .withOpacity(0.25), // Shadow color
-                                  spreadRadius: 2,
-                                  blurRadius: 5,
-                                  offset: Offset(
-                                      0, 3), // Offset in x and y direction
-                                ),
-                              ],
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xff0061BF)),
-                          child: Center(
-                            child: Text('Proceed to Checkout',
-                                style: TextStyle(
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white)),
+                    SizedBox(height: 21.sp),
+                    Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3),
+                            color: Color(0xffF8F8F8)),
+                        child: Padding(
+                          padding:
+                              EdgeInsets.only(left: 4.w, right: 4.w, top: 20.h),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(
+                                title: "Full Name",
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.blackColor,
+                              ),
+                              SizedBox(
+                                height: 5.h,
+                              ),
+                              AddressTextFieldWidget(
+                                readOnly: false,
+                                controller: nameController,
+                                onFieldSubmittedValue: (newValue) {},
+                                keyBoardType: TextInputType.text,
+                                obscureText: false,
+                                hint: 'Your Name',
+                                onChange: (value) {},
+                                validator: (value) {
+                                  if (!GetUtils.isEmail(value!)) {
+                                    return "Please enter Your Name";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 37.h),
+                              CustomText(
+                                title: "Email Address",
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.blackColor,
+                              ),
+                              SizedBox(
+                                height: 5.h,
+                              ),
+                              AddressTextFieldWidget(
+                                readOnly: false,
+                                controller: emailController,
+                                onFieldSubmittedValue: (newValue) {},
+                                keyBoardType: TextInputType.emailAddress,
+                                obscureText: false,
+                                hint: 'example@email.com',
+                                onChange: (value) {},
+                                validator: (value) {
+                                  if (!GetUtils.isEmail(value!)) {
+                                    return "Please enter Your Valid Email";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 30.h),
+                              Row(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText(
+                                        title: "City",
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.blackColor,
+                                      ),
+                                      SizedBox(
+                                        height: 5.h,
+                                      ),
+                                      SizedBox(
+                                        height: 45.h,
+                                        width: 154.w,
+                                        child: AddressTextFieldWidget(
+                                          readOnly: false,
+                                          controller: cityController,
+                                          onFieldSubmittedValue: (newValue) {},
+                                          keyBoardType: TextInputType.text,
+                                          obscureText: false,
+                                          hint: 'Your City',
+                                          onChange: (value) {},
+                                          validator: (value) {
+                                            if (!GetUtils.isEmail(value!)) {
+                                              return "Please enter Your City";
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText(
+                                        title: "Postal Address",
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.blackColor,
+                                      ),
+                                      SizedBox(
+                                        height: 5.h,
+                                      ),
+                                      SizedBox(
+                                        height: 45.h,
+                                        width: 154.w,
+                                        child: AddressTextFieldWidget(
+                                          readOnly: false,
+                                          controller: addressController,
+                                          onFieldSubmittedValue: (newValue) {},
+                                          keyBoardType: TextInputType.text,
+                                          obscureText: false,
+                                          hint: 'Your City',
+                                          onChange: (value) {},
+                                          validator: (value) {
+                                            if (!GetUtils.isEmail(value!)) {
+                                              return "Please enter Your Address";
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 24.h),
+                              CustomText(
+                                title: "Phone Number",
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.blackColor,
+                              ),
+                              SizedBox(
+                                height: 5.h,
+                              ),
+                              AddressTextFieldWidget(
+                                readOnly: false,
+                                controller: phoneController,
+                                onFieldSubmittedValue: (newValue) {},
+                                keyBoardType: TextInputType.phone,
+                                obscureText: false,
+                                hint: 'Phone Number',
+                                onChange: (value) {},
+                                validator: (value) {
+                                  if (!GetUtils.isEmail(value!)) {
+                                    return "Please enter Your Phone Number";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                    ],
-                  )
-                ],
+                    ),
+                    SizedBox(
+                      height: 60.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        // InkWell(
+                        //   onTap: (){
+                        //     Get.to(AppNavigationBar());
+                        //   },
+                        //   child: Container(
+                        //     width: 143,
+                        //     height: 38,
+                        //     decoration: BoxDecoration(
+                        //         boxShadow: [
+                        //           BoxShadow(
+                        //             color: Colors.grey.withOpacity(0.35), // Shadow color
+                        //             spreadRadius: 2,
+                        //             blurRadius: 5,
+                        //             offset: Offset(1, 3), // Offset in x and y direction
+                        //           ),
+                        //         ],
+                        //         borderRadius: BorderRadius.circular(10),
+                        //         color: Color(0xffF3F5F7)),
+                        //     child: Center(
+                        //       child: Text('Continue Shopping',
+                        //           style: TextStyle(
+                        //               fontSize: 11.sp,
+                        //               fontWeight: FontWeight.w400,
+                        //               color: AppColors.textFieldBorderColor)),
+                        //     ),
+                        //   ),
+                        // ),
+                        Expanded(child: SizedBox()),
+                        GestureDetector(
+                          onTap: () {
+                            // _showReviewDialog(context);
+                            // log('make============');
+                            // makePayment('newBooking', context);
+                            if (_formKey.currentState!.validate()) {
+                              var docId = Uuid().v4();
+                              FirebaseFirestore.instance
+                                  .collection('orders')
+                                  .doc(docId)
+                                  .set({
+                                docId: docId,
+                                'name': nameController.text.trim(),
+                                'email': emailController.text.trim(),
+                                'city': cityController.text.trim(),
+                                'postalCode': addressController.text.trim(),
+                                'phone': phoneController.text.trim(),
+                              }).then((value) {
+                                FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(SessionController().userId)
+                                    .update({'cart': []});
+                                nameController.clear();
+                                emailController.clear();
+                                cityController.clear();
+                                addressController.clear();
+                                phoneController.clear();
+                                navigator!.pop(context);
+                                // navigator!.pop(context);
+                                Utils.toastMessage('You Have Bought this item');
+                              });
+                            }
+                          },
+                          child: Container(
+                            width: 143,
+                            height: 38,
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black
+                                        .withOpacity(0.25), // Shadow color
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(
+                                        0, 3), // Offset in x and y direction
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xff0061BF)),
+                            child: Center(
+                              child: Text('Proceed to Checkout',
+                                  style: TextStyle(
+                                      fontSize: 11.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             )),
       ),

@@ -14,6 +14,7 @@ class SelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: Colors.blue),
       body: Center(
         child: Container(
           width: 333,
@@ -104,6 +105,7 @@ class SelectionTwoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Center(
         child: Container(
           width: 333,
@@ -120,7 +122,7 @@ class SelectionTwoScreen extends StatelessWidget {
                 title: "Welcome ${SessionController().name.toString()}",
                 color: AppColors.whiteColor,
                 fontWeight: FontWeight.w400,
-                fontSize: 15.85.sp,
+                fontSize: 13.85.sp,
               ),
               SizedBox(
                 height: 10.h,
