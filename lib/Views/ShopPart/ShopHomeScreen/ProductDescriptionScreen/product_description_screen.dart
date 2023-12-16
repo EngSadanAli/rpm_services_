@@ -10,6 +10,7 @@ import 'package:rpm/Views/ShopPart/Auth/Components/big_text.dart';
 import 'package:rpm/Views/ShopPart/ShopHomeScreen/ProductDescriptionScreen/add_to_cart_provider.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/utils.dart';
+import 'package:rpm/widgets/round_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../Utils/app_colors.dart';
 
@@ -63,58 +64,61 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
           color: AppColors.blackColor,
         ),
         actions: [
-          StreamBuilder<DocumentSnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('users')
-                .doc(SessionController().userId)
-                .snapshots(),
-            builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.hasError) {
-                return Text('Something went wrong');
-              }
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: StreamBuilder<DocumentSnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(SessionController().userId)
+                  .snapshots(),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                }
 
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text("Loading");
-              }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
+                }
 
-              return GestureDetector(
-                onTap: () async {
-                  try {
-                    if (snapshot.data
-                        .get("cart")
-                        .contains(widget.snap['docId'])) {
-                      await FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(SessionController().userId)
-                          .update({
-                        'cart': FieldValue.arrayRemove([widget.snap['docId']])
-                      }).then((value) {
-                        Utils.flushBarDoneMessage(
-                            'Item removed from cart', context);
-                      });
-                    } else {
-                      await FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(SessionController().userId)
-                          .update({
-                        'cart': FieldValue.arrayUnion([widget.snap['docId']])
-                      }).then((value) {
-                        Utils.flushBarDoneMessage(
-                            'Item added to cart', context);
-                      });
-                    }
-                  } catch (e) {}
-                },
-                child: Center(
-                    child: Icon(
-                  snapshot.data.get("cart").contains(widget.snap['docId'])
-                      ? Icons.shopping_cart
-                      : Icons.shopping_cart_checkout_outlined,
-                  size: 14.sp,
-                  color: AppColors.grayText,
-                )),
-              );
-            },
+                return GestureDetector(
+                  onTap: () async {
+                    try {
+                      if (snapshot.data
+                          .get("cart")
+                          .contains(widget.snap['docId'])) {
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(SessionController().userId)
+                            .update({
+                          'cart': FieldValue.arrayRemove([widget.snap['docId']])
+                        }).then((value) {
+                          Utils.flushBarDoneMessage(
+                              'Item removed from cart', context);
+                        });
+                      } else {
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(SessionController().userId)
+                            .update({
+                          'cart': FieldValue.arrayUnion([widget.snap['docId']])
+                        }).then((value) {
+                          Utils.flushBarDoneMessage(
+                              'Item added to cart', context);
+                        });
+                      }
+                    } catch (e) {}
+                  },
+                  child: Center(
+                      child: Icon(
+                    snapshot.data.get("cart").contains(widget.snap['docId'])
+                        ? Icons.shopping_cart
+                        : Icons.shopping_cart_checkout_outlined,
+                    size: 20.sp,
+                    color: AppColors.grayText,
+                  )),
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -172,31 +176,31 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
             ),
             Row(
               children: [
-                RatingBar.builder(
-                  itemSize: 15.42.sp,
-                  initialRating: rating,
-                  minRating: 1,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  // itemPadding: EdgeInsets.symmetric(horizontal: 2.w),
-                  itemBuilder: (context, _) => const Icon(
-                    Icons.star,
-                    color: Color(0xffF3CD03),
-                  ),
-                  onRatingUpdate: (newRating) {
-                    rating = newRating; // Update the rating value
-                  },
-                ),
-                SizedBox(
-                  width: 10.h,
-                ),
-                CustomText(
-                  title: "10 review",
-                  fontWeight: FontWeight.w700,
-                  fontSize: 9.50.sp,
-                  color: AppColors.secondGTextColor,
-                ),
+                //   RatingBar.builder(
+                //     itemSize: 15.42.sp,
+                //     initialRating: rating,
+                //     minRating: 1,
+                //     direction: Axis.horizontal,
+                //     allowHalfRating: true,
+                //     itemCount: 5,
+                //     // itemPadding: EdgeInsets.symmetric(horizontal: 2.w),
+                //     itemBuilder: (context, _) => const Icon(
+                //       Icons.star,
+                //       color: Color(0xffF3CD03),
+                //     ),
+                //     onRatingUpdate: (newRating) {
+                //       rating = newRating; // Update the rating value
+                //     },
+                //   ),
+                //   SizedBox(
+                //     width: 10.h,
+                //   ),
+                //   CustomText(
+                //     title: "10 review",
+                //     fontWeight: FontWeight.w700,
+                //     fontSize: 9.50.sp,
+                //     color: AppColors.secondGTextColor,
+                //   ),
                 Spacer(),
                 Container(
                   height: 28.h,
@@ -401,68 +405,62 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
             SizedBox(
               height: 10.h,
             ),
-            Row(
-              children: [
-                Container(
-                  height: 42.h,
-                  width: 108.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: AppColors.greySeTextColor),
-                  ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.remove,
-                              size: 12.sp, color: AppColors.secondGTextColor),
-                          onPressed: () {
-                            countProvider.decrement();
-                          },
-                        ),
-                        CustomText(
-                          title: countProvider.count.toString(),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12.sp,
-                          color: AppColors.secondGTextColor,
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.add,
-                              size: 12.sp, color: AppColors.secondGTextColor),
-                          onPressed: () {
-                            countProvider.increment();
-                          },
-                        ),
-                      ],
+            StreamBuilder<DocumentSnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(SessionController().userId)
+                  .snapshots(),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
+                }
+
+                return Center(
+                  child: SizedBox(
+                    width: 250,
+                    child: RoundButton(
+                      title: snapshot.data
+                              .get("cart")
+                              .contains(widget.snap['docId'])
+                          ? 'Remove from cart'
+                          : 'Add to cart',
+                      onPress: () async {
+                        try {
+                          if (snapshot.data
+                              .get("cart")
+                              .contains(widget.snap['docId'])) {
+                            await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(SessionController().userId)
+                                .update({
+                              'cart':
+                                  FieldValue.arrayRemove([widget.snap['docId']])
+                            }).then((value) {
+                              Utils.flushBarDoneMessage(
+                                  'Item removed from cart', context);
+                            });
+                          } else {
+                            await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(SessionController().userId)
+                                .update({
+                              'cart':
+                                  FieldValue.arrayUnion([widget.snap['docId']])
+                            }).then((value) {
+                              Utils.flushBarDoneMessage(
+                                  'Item added to cart', context);
+                            });
+                          }
+                        } catch (e) {}
+                      },
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: 10.w,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    // Get.to(AddToCartScreen());
-                  },
-                  child: Container(
-                    height: 42.h,
-                    width: 108.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppColors.textFieldBorderColor,
-                    ),
-                    child: Center(
-                      child: CustomText(
-                        title: "Add To Cart",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 10.sp,
-                        color: AppColors.whiteColor,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                );
+              },
             ),
           ],
         ),

@@ -25,6 +25,7 @@ class HomeServicesRequest extends StatefulWidget {
 }
 
 class _HomeServicesRequestState extends State<HomeServicesRequest> {
+  final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,15 +40,32 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
               ),
               child: Column(
                 children: [
-                  NetworkImageWidget(
-                    height: 80,
-                    width: 80,
-                    borderRadius: 100,
-                    imageUrl: SessionController().profilePic.toString(),
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(SessionController().userId)
+                        .snapshots(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Something went wrong');
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return NetworkImageWidget(
+                          height: 80,
+                          width: 80,
+                          borderRadius: 100,
+                          imageUrl: SessionController().profilePic.toString(),
+                        );
+                      }
+                      return NetworkImageWidget(
+                        height: 80,
+                        width: 80,
+                        borderRadius: 100,
+                        imageUrl: snapshot.data.get('profileImage').toString(),
+                      );
+                    },
                   ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
+                  SizedBox(height: 15.h),
                   CustomText(
                     title: SessionController().name.toString(),
                     fontWeight: FontWeight.w700,
@@ -241,6 +259,8 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                 child: Container(
                   height: 35.h,
                   child: TextField(
+                    controller: searchController,
+                    onChanged: (value) => setState(() {}),
                     textAlign: TextAlign.start, // Center the input text
                     style: TextStyle(
                       color: AppColors.blackColor,
@@ -408,9 +428,21 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                     return Text("Loading");
                   }
 
+                  // Filter the products based on search text
+                  final List<DocumentSnapshot> filteredProducts =
+                      snapshot.data!.docs.where((product) {
+                    final title = product['title'].toString().toLowerCase();
+                    final searchText = searchController.text.toLowerCase();
+                    return title.contains(searchText);
+                  }).toList();
+
+                  if (filteredProducts.isEmpty) {
+                    return Text('No matching products found');
+                  }
+
                   return GridView.builder(
                     shrinkWrap: true,
-                    itemCount: snapshot.data!.docs.length,
+                    itemCount: filteredProducts.length,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate:
                         const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -421,7 +453,8 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                       mainAxisSpacing: 20,
                     ),
                     itemBuilder: (context, index) {
-                      var snap = snapshot.data!.docs[index];
+                      var snap = filteredProducts[index];
+                      // rest of your item builder code...
                       return Padding(
                         padding: EdgeInsets.only(right: 16.w, left: 5),
                         child: GestureDetector(
@@ -570,6 +603,36 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                       );
                     },
                   );
+                  // StreamBuilder<QuerySnapshot>(
+                  //   stream: FirebaseFirestore.instance
+                  //       .collection('products')
+                  //       .snapshots(),
+                  //   builder: (BuildContext context,
+                  //       AsyncSnapshot<QuerySnapshot> snapshot) {
+                  //     if (snapshot.hasError) {
+                  //       return Text('Something went wrong');
+                  //     }
+
+                  //     if (snapshot.connectionState == ConnectionState.waiting) {
+                  //       return Text("Loading");
+                  //     }
+                  //     return GridView.builder(
+                  //       shrinkWrap: true,
+                  //       itemCount: snapshot.data!.docs.length,
+                  //       physics: NeverScrollableScrollPhysics(),
+                  //       gridDelegate:
+                  //           const SliverGridDelegateWithMaxCrossAxisExtent(
+                  //         maxCrossAxisExtent: 200,
+                  //         childAspectRatio: 1.5 / 2,
+                  //         crossAxisSpacing: 12,
+                  //         mainAxisExtent: 140,
+                  //         mainAxisSpacing: 20,
+                  //       ),
+                  //       itemBuilder: (context, index) {
+                  //         var snap = snapshot.data!.docs[index];
+
+                  //       },
+                  //     );
                 },
               ),
 

@@ -47,15 +47,6 @@ class AddressScreen extends StatelessWidget {
           fontSize: 18.sp,
           color: AppColors.blackColor,
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.shopping_cart_outlined,
-              color: AppColors.blackColor,
-            ),
-          )
-        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -161,8 +152,9 @@ class AddressScreen extends StatelessWidget {
                                           hint: 'Your City',
                                           onChange: (value) {},
                                           validator: (value) {
-                                            if (!GetUtils.isEmail(value!)) {
-                                              return "Please enter Your City";
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please enter Your City';
                                             }
                                             return null;
                                           },
@@ -170,9 +162,7 @@ class AddressScreen extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
+                                  SizedBox(width: 10.w),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,

@@ -20,9 +20,10 @@ class AddressTextFieldWidget extends StatelessWidget {
   final bool autoFocus;
   bool readOnly = false;
   final Function(String)? onChange;
-   AddressTextFieldWidget({super.key,
+  AddressTextFieldWidget({
+    super.key,
     required this.controller,
-     this.focusNode,
+    this.focusNode,
     required this.onFieldSubmittedValue,
     this.onTap,
     this.errorText,
@@ -40,8 +41,8 @@ class AddressTextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return   Center(
-      child: TextField(
+    return Center(
+      child: TextFormField(
           readOnly: readOnly,
           maxLines: maxLines,
           controller: controller,
@@ -50,6 +51,7 @@ class AddressTextFieldWidget extends StatelessWidget {
           onChanged: onChange,
           enabled: enable,
           onTap: onTap,
+          validator: validator,
           keyboardType: keyBoardType,
           cursorColor: AppColors.blackText,
           style: TextStyle(color: AppColors.blackColor),
@@ -69,8 +71,8 @@ class AddressTextFieldWidget extends StatelessWidget {
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(2.r),)
-          )),
+                borderRadius: BorderRadius.circular(2.r),
+              ))),
     );
   }
 }

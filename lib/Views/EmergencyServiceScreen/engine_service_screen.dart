@@ -76,7 +76,7 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
                     FutureBuilder<DocumentSnapshot>(
                       future: FirebaseFirestore.instance
                           .collection('users')
-                          .doc(AppConfig.managerUid)
+                          .doc(SessionController().userId)
                           .get(),
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -101,23 +101,23 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
                                 height: 6.h,
                               ),
                               ScheduleRow(
-                                title: "Manager  Name:",
-                                text: data['userName'],
+                                title: "Email:",
+                                text: data['email'],
                               ),
                               SizedBox(
                                 height: 6.h,
                               ),
-                              ScheduleRow(
-                                title: "Unit Number: ",
-                                text: data['unitNumber'],
-                              ),
-                              SizedBox(
-                                height: 6.h,
-                              ),
-                              ScheduleRow(
-                                title: "C Name: ",
-                                text: data['cName'],
-                              ),
+                              // ScheduleRow(
+                              //   title: "Unit Number: ",
+                              //   text: data['unitNumber'],
+                              // ),
+                              // SizedBox(
+                              //   height: 6.h,
+                              // ),
+                              // ScheduleRow(
+                              //   title: "C Name: ",
+                              //   text: data['cName'],
+                              // ),
                             ],
                           );
                         }

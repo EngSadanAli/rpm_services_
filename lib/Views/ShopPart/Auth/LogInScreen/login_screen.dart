@@ -56,157 +56,147 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
-          key: _formKey,
-          onChanged: () {
-            setState(() {
-              isLoginButtonEnabled = emailController.text.isNotEmpty &&
-                  passwordController.text.isNotEmpty;
-            });
-          },
-          child: Padding(
-            padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 30.h),
-            child: SingleChildScrollView(
-              child: Consumer<LoginController>(
-                builder: (context, value, child) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      AppImages.appLogo,
-                      height: 273.27.h,
-                      width: 231.w,
-                    ),
-                    SizedBox(
-                      height: 40.h,
-                    ),
-                    CustomText(
-                        title: "Welcome Again!",
-                        color: AppColors.blackColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 22.sp),
-                    SizedBox(
-                      height: 13.h,
-                    ),
-                    CustomText(
-                      title: "Welcome back! You have been",
-                      color: AppColors.grayText2,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14.sp,
-                    ),
-                    Center(
-                      child: CustomText(
-                        title: "missed",
+      body: Center(
+        child: SingleChildScrollView(
+          child: Form(
+              key: _formKey,
+              onChanged: () {
+                setState(() {
+                  isLoginButtonEnabled = emailController.text.isNotEmpty &&
+                      passwordController.text.isNotEmpty;
+                });
+              },
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 20.w,
+                  right: 20.w,
+                ),
+                child: Consumer<LoginController>(
+                  builder: (context, value, child) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(AppImages.appLogo, height: 130.h
+                          // width: 231.w,
+                          ),
+                      SizedBox(height: 20.h),
+                      CustomText(
+                          title: "Welcome Again!",
+                          color: AppColors.blackColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 22.sp),
+                      SizedBox(height: 10.h),
+                      CustomText(
+                        title: "Welcome back! You have been",
                         color: AppColors.grayText2,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.sp,
                       ),
-                    ),
-                    SizedBox(
-                      height: 43.h,
-                    ),
-                    CustomTextField(
-                      readOnly: false,
-                      controller: emailController,
-                      focusNode: emailFocusNode,
-                      onFieldSubmittedValue: (newValue) {},
-                      keyBoardType: TextInputType.emailAddress,
-                      obscureText: false,
-                      prefixIcon: Icon(Icons.email_outlined,
-                          color: AppColors.textFieldBorderColor),
-                      hint: 'Email',
-                      onChange: (value) {},
-                      validator: (value) {
-                        if (value == null ||
-                            value.isEmpty ||
-                            !GetUtils.isEmail(value)) {
-                          return "Please enter a valid email";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    CustomTextField(
-                      readOnly: false,
-                      maxLines: 1,
-                      controller: passwordController,
-                      focusNode: passwordFocusNode,
-                      onFieldSubmittedValue: (newValue) {},
-                      onChange: (value) {},
-                      prefixIcon: Icon(
-                        Icons.lock_open_rounded,
-                        color: AppColors.textFieldBorderColor,
+                      Center(
+                        child: CustomText(
+                          title: "missed",
+                          color: AppColors.grayText2,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                        ),
                       ),
-                      keyBoardType: TextInputType.text,
-                      obscureText: _obscurePassword.value,
-                      hint: 'Password',
-                      validator: (value) {
-                        if (value == null ||
-                            value.isEmpty ||
-                            value.length < 6) {
-                          return 'Password must be at least 6 characters';
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: 35.h,
-                    ),
-                    Consumer<LoginController>(
-                        builder: (context, value, child) => ElevatedButton(
-                              onPressed: isLoginButtonEnabled
-                                  ? () {
-                                      if (_formKey.currentState!.validate()) {
-                                        value
-                                            .login(
-                                              context,
-                                              emailController.text.trim(),
-                                              passwordController.text.trim(),
-                                            )
-                                            .then((value) {});
-                                      }
-                                    }
-                                  : null,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors
-                                    .textFieldBorderColor, // Change the button color here
-                                fixedSize:
-                                    Size(154.w, 50.h), // Set the fixed size
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      10.0.r), // Set the border radius
-                                ),
-                              ),
-                              child: CustomText(
-                                title: "Login",
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.whiteColor,
-                              ),
-                            )),
-                    SizedBox(height: 30.h),
-                    RoundButton(
-                        title: 'Signin with Google',
-                        loading: value.loading,
-                        onPress: () {
-                          // if (_formKey.currentState!.validate()) {
-                          value.loginWithGoogle(context);
-                          // }
-                        }),
-                    SizedBox(height: 30.h),
-                    RichTextWidgets(
-                      title: 'Not have an Account? ',
-                      text: 'Sign Up',
-                      onPressed: () {
-                        Get.to(SignUpScreen());
-                      },
-                    ),
-                  ],
+                      SizedBox(height: 20.h),
+                      CustomTextField(
+                        readOnly: false,
+                        controller: emailController,
+                        focusNode: emailFocusNode,
+                        onFieldSubmittedValue: (newValue) {},
+                        keyBoardType: TextInputType.emailAddress,
+                        obscureText: false,
+                        prefixIcon: Icon(Icons.email_outlined,
+                            color: AppColors.textFieldBorderColor),
+                        hint: 'Email',
+                        onChange: (value) {},
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              !GetUtils.isEmail(value)) {
+                            return "Please enter a valid email";
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      CustomTextField(
+                        readOnly: false,
+                        maxLines: 1,
+                        controller: passwordController,
+                        focusNode: passwordFocusNode,
+                        onFieldSubmittedValue: (newValue) {},
+                        onChange: (value) {},
+                        prefixIcon: Icon(
+                          Icons.lock_open_rounded,
+                          color: AppColors.textFieldBorderColor,
+                        ),
+                        keyBoardType: TextInputType.text,
+                        obscureText: _obscurePassword.value,
+                        hint: 'Password',
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.length < 6) {
+                            return 'Password must be at least 6 characters';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      SizedBox(
+                        width: 260,
+                        child: RoundButton(
+                            title: 'Login',
+                            loading: value.loading,
+                            onPress: () {
+                              // isLoginButtonEnabled
+                              //     ? () {
+                              if (_formKey.currentState!.validate()) {
+                                value
+                                    .login(
+                                      context,
+                                      emailController.text.trim(),
+                                      passwordController.text.trim(),
+                                    )
+                                    .then((value) {});
+                              }
+                              //   }
+                              // : null;
+                            }),
+                      ),
+                      SizedBox(height: 20.h),
+                      SizedBox(
+                        width: 260,
+                        child: RoundButton(
+                            title: 'Signin with Google',
+                            loading: value.loading,
+                            onPress: () {
+                              // if (_formKey.currentState!.validate()) {
+                              value.loginWithGoogle(context);
+                              // }
+                            }),
+                      ),
+                      SizedBox(height: 20.h),
+                      RichTextWidgets(
+                        title: 'Not have an Account? ',
+                        text: 'Sign Up',
+                        onPressed: () {
+                          Get.to(SignUpScreen());
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-          )),
+              )),
+        ),
+      ),
     );
   }
 }

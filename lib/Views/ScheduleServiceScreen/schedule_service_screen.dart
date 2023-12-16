@@ -72,7 +72,7 @@ class _ScheduleServiceScreenState extends State<ScheduleServiceScreen> {
                           FutureBuilder<DocumentSnapshot>(
                             future: FirebaseFirestore.instance
                                 .collection('users')
-                                .doc(AppConfig.managerUid)
+                                .doc(SessionController().userId)
                                 .get(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -99,23 +99,24 @@ class _ScheduleServiceScreenState extends State<ScheduleServiceScreen> {
                                       height: 6.h,
                                     ),
                                     ScheduleRow(
-                                      title: "Manager  Name:",
-                                      text: data['userName'],
+                                      title: "Email:",
+                                      text: data['email'],
                                     ),
-                                    SizedBox(
-                                      height: 6.h,
-                                    ),
-                                    ScheduleRow(
-                                      title: "Unit Number: ",
-                                      text: data['unitNumber'],
-                                    ),
-                                    SizedBox(
-                                      height: 6.h,
-                                    ),
-                                    ScheduleRow(
-                                      title: "C Name: ",
-                                      text: data['cName'],
-                                    ),
+
+                                    // SizedBox(
+                                    //   height: 6.h,
+                                    // ),
+                                    // ScheduleRow(
+                                    //   title: "Unit Number: ",
+                                    //   text: data['unitNumber'],
+                                    // ),
+                                    // SizedBox(
+                                    //   height: 6.h,
+                                    // ),
+                                    // ScheduleRow(
+                                    //   title: "C Name: ",
+                                    //   text: data['cName'],
+                                    // ),
                                   ],
                                 );
                               }

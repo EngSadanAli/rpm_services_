@@ -133,11 +133,11 @@ class LoginController with ChangeNotifier {
           if (SessionController().role == 'driver') {
             Get.to(const SelectionScreen());
           }
-          await Utils.toastMessage("Account created successfully");
+          Utils.flushBarDoneMessage("Account created successfully", context);
         }
       }).then((value) {
         Get.to(const SelectionScreen());
-        Utils.toastMessage("User login successfully");
+        Utils.flushBarDoneMessage("User login successfully", context);
         setLoading(false);
       }).onError((error, stackTrace) {
         setLoading(false);

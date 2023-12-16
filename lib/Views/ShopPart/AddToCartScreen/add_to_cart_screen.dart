@@ -26,35 +26,35 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
     final countProvider = Provider.of<CountProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-        ),
-        title: CustomText(
-          title: "Cart ",
-          fontWeight: FontWeight.w400,
-          fontSize: 18.sp,
-          color: AppColors.blackColor,
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.shopping_cart_outlined,
-              color: AppColors.blackColor,
-            ),
-          )
-        ],
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.blue,
+      //   elevation: 0,
+      //   centerTitle: true,
+      //   // leading: IconButton(
+      //   //   onPressed: () {
+      //   //     Get.back();
+      //   //   },
+      //   //   icon: Icon(
+      //   //     Icons.arrow_back,
+      //   //     color: Colors.black,
+      //   //   ),
+      //   // ),
+      //   title: CustomText(
+      //     title: "Cart ",
+      //     fontWeight: FontWeight.w400,
+      //     fontSize: 18.sp,
+      //     color: AppColors.blackColor,
+      //   ),
+      //   // actions: [
+      //   //   IconButton(
+      //   //     onPressed: () {},
+      //   //     icon: Icon(
+      //   //       Icons.shopping_cart_outlined,
+      //   //       color: AppColors.blackColor,
+      //   //     ),
+      //   // )
+      //   // ],
+      // ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
@@ -63,6 +63,14 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
           ),
           child: Column(
             children: [
+              SizedBox(height: 15.w),
+              CustomText(
+                title: "Cart ",
+                fontWeight: FontWeight.w400,
+                fontSize: 18.sp,
+                color: AppColors.blackColor,
+              ),
+              SizedBox(height: 15.w),
               Container(
                 decoration: BoxDecoration(
                   color: Color(0xffF8F8F8),
