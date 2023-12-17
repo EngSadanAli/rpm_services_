@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:rpm/Views/Utils/app_colors.dart';
 import 'package:rpm/controllers/signup_controller.dart';
 import 'package:rpm/widgets/custom_textField.dart';
+import 'package:rpm/widgets/round_button.dart';
 import '../../../../widgets/login_button_widgets.dart';
 import '../../../../widgets/select_screen_widget.dart';
 import '../../../Utils/app_images.dart';
@@ -193,150 +194,172 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     return null;
                   },
                 ),
-                // SizedBox(
-                //   height: 20.h,
-                // ),
-                // InkWell(
-                //   onTap: () {
-                //     if (selectedValue == null || selectedValue!.isEmpty) {
-                //       ScaffoldMessenger.of(context).showSnackBar(
-                //         SnackBar(
-                //           content: Text('Please select your role'),
-                //         ),
-                //       );
-                //     } else {
-                //       Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //             builder: (context) =>
-                //                 LoginScreen()), // Replace with the desired screen
-                //       );
-                //     }
-                //   },
-                //   child: Container(
-                //     height: 50.0,
-                //     width: 340.0,
-                //     padding: EdgeInsets.all(10.0),
-                //     decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(10.0),
-                //       border: Border.all(
-                //         color: AppColors
-                //             .textFieldBorderColor, // Customize the border color
-                //         width: 1.5,
-                //       ),
-                //     ),
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //       children: [
-                //         DropdownButtonHideUnderline(
-                //           child: DropdownButton2<String>(
-                //             isExpanded: true,
-                //             hint: Row(
-                //               children: [
-                //                 Text(
-                //                   'Select Your Role',
-                //                   style: TextStyle(
-                //                     fontSize: 14,
-                //                     fontWeight: FontWeight.bold,
-                //                     color: AppColors.textFieldTextColor,
-                //                   ),
-                //                   overflow: TextOverflow.ellipsis,
-                //                 ),
-                //               ],
-                //             ),
-                //             underline: Divider(
-                //               height: 4,
-                //               color: Colors.red,
-                //             ),
-                //             items: items
-                //                 .map((String item) => DropdownMenuItem<String>(
-                //                       value: item,
-                //                       child: Text(
-                //                         item,
-                //                         style: TextStyle(
-                //                           fontSize: 14.sp,
-                //                           fontWeight: FontWeight.w400,
-                //                           color: AppColors.blackColor,
-                //                         ),
-                //                         overflow: TextOverflow.ellipsis,
-                //                       ),
-                //                     ))
-                //                 .toList(),
-                //             value: selectedValue,
-                //             onChanged: (String? value) {
-                //               setState(() {
-                //                 selectedValue = value;
-                //               });
-                //             },
-                //             buttonStyleData: ButtonStyleData(
-                //               height: 40.h,
-                //               width: 290.w,
-                //               // elevation: 2,
-                //             ),
-                //             iconStyleData: IconStyleData(
-                //               icon: Icon(
-                //                 Icons.keyboard_arrow_down,
-                //               ),
-                //               iconSize: 18.sp,
-                //               iconEnabledColor: AppColors.textFieldBorderColor,
-                //               iconDisabledColor: Colors.grey,
-                //             ),
-                //             dropdownStyleData: DropdownStyleData(
-                //               maxHeight: 200,
-                //               width: 200,
-                //               decoration: BoxDecoration(
-                //                 borderRadius: BorderRadius.circular(14),
-                //                 color: Color(0xffF9F9F9),
-                //               ),
-                //               scrollbarTheme: ScrollbarThemeData(
-                //                 radius: const Radius.circular(40),
-                //                 thickness: MaterialStateProperty.all<double>(6),
-                //                 thumbVisibility:
-                //                     MaterialStateProperty.all<bool>(true),
-                //               ),
-                //             ),
-                //             menuItemStyleData: const MenuItemStyleData(
-                //               height: 40,
-                //               padding: EdgeInsets.only(left: 14, right: 14),
-                //             ),
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                InkWell(
+                  onTap: () {
+                    if (selectedValue == null || selectedValue!.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Please select your role'),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                LoginScreen()), // Replace with the desired screen
+                      );
+                    }
+                  },
+                  child: Container(
+                    height: 50.0,
+                    width: double.infinity,
+                    padding: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(
+                        color: AppColors
+                            .textFieldBorderColor, // Customize the border color
+                        width: 1.5,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        DropdownButtonHideUnderline(
+                          child: DropdownButton2<String>(
+                            isExpanded: true,
+                            hint: Row(
+                              children: [
+                                Text(
+                                  'Select Your Role',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.textFieldTextColor,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                            underline: Divider(
+                              height: 4,
+                              color: Colors.red,
+                            ),
+                            items: items
+                                .map((String item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColors.blackColor,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ))
+                                .toList(),
+                            value: selectedValue,
+                            onChanged: (String? value) {
+                              setState(() {
+                                selectedValue = value;
+                              });
+                            },
+                            buttonStyleData: ButtonStyleData(
+                              height: 40.h,
+                              width: 290.w,
+                              // elevation: 2,
+                            ),
+                            iconStyleData: IconStyleData(
+                              icon: Icon(
+                                Icons.keyboard_arrow_down,
+                              ),
+                              iconSize: 18.sp,
+                              iconEnabledColor: AppColors.textFieldBorderColor,
+                              iconDisabledColor: Colors.grey,
+                            ),
+                            dropdownStyleData: DropdownStyleData(
+                              maxHeight: 200,
+                              width: 200,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: Color(0xffF9F9F9),
+                              ),
+                              scrollbarTheme: ScrollbarThemeData(
+                                radius: const Radius.circular(40),
+                                thickness: MaterialStateProperty.all<double>(6),
+                                thumbVisibility:
+                                    MaterialStateProperty.all<bool>(true),
+                              ),
+                            ),
+                            menuItemStyleData: const MenuItemStyleData(
+                              height: 40,
+                              padding: EdgeInsets.only(left: 14, right: 14),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: 29.h,
                 ),
                 Consumer<SignupController>(
-                    builder: (context, value, child) => ElevatedButton(
-                          onPressed: isLoginButtonEnabled
-                              ? () {
-                                  if (_formKey.currentState!.validate()) {
-                                    value.signUpUser(
-                                        context,
-                                        nameController.text.trim(),
-                                        emailController.text.trim(),
-                                        passwordController.text.trim(),
-                                        'driver');
-                                    // Navigate to the LoginScreen
-                                  }
-                                }
-                              : null,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.textFieldBorderColor,
-                            fixedSize: Size(154.w, 50.h),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          child: CustomText(
-                            title: "SignUp",
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.whiteColor,
-                          ),
-                        )),
+                  builder: (context, value, child) => SizedBox(
+                    width: 260,
+                    child: RoundButton(
+                        title: 'Signup',
+                        loading: value.loading,
+                        onPress: () {
+                          // isLoginButtonEnabled
+                          //     ? () {
+                          if (_formKey.currentState!.validate()) {
+                            value.signUpUser(
+                                context,
+                                nameController.text.trim(),
+                                emailController.text.trim(),
+                                passwordController.text.trim(),
+                                selectedValue.toString());
+                            // Navigate to the LoginScreen
+                          }
+                          //   }
+                          // : null;
+                        }),
+                  ),
+                  // ElevatedButton(
+                  //   onPressed: isLoginButtonEnabled
+                  //       ? () {
+                  //           if (_formKey.currentState!.validate()) {
+                  //             value.signUpUser(
+                  //                 context,
+                  //                 nameController.text.trim(),
+                  //                 emailController.text.trim(),
+                  //                 passwordController.text.trim(),
+                  //                 selectedValue.toString());
+                  //             // Navigate to the LoginScreen
+                  //           }
+                  //         }
+                  //       : null,
+                  //   style: ElevatedButton.styleFrom(
+                  //     backgroundColor: AppColors.textFieldBorderColor,
+                  //     fixedSize: Size(154.w, 50.h),
+                  //     shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(10.0),
+                  //     ),
+                  //   ),
+                  //   child: CustomText(
+                  //     title: "SignUp",
+                  //     fontSize: 18.sp,
+                  //     fontWeight: FontWeight.w400,
+                  //     color: AppColors.whiteColor,
+                  //   ),
+                  // ),
+                ),
                 // SizedBox(
                 //   height: 50.h,
                 // ),

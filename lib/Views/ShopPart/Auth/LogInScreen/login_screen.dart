@@ -172,18 +172,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             }),
                       ),
                       SizedBox(height: 20.h),
-                      SizedBox(
-                        width: 260,
-                        child: RoundButton(
-                            title: 'Signin with Google',
-                            loading: value.loading,
-                            onPress: () {
-                              // if (_formKey.currentState!.validate()) {
-                              value.loginWithGoogle(context);
-                              // }
-                            }),
-                      ),
-                      SizedBox(height: 20.h),
+                      // SizedBox(
+                      //   width: 260,
+                      //   child: RoundButton(
+                      //       title: 'Signin with Google',
+                      //       loading: value.loading,
+                      //       onPress: () {
+                      //         // if (_formKey.currentState!.validate()) {
+                      //         value.loginWithGoogle(context);
+                      //         // }
+                      //       }),
+                      // ),
+                      // SizedBox(height: 20.h),
                       RichTextWidgets(
                         title: 'Not have an Account? ',
                         text: 'Sign Up',

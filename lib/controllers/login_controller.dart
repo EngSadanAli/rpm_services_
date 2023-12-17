@@ -54,20 +54,34 @@ class LoginController with ChangeNotifier {
         .get()
         .then((DocumentSnapshot documentSnapshot) async {
       if (documentSnapshot.exists) {
-        if (documentSnapshot.get('role') == 'driver') {
-          Get.to(const SelectionScreen());
-          SessionController().name = documentSnapshot.get('userName');
-          SessionController().email = documentSnapshot.get('email');
-          SessionController().profilePic = documentSnapshot.get('profileImage');
-          SessionController().phone = documentSnapshot.get('phone');
-          SessionController().role = documentSnapshot.get('role');
-          SessionController().userId = documentSnapshot.get('uid');
-
-          // Navigator.pushNamedAndRemoveUntil(
-          //     context, RouteName.barberdashboardView, (route) => false);
+        SessionController().name = documentSnapshot.get('userName');
+        SessionController().email = documentSnapshot.get('email');
+        SessionController().profilePic = documentSnapshot.get('profileImage');
+        SessionController().phone = documentSnapshot.get('phone');
+        SessionController().role = documentSnapshot.get('role');
+        SessionController().userId = documentSnapshot.get('uid');
+        if (documentSnapshot.get('role') == 'Driver') {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => SelectionScreen()),
+              (route) => false);
           Utils.flushBarDoneMessage("login successfully", context);
         }
-        Utils.flushBarDoneMessage("login successfully", context);
+        if (documentSnapshot.get('role') == 'Manager') {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => SelectionScreen()),
+              (route) => false);
+          Utils.flushBarDoneMessage("login successfully", context);
+        }
+        if (documentSnapshot.get('role') == 'Mechanic') {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => SelectionScreen()),
+              (route) => false);
+          Utils.flushBarDoneMessage("login successfully", context);
+        }
+        // Utils.flushBarDoneMessage("login successfully", context);
       } else {
         if (kDebugMode) {
           print('Document does not exist on the database');

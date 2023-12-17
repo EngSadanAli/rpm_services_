@@ -50,7 +50,19 @@ class SignupController with ChangeNotifier {
         SessionController().role = role.toString();
         db.collection('users').doc(user.uid).set(user.toJson());
         setLoading(false);
-        if (SessionController().role == 'driver') {
+        if (SessionController().role == 'Driver') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+          );
+        }
+        if (SessionController().role == 'Manager') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+          );
+        }
+        if (SessionController().role == 'Mechanic') {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => LoginScreen()),
