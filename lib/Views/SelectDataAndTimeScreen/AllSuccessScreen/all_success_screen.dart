@@ -22,11 +22,14 @@ class AllSuccessScreen extends StatelessWidget {
               SizedBox(
                 height: 20.h,
               ),
-              CustomText(
-                title: "Your Service has been schedule",
-                color: AppColors.textFieldBorderColor,
-                fontWeight: FontWeight.w400,
-                fontSize: 23.sp,
+              Text(
+                'Your Service has been schedule',
+                style: TextStyle(
+                  color: AppColors.textFieldBorderColor,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20.sp,
+                ),
+                textAlign: TextAlign.center,
               ),
               SizedBox(
                 height: 10.h,

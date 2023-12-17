@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rpm/Views/LocationScreen/my_location_screen.dart';
+import 'package:rpm/Views/PreviousWorkScreen/PreviousWorkScreen.dart';
 import 'package:rpm/Views/SettingScreen/NotificationScreen/notification_screen.dart';
 import 'package:rpm/Views/ShopPart/Auth/LogInScreen/login_screen.dart';
 import 'package:rpm/Views/ShopPart/ShopHomeScreen/HelpScreen.dart';
@@ -131,6 +132,7 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                     ),
                     onTap: () {
                       // Add your onTap logic for item 1
+                      Get.to(PreviousWorkScreen());
                     },
                   ),
                   Divider(

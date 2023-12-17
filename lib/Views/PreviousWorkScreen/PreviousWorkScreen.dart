@@ -2,20 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:rpm/Views/ShopPart/Auth/Components/big_text.dart';
+import 'package:rpm/Views/Utils/app_colors.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/widgets/network_image_widget.dart';
 
-import '../../ShopPart/Auth/Components/big_text.dart';
-import '../../Utils/app_colors.dart';
-
-class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({super.key});
+class PreviousWorkScreen extends StatefulWidget {
+  const PreviousWorkScreen({super.key});
 
   @override
-  State<NotificationScreen> createState() => _NotificationScreenState();
+  State<PreviousWorkScreen> createState() => _PreviousWorkScreenState();
 }
 
-class _NotificationScreenState extends State<NotificationScreen> {
+class _PreviousWorkScreenState extends State<PreviousWorkScreen> {
   // bool switchValue = false;
   // bool switchValue1 = false;
   // bool switchValue2 = false;
@@ -39,7 +38,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
         ),
         title: CustomText(
-          title: "Notification",
+          title: "Previous Work",
           fontWeight: FontWeight.w700,
           fontSize: 18.sp,
           color: AppColors.blackColor.withOpacity(.87),
