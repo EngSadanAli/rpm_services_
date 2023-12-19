@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:rpm/Views/ShopPart/ShopHomeScreen/ProductDescriptionScreen/add_to_cart_provider.dart';
-import 'package:rpm/Views/Utils/app_colors.dart';
-import 'package:rpm/controllers/login_controller.dart';
-import 'package:rpm/controllers/order/order_controller.dart';
+import 'package:rpm/Views/driver_dashboard/ShopPart/ShopHomeScreen/ProductDescriptionScreen/add_to_cart_provider.dart';
+import 'package:rpm/utils/app_colors.dart';
+import 'package:rpm/controllers/auth/login_controller.dart';
+import 'package:rpm/controllers/driver/order/order_controller.dart';
 import 'package:rpm/controllers/profile_controller.dart';
-import 'package:rpm/controllers/service_req/emer_service_controller.dart';
-import 'package:rpm/controllers/service_req/schedule_service_controller.dart';
-import 'package:rpm/controllers/signup_controller.dart';
+import 'package:rpm/controllers/driver/order/service_req/emer_service_controller.dart';
+import 'package:rpm/controllers/driver/order/service_req/schedule_service_controller.dart';
+import 'package:rpm/controllers/auth/signup_controller.dart';
 import 'package:rpm/firebase_options.dart';
-import 'Views/ShopPart/Auth/SplashScreen/splash_screen.dart';
+import 'Views/driver_dashboard/ShopPart/Auth/SplashScreen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

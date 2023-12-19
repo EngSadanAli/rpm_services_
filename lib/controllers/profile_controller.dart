@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:rpm/Views/Utils/app_colors.dart';
+import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/utils.dart';
 

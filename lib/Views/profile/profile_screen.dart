@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:rpm/Views/Utils/app_colors.dart';
+import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/controllers/profile_controller.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
-import 'package:rpm/widgets/network_image_widget.dart';
-import 'package:rpm/widgets/profile_picture_widget.dart';
+import 'package:rpm/Views/driver_dashboard/widgets/network_image_widget.dart';
+import 'package:rpm/Views/driver_dashboard/widgets/profile_picture_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
