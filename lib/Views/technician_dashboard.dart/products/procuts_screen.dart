@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rpm/Views/driver_dashboard/ShopPart/AddToCartScreen/add_to_cart_screen.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/Auth/Components/big_text.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/ShopHomeScreen/ProductDescriptionScreen/product_description_screen.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
@@ -24,7 +25,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
       appBar: AppBar(
         title: Text('Products'),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart))
+          IconButton(
+              onPressed: () {
+                // Get.to(AddToCartScreen());
+                Get.to(CartScreen());
+              },
+              icon: Icon(Icons.shopping_cart))
         ],
       ),
       body: Column(

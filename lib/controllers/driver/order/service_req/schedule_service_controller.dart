@@ -52,6 +52,7 @@ class ScheduleServiceController with ChangeNotifier {
           .uploadImage(docId, File(_imageFile!.path).absolute)
           .then((newUrl) {
         var data = {
+          'docId': docId,
           'vin': vin,
           'currentMileage': currentMileage,
           'engineHours': engineHours,

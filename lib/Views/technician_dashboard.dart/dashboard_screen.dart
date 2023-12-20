@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
+import 'package:rpm/Views/technician_dashboard.dart/appointments_list/appoinments_list_screen.dart';
 import 'package:rpm/Views/technician_dashboard.dart/products/procuts_screen.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/app_colors.dart';
@@ -49,7 +51,11 @@ class _TechnicianDashboardScreenState extends State<TechnicianDashboardScreen>
             SizedBox(height: 20),
             SizedBox(
               width: 260,
-              child: RoundButton(title: 'Manage Appointments', onPress: () {}),
+              child: RoundButton(
+                  title: 'Manage Appointments',
+                  onPress: () {
+                    Get.to(AppointmentsListScreen());
+                  }),
             ),
           ],
         ),
@@ -140,8 +146,8 @@ class _TechnicianDashboardScreenState extends State<TechnicianDashboardScreen>
       screens: _buildScren(),
       items: _navBarItem(),
       controller: controler,
-      // backgroundColor: Colors.grey.shade900,
-      backgroundColor: Theme.of(context).colorScheme.onPrimary,
+      backgroundColor: Colors.grey.shade500,
+      // backgroundColor: Theme.of(context).colorScheme.onPrimary,
       decoration: NavBarDecoration(
         borderRadius: BorderRadius.circular(0.0),
         // colorBehindNavBar: AppColors.iconBlueColor,

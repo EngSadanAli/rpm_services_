@@ -22,7 +22,8 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
     HomeServicesRequest(),
     MyWishlistScreen(),
     EngineServiceScreen(),
-    AddToCartScreen(),
+    // AddToCartScreen(),
+    CartScreen(),
     SettingScreen(),
   ];
   @override
