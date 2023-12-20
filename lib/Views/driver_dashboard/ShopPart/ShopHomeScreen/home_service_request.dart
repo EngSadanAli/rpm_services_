@@ -93,7 +93,7 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                     ),
                     onTap: () {
                       // Add your onTap logic for item 1
-                      Get.to(ProfileScreen());
+                      Get.to(ProfileScreen(showBackButton: true));
                     },
                   ),
                   Divider(

@@ -43,7 +43,7 @@ class SettingScreen extends StatelessWidget {
           children: [
             SettingContainerWidget(
               onTap: () {
-                Get.to(ProfileScreen());
+                Get.to(ProfileScreen(showBackButton: true));
               },
               title: "Account",
               icon: const Icon(Icons.person_outline),

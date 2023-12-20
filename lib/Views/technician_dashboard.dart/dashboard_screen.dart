@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
-import 'package:rpm/Views/technician_dashboard.dart/appointments_list/appoinments_list_screen.dart';
-import 'package:rpm/Views/technician_dashboard.dart/products/procuts_screen.dart';
+import 'package:rpm/Views/profile/profile_screen.dart';
+import 'package:rpm/Views/technician_dashboard.dart/home/appointments_list/appoinments_list_screen.dart';
+import 'package:rpm/Views/technician_dashboard.dart/home/products/procuts_screen.dart';
+import 'package:rpm/Views/technician_dashboard.dart/profile/technician_profile.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/utils/app_images.dart';
@@ -60,7 +62,8 @@ class _TechnicianDashboardScreenState extends State<TechnicianDashboardScreen>
           ],
         ),
       )),
-      const Scaffold(),
+      // const TechnicianProfileScreen(),
+      ProfileScreen(showBackButton: false),
       const Scaffold(),
       const Scaffold(),
       const Scaffold(),
@@ -77,8 +80,8 @@ class _TechnicianDashboardScreenState extends State<TechnicianDashboardScreen>
         activeColorSecondary: AppColors.blackColor,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        inactiveIcon: Icon(Icons.home_outlined),
+        icon: Icon(Icons.person),
+        inactiveIcon: Icon(Icons.person_2_outlined),
         activeColorPrimary: AppColors.blackColor,
         inactiveColorPrimary: AppColors.whiteColor,
         activeColorSecondary: AppColors.blackColor,

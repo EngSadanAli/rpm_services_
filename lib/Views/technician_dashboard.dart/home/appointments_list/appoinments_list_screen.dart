@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rpm/Views/technician_dashboard.dart/service_detail/service_detail_screen.dart';
+import 'package:rpm/Views/technician_dashboard.dart/home/service_detail/service_detail_screen.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/utils/app_images.dart';

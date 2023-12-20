@@ -10,7 +10,8 @@ import 'package:rpm/Views/driver_dashboard/widgets/network_image_widget.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/profile_picture_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  final bool showBackButton;
+  const ProfileScreen({super.key, required this.showBackButton});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -23,12 +24,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: Icon(
-                Icons.arrow_back_rounded,
-                color: AppColors.blackColor,
-              )),
+          leading: widget.showBackButton
+              ? IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: Icon(
+                    Icons.arrow_back_rounded,
+                    color: AppColors.blackColor,
+                  ))
+              : SizedBox.shrink(),
         ),
         body: Consumer<ProfileController>(
             builder: (context, value, child) => StreamBuilder<QuerySnapshot>(
