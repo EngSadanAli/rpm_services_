@@ -730,15 +730,205 @@
 //     );
 //   }
 // }
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rpm/Views/driver_dashboard/widgets/network_image_widget.dart';
+import 'package:rpm/controllers/services/session_manager.dart';
 
-class CartScreen extends StatelessWidget {
-  final List<Map<String, dynamic>> cartItems = [
-    {'name': 'Item 1', 'price': 10},
-    {'name': 'Item 2', 'price': 15},
-    {'name': 'Item 3', 'price': 20},
-    // Add more items as needed
-  ];
+// class CartScreen extends StatefulWidget {
+//   @override
+//   State<CartScreen> createState() => _CartScreenState();
+// }
+
+// class _CartScreenState extends State<CartScreen> {
+//   double totalPrice = 0.0;
+
+//   double tax = 0.0;
+
+//   List<double> prices = [];
+//   double _calculateTax() {
+//     // Calculate tax logic goes here
+//     // For example, assuming 10% tax rate
+//     double subtotal = _calculateSubtotal();
+//     return subtotal * 0.1;
+//   }
+
+//   void _updateTotalAndTax() {
+//     tax = _calculateTax();
+//     totalPrice = _calculateTotal();
+//   }
+
+//   double _calculateTotal() {
+//     // Calculate total including tax logic goes here
+//     double subtotal = _calculateSubtotal();
+//     double calculatedTax = _calculateTax(); // Calculate tax separately
+
+//     // Update tax for display
+//     setState(() {
+//       tax = calculatedTax;
+//     });
+
+//     return subtotal + calculatedTax;
+//   }
+
+//   double _calculateSubtotal() {
+//     // Calculate subtotal logic goes here
+//     double subtotal = 0;
+//     for (var item in prices) {
+//       subtotal += item;
+//     }
+//     return subtotal;
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: Text('Cart'),
+//         ),
+//         body: Column(
+//           children: [
+//             StreamBuilder(
+//                 stream: FirebaseFirestore.instance
+//                     .collection('users')
+//                     .doc(SessionController().userId)
+//                     .snapshots(),
+//                 builder: (BuildContext context, AsyncSnapshot snapshot) {
+//                   if (snapshot.hasError) {
+//                     return Text('Something went wrong');
+//                   }
+
+//                   if (snapshot.connectionState == ConnectionState.waiting) {
+//                     return Text("Loading");
+//                   }
+//                   // Extract cart data from the snapshot
+//                   List<dynamic>? cartData = snapshot.data?.get('cart');
+
+//                   return SizedBox(
+//                       child: ListView.builder(
+//                           shrinkWrap: true,
+//                           itemCount: cartData?.length ?? 0,
+//                           physics: NeverScrollableScrollPhysics(),
+//                           itemBuilder: (context, index) {
+//                             var snap = cartData![index];
+//                             return FutureBuilder(
+//                                 future: FirebaseFirestore.instance
+//                                     .collection('products')
+//                                     .doc(snap)
+//                                     .get(),
+//                                 builder: (context, productSnapshot) {
+//                                   if (productSnapshot.connectionState ==
+//                                           ConnectionState.waiting ||
+//                                       !productSnapshot.hasData ||
+//                                       productSnapshot.data!.data() == null) {
+//                                     return Center(child: LoadingWidget());
+//                                   }
+
+//                                   var productData = productSnapshot.data!
+//                                       .data()! as Map<String, dynamic>;
+// // ... inside FutureBuilder
+//                                   if (productSnapshot.connectionState ==
+//                                       ConnectionState.done) {
+//                                     var prodPrice = double.parse(
+//                                         productData['price'] as String);
+//                                     prices.add(prodPrice);
+//                                     _updateTotalAndTax();
+//                                   }
+
+//                                   var prodImage =
+//                                       productData['productImage'][0];
+//                                   var prodPrice = double.parse(
+//                                       productData['price'] as String);
+//                                   // prices.add(prodPrice);
+//                                   // _updateTotalAndTax(); // Update the total and tax whenever the price list changes
+
+//                                   var prodTitle = productData['title'];
+
+//                                   return ListTile(
+//                                     leading: NetworkImageWidget(
+//                                       height: 50,
+//                                       width: 50,
+//                                       imageUrl: prodImage.toString(),
+//                                       borderRadius: 10,
+//                                     ),
+//                                     title: Text(prodTitle.toString()),
+//                                     subtitle: Text('\$${prodPrice}'),
+//                                   );
+//                                 });
+//                           }));
+//                 }),
+//             Spacer(),
+//             Divider(),
+//             Padding(
+//               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.stretch,
+//                 children: [
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     children: [
+//                       Text('Tax:'),
+//                       Text('\$${tax}'),
+//                     ],
+//                   ),
+//                   SizedBox(height: 8.0),
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     children: [
+//                       Text('Total:'),
+//                       Text('\$${totalPrice}',
+//                           style: TextStyle(fontWeight: FontWeight.bold)),
+//                     ],
+//                   ),
+//                   SizedBox(height: 16.0),
+//                   ElevatedButton(
+//                     onPressed: () {
+//                       // Implement checkout logic here
+//                     },
+//                     child: Text('Checkout'),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+
+//   // double _calculateTax() {
+//   //   // Calculate tax logic goes here
+//   //   // For example, assuming 10% tax rate
+//   //   double subtotal = _calculateSubtotal();
+//   //   return subtotal * 0.1;
+//   // }
+
+//   // double _calculateTotal() {
+//   //   // Calculate total including tax logic goes here
+//   //   double subtotal = _calculateSubtotal();
+//   //   double tax = _calculateTax();
+//   //   return subtotal + tax;
+//   // }
+
+//   // double _calculateSubtotal() {
+//   //   // Calculate subtotal logic goes here
+//   //   double subtotal = 0;
+//   //   for (var item in prices) {
+//   //     subtotal += item;
+//   //   }
+//   //   return subtotal;
+//   // }
+// }
+class CartScreen extends StatefulWidget {
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  double totalPrice = 0.0;
+  double tax = 0.0;
+  List<double> prices = [];
 
   @override
   Widget build(BuildContext context) {
@@ -747,78 +937,132 @@ class CartScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('Cart'),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: cartItems.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text(cartItems[index]['name']),
-                    subtitle: Text('\$${cartItems[index]['price']}'),
-                    // You can add more details here
-                  );
-                },
-              ),
-            ),
-            Divider(), // A divider for visual separation
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Tax:'),
-                      Text('\$${_calculateTax().toStringAsFixed(2)}'),
-                    ],
-                  ),
-                  SizedBox(height: 8.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Total:'),
-                      Text('\$${_calculateTotal().toStringAsFixed(2)}',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                  SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Implement checkout logic here
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(SessionController().userId)
+              .snapshots(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Text("Loading");
+            }
+
+            // Extract cart data from the snapshot
+            List<dynamic>? cartData = snapshot.data?.get('cart');
+
+            if (cartData == null || cartData.isEmpty) {
+              return Text('Cart is empty');
+            }
+
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: cartData.length,
+                    itemBuilder: (context, index) {
+                      var snap = cartData[index];
+                      return FutureBuilder(
+                        future: FirebaseFirestore.instance
+                            .collection('products')
+                            .doc(snap)
+                            .get(),
+                        builder: (context, productSnapshot) {
+                          if (productSnapshot.connectionState ==
+                                  ConnectionState.waiting ||
+                              !productSnapshot.hasData ||
+                              productSnapshot.data!.data() == null) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+
+                          var productData = productSnapshot.data!.data()!
+                              as Map<String, dynamic>;
+
+                          var prodPrice =
+                              double.parse(productData['price'] as String);
+                          prices.add(prodPrice);
+
+                          return ListTile(
+                            title: Text(productData['title'].toString()),
+                            subtitle: Text('\$$prodPrice'),
+                          );
+                        },
+                      );
                     },
-                    child: Text('Checkout'),
                   ),
-                ],
-              ),
-            ),
-          ],
+                ),
+                Divider(),
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Tax:'),
+                          Text('\$$tax'),
+                        ],
+                      ),
+                      SizedBox(height: 8.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Total:'),
+                          Text(
+                            '\$$totalPrice',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Implement checkout logic here
+                        },
+                        child: Text('Checkout'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 
   double _calculateTax() {
-    // Calculate tax logic goes here
-    // For example, assuming 10% tax rate
     double subtotal = _calculateSubtotal();
     return subtotal * 0.1;
   }
 
   double _calculateTotal() {
-    // Calculate total including tax logic goes here
     double subtotal = _calculateSubtotal();
-    double tax = _calculateTax();
-    return subtotal + tax;
+    double calculatedTax = _calculateTax();
+    return subtotal + calculatedTax;
   }
 
   double _calculateSubtotal() {
-    // Calculate subtotal logic goes here
     double subtotal = 0;
-    for (var item in cartItems) {
-      subtotal += item['price'];
+    for (var item in prices) {
+      subtotal += item;
     }
     return subtotal;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      // Calculate totals after the frame is built
+      tax = _calculateTax();
+      totalPrice = _calculateTotal();
+    });
   }
 }

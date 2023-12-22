@@ -1,13 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
+import 'package:rpm/Views/profile/profile_screen.dart';
+import 'package:rpm/Views/technician_dashboard.dart/home/appointments_list/appoinments_list_screen.dart';
+import 'package:rpm/Views/technician_dashboard.dart/home/products/procuts_screen.dart';
+import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/app_colors.dart';
+import 'package:rpm/utils/app_images.dart';
 
 class ManagerDashboardScreen extends StatefulWidget {
   const ManagerDashboardScreen({Key? key}) : super(key: key);
 
   @override
-  State<ManagerDashboardScreen> createState() => _ManagerDashboardScreenState();
+  State<ManagerDashboardScreen> createState() =>
+      _ManagerDashboardScreenState();
 }
 
 class _ManagerDashboardScreenState extends State<ManagerDashboardScreen>
@@ -16,8 +23,46 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen>
 
   List<Widget> _buildScren() {
     return [
-      const Scaffold(body: Center(child: Text('manager dashboard'))),
-      const Scaffold(),
+      Scaffold(
+          body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(AppImages.appLogo, height: 130),
+            SizedBox(height: 20),
+            Text(
+              SessionController().name.toString(),
+              style: TextStyle(
+                color: AppColors.blackColor,
+              ),
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              width: 260,
+              child: RoundButton(
+                  title: 'Shop Parts',
+                  onPress: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProductsScreen()));
+                  }),
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              width: 260,
+              child: RoundButton(
+                  title: 'Manage Requests',
+                  onPress: () {
+                    Get.to(AppointmentsListScreen());
+                  }),
+            ),
+          ],
+        ),
+      )),
+      // const TechnicianProfileScreen(),
+      ProfileScreen(showBackButton: false),
       const Scaffold(),
       const Scaffold(),
       const Scaffold(),
@@ -34,8 +79,8 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen>
         activeColorSecondary: AppColors.blackColor,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        inactiveIcon: Icon(Icons.home_outlined),
+        icon: Icon(Icons.person),
+        inactiveIcon: Icon(Icons.person_2_outlined),
         activeColorPrimary: AppColors.blackColor,
         inactiveColorPrimary: AppColors.whiteColor,
         activeColorSecondary: AppColors.blackColor,
@@ -103,8 +148,8 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen>
       screens: _buildScren(),
       items: _navBarItem(),
       controller: controler,
-      // backgroundColor: Colors.grey.shade900,
-      backgroundColor: Theme.of(context).colorScheme.onPrimary,
+      backgroundColor: Colors.grey.shade500,
+      // backgroundColor: Theme.of(context).colorScheme.onPrimary,
       decoration: NavBarDecoration(
         borderRadius: BorderRadius.circular(0.0),
         // colorBehindNavBar: AppColors.iconBlueColor,

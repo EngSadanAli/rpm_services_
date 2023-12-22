@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get/get.dart';
+import 'package:rpm/Views/manager_dashboard.dart/manager_dashboard.dart';
 import 'package:rpm/Views/technician_dashboard.dart/dashboard_screen.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/models/user_model.dart';
@@ -71,7 +72,7 @@ class LoginController with ChangeNotifier {
         if (documentSnapshot.get('role') == 'Manager') {
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => SelectionScreen()),
+              MaterialPageRoute(builder: (context) => ManagerDashboardScreen()),
               (route) => false);
           Utils.flushBarDoneMessage("login successfully", context);
         }

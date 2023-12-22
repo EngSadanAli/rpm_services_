@@ -5,7 +5,6 @@ import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
 import 'package:rpm/Views/profile/profile_screen.dart';
 import 'package:rpm/Views/technician_dashboard.dart/home/appointments_list/appoinments_list_screen.dart';
 import 'package:rpm/Views/technician_dashboard.dart/home/products/procuts_screen.dart';
-import 'package:rpm/Views/technician_dashboard.dart/profile/technician_profile.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/utils/app_images.dart';
