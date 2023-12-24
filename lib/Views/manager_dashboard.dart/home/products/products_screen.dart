@@ -139,13 +139,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                   fontSize: 10,
                                   fontWeight: FontWeight.w400,
                                 ),
-                                SizedBox(width: 10),
-                                CustomText(
-                                  title: "10% off",
-                                  color: AppColors.redTextColor,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                                // SizedBox(width: 10),
+                                // CustomText(
+                                //   title: "10% off",
+                                //   color: AppColors.redTextColor,
+                                //   fontSize: 10,
+                                //   fontWeight: FontWeight.w400,
+                                // ),
+                                Spacer(),
                                 StreamBuilder<DocumentSnapshot>(
                                   stream: FirebaseFirestore.instance
                                       .collection('products')

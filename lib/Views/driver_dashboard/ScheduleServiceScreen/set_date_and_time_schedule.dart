@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/Auth/Components/big_text.dart';
+import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/controllers/driver/order/service_req/schedule_service_controller.dart';
 
@@ -256,45 +257,64 @@ class _SelectDateAndTimeState extends State<SelectDateAndTime> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Consumer<ScheduleServiceController>(
-                    builder: (context, value, child) => InkWell(
-                          onTap: () {
-                            value.scheduleService(
-                              context,
-                              widget.vin,
-                              widget.currentMileage,
-                              widget.engineHours,
-                              widget.complaint,
-                              _currentDate.toString(),
-                              time,
-                            );
-                          },
-                          child: Container(
-                            height: 38.h,
-                            width: 143.w,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: AppColors.textFieldBorderColor,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black
-                                      .withOpacity(0.25), // Shadow color
-                                  spreadRadius: 0,
-                                  blurRadius: 4,
-                                  offset: Offset(
-                                      1, 1), // Offset in x and y direction
-                                ),
-                              ],
-                            ),
-                            child: Center(
-                              child: CustomText(
-                                title: "Done",
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.whiteColor,
-                              ),
-                            ),
-                          ),
-                        )),
+                  builder: (context, value, child) => SizedBox(
+                    width: MediaQuery.of(context).size.width / 3,
+                    child: RoundButton(
+                      loading: value.loading,
+                      title: 'Done',
+                      onPress: () {
+                        value.scheduleService(
+                          context,
+                          widget.vin,
+                          widget.currentMileage,
+                          widget.engineHours,
+                          widget.complaint,
+                          _currentDate.toString(),
+                          time,
+                        );
+                      },
+                    ),
+                  ),
+                  //  InkWell(
+                  //       onTap: () {
+                  //         value.scheduleService(
+                  //           context,
+                  //           widget.vin,
+                  //           widget.currentMileage,
+                  //           widget.engineHours,
+                  //           widget.complaint,
+                  //           _currentDate.toString(),
+                  //           time,
+                  //         );
+                  //       },
+                  //       child: Container(
+                  //         height: 38.h,
+                  //         width: 143.w,
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(10),
+                  //           color: AppColors.textFieldBorderColor,
+                  //           boxShadow: [
+                  //             BoxShadow(
+                  //               color: Colors.black
+                  //                   .withOpacity(0.25), // Shadow color
+                  //               spreadRadius: 0,
+                  //               blurRadius: 4,
+                  //               offset: Offset(
+                  //                   1, 1), // Offset in x and y direction
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         child: Center(
+                  //           child: CustomText(
+                  //             title: "Done",
+                  //             fontSize: 18.sp,
+                  //             fontWeight: FontWeight.bold,
+                  //             color: AppColors.whiteColor,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     )
+                ),
               ],
             ),
           ],

@@ -35,7 +35,7 @@ class EmergencyServiceController with ChangeNotifier {
   }
 
   // sign up func
-  void emergencyService(
+  Future<void> emergencyService(
     BuildContext context,
     String vin,
     String currentMileage,
@@ -68,9 +68,16 @@ class EmergencyServiceController with ChangeNotifier {
         };
         // saving user data in database
         ScheduleServiceRepository().scheduleService(docId, data);
-      }).then((value) => Get.to(AllSuccessScreen()));
+      }).then((value) {
+        Get.to(AllSuccessScreen());
+        _imageFile = null;
+      setLoading(false);
+        notifyListeners();
+      });
     } catch (e) {
       log(e.toString());
+      _imageFile = null;
+      notifyListeners();
       setLoading(false);
     }
     setLoading(false);

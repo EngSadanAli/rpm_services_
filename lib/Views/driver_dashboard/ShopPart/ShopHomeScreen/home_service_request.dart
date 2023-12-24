@@ -528,6 +528,7 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                                     //   fontSize: 10.sp,
                                     //   fontWeight: FontWeight.w400,
                                     // ),
+                                Spacer(),
                                     StreamBuilder<DocumentSnapshot>(
                                       stream: FirebaseFirestore.instance
                                           .collection('products')

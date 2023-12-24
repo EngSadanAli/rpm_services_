@@ -145,15 +145,16 @@ class MyWishlistScreen extends StatelessWidget {
                                 fontSize: 10.sp,
                                 fontWeight: FontWeight.w400,
                               ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              CustomText(
-                                title: "10% off",
-                                color: AppColors.redTextColor,
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
+                              // SizedBox(
+                              //   width: 10.w,
+                              // ),
+                              // CustomText(
+                              //   title: "10% off",
+                              //   color: AppColors.redTextColor,
+                              //   fontSize: 10.sp,
+                              //   fontWeight: FontWeight.w400,
+                              // ),
+                              Spacer(),
                               StreamBuilder<DocumentSnapshot>(
                                 stream: FirebaseFirestore.instance
                                     .collection('products')
