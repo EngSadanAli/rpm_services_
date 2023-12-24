@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
+import 'package:rpm/Views/manager_dashboard.dart/home/requests_list/request_list.dart';
 import 'package:rpm/Views/profile/profile_screen.dart';
 import 'package:rpm/Views/technician_dashboard.dart/home/appointments_list/appoinments_list_screen.dart';
 import 'package:rpm/Views/technician_dashboard.dart/home/products/procuts_screen.dart';
@@ -13,8 +14,7 @@ class ManagerDashboardScreen extends StatefulWidget {
   const ManagerDashboardScreen({Key? key}) : super(key: key);
 
   @override
-  State<ManagerDashboardScreen> createState() =>
-      _ManagerDashboardScreenState();
+  State<ManagerDashboardScreen> createState() => _ManagerDashboardScreenState();
 }
 
 class _ManagerDashboardScreenState extends State<ManagerDashboardScreen>
@@ -55,7 +55,7 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen>
               child: RoundButton(
                   title: 'Manage Requests',
                   onPress: () {
-                    Get.to(AppointmentsListScreen());
+                    Get.to(RequestListScreen());
                   }),
             ),
           ],
@@ -63,9 +63,9 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen>
       )),
       // const TechnicianProfileScreen(),
       ProfileScreen(showBackButton: false),
-      const Scaffold(),
-      const Scaffold(),
-      const Scaffold(),
+      // const Scaffold(),
+      // const Scaffold(),
+      // const Scaffold(),
     ];
   }
 
@@ -85,27 +85,27 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen>
         inactiveColorPrimary: AppColors.whiteColor,
         activeColorSecondary: AppColors.blackColor,
       ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        inactiveIcon: Icon(Icons.home_outlined),
-        activeColorPrimary: AppColors.blackColor,
-        inactiveColorPrimary: AppColors.whiteColor,
-        activeColorSecondary: AppColors.blackColor,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        inactiveIcon: Icon(Icons.home_outlined),
-        activeColorPrimary: AppColors.blackColor,
-        inactiveColorPrimary: AppColors.whiteColor,
-        activeColorSecondary: AppColors.blackColor,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        inactiveIcon: Icon(Icons.home_outlined),
-        activeColorPrimary: AppColors.blackColor,
-        inactiveColorPrimary: AppColors.whiteColor,
-        activeColorSecondary: AppColors.blackColor,
-      ),
+      // PersistentBottomNavBarItem(
+      //   icon: Icon(Icons.home),
+      //   inactiveIcon: Icon(Icons.home_outlined),
+      //   activeColorPrimary: AppColors.blackColor,
+      //   inactiveColorPrimary: AppColors.whiteColor,
+      //   activeColorSecondary: AppColors.blackColor,
+      // ),
+      // PersistentBottomNavBarItem(
+      //   icon: Icon(Icons.home),
+      //   inactiveIcon: Icon(Icons.home_outlined),
+      //   activeColorPrimary: AppColors.blackColor,
+      //   inactiveColorPrimary: AppColors.whiteColor,
+      //   activeColorSecondary: AppColors.blackColor,
+      // ),
+      // PersistentBottomNavBarItem(
+      //   icon: Icon(Icons.home),
+      //   inactiveIcon: Icon(Icons.home_outlined),
+      //   activeColorPrimary: AppColors.blackColor,
+      //   inactiveColorPrimary: AppColors.whiteColor,
+      //   activeColorSecondary: AppColors.blackColor,
+      // ),
     ];
   }
 

@@ -57,6 +57,7 @@ dependencies:
   uuid: ^4.2.1
   cached_network_image: ^3.3.0
   google_sign_in: ^6.1.6
+  flutter_slidable: ^3.0.1
   # flutter_stripe: ^9.5.0+1
 
 dev_dependencies:

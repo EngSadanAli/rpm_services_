@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
               title: 'RPM App Client Copy',
               theme: ThemeData(
                   primarySwatch: Colors.blue,
+                  useMaterial3: false,
                   textTheme:
                       Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
                   dialogTheme:

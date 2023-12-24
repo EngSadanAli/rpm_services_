@@ -28,7 +28,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
           IconButton(
               onPressed: () {
                 // Get.to(AddToCartScreen());
-                Get.to(CartScreen());
+                Get.to(CartScreen(
+                  showBackButton: true,
+                ));
               },
               icon: Icon(Icons.shopping_cart))
         ],

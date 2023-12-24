@@ -61,6 +61,10 @@ class EmergencyServiceController with ChangeNotifier {
           'image': newUrl,
           'status': 'pending',
           'type': 'emg',
+          'assignedBy': '',
+          'assignedTo': '',
+          'technicianNotes': '',
+          'managerNotes': '',
         };
         // saving user data in database
         ScheduleServiceRepository().scheduleService(docId, data);

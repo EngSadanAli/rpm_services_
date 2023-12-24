@@ -730,8 +730,10 @@
 //     );
 //   }
 // }
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/network_image_widget.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 
@@ -921,6 +923,9 @@ import 'package:rpm/controllers/services/session_manager.dart';
 //   // }
 // }
 class CartScreen extends StatefulWidget {
+  final bool showBackButton;
+
+  const CartScreen({super.key, required this.showBackButton});
   @override
   State<CartScreen> createState() => _CartScreenState();
 }
@@ -936,6 +941,17 @@ class _CartScreenState extends State<CartScreen> {
       home: Scaffold(
         appBar: AppBar(
           title: Text('Cart'),
+          leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: widget.showBackButton
+                ? Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  )
+                : SizedBox.shrink(),
+          ),
         ),
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
@@ -955,7 +971,7 @@ class _CartScreenState extends State<CartScreen> {
             List<dynamic>? cartData = snapshot.data?.get('cart');
 
             if (cartData == null || cartData.isEmpty) {
-              return Text('Cart is empty');
+              return Center(child: Text('Cart is empty'));
             }
 
             return Column(
@@ -983,11 +999,53 @@ class _CartScreenState extends State<CartScreen> {
 
                           var prodPrice =
                               double.parse(productData['price'] as String);
+                          prices.clear();
                           prices.add(prodPrice);
 
-                          return ListTile(
-                            title: Text(productData['title'].toString()),
-                            subtitle: Text('\$$prodPrice'),
+                          return Slidable(
+                            // Specify a key if the Slidable is dismissible.
+                            key: ValueKey(0),
+                            endActionPane: ActionPane(
+                              motion: ScrollMotion(),
+                              children: [
+                                SlidableAction(
+                                  borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(12),
+                                      topRight: Radius.circular(12)),
+                                  flex: 2,
+                                  onPressed: (context) {
+                                    FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(SessionController().userId)
+                                        .update({
+                                      'cart': FieldValue.arrayRemove([snap])
+                                    });
+                                    // setState(() {});
+                                    didChangeDependencies();
+                                  }
+                                  // FirebaseFirestore
+                                  //     .instance
+                                  //     .collection('rooms')
+                                  //     .doc(roomId)
+                                  //     .update({
+                                  //   'members':
+                                  //       FieldValue.arrayRemove([memberUid])
+                                  // }),
+                                  ,
+                                  backgroundColor: Colors.grey,
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.group_remove_sharp,
+                                  label: 'Remove from cart',
+                                ),
+                              ],
+                            ),
+                            child: ListTile(
+                              leading: NetworkImageWidget(
+                                  borderRadius: 20,
+                                  imageUrl: productData['productImage'][0]),
+                              title: Text(productData['title'].toString()),
+                              subtitle: Text('\$$prodPrice'),
+                            ),
                           );
                         },
                       );
@@ -1039,8 +1097,24 @@ class _CartScreenState extends State<CartScreen> {
 
   double _calculateTax() {
     double subtotal = _calculateSubtotal();
-    return subtotal * 0.1;
+    double tax = subtotal * 0.1; // Calculate the tax
+    return tax
+        .roundToDouble(); // Round the tax value to the nearest whole number and return it as a double
   }
+
+  double _roundTax(double tax) {
+    int roundedTax =
+        tax.round(); // Round the tax value to the nearest whole number
+
+    // Check if the decimal part is greater than or equal to 0.5 and adjust the rounded value accordingly
+    if (tax - roundedTax >= 0.5) {
+      roundedTax++; // Round up if the decimal part is 0.5 or more
+    }
+
+    return roundedTax.toDouble(); // Return the rounded tax value as a double
+  }
+
+// Other functions remain unchanged
 
   double _calculateTotal() {
     double subtotal = _calculateSubtotal();
@@ -1057,12 +1131,16 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       // Calculate totals after the frame is built
-      tax = _calculateTax();
-      totalPrice = _calculateTotal();
+      Future.delayed(Duration(seconds: 1)).then((value) {
+        tax = _calculateTax();
+        totalPrice = _calculateTotal();
+        print(tax);
+        setState(() {});
+      });
     });
+    super.didChangeDependencies();
   }
 }

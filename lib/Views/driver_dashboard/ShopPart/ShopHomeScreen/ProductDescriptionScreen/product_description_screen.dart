@@ -108,7 +108,9 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
                     //   }
                     // } catch (e) {}
                     // Get.to(AddToCartScreen());
-                    Get.to(CartScreen());
+                    Get.to(CartScreen(
+                      showBackButton: true,
+                    ));
                   },
                   child: Center(
                       child: Icon(

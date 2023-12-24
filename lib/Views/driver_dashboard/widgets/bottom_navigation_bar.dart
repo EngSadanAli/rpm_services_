@@ -23,7 +23,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
     MyWishlistScreen(),
     EngineServiceScreen(),
     // AddToCartScreen(),
-    CartScreen(),
+    CartScreen(showBackButton: false),
     SettingScreen(),
   ];
   @override

@@ -1,20 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rpm/Views/manager_dashboard.dart/home/service_detail/service_detail_screen.dart';
 import 'package:rpm/Views/technician_dashboard.dart/home/service_detail/service_detail_screen.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/utils/app_images.dart';
 import 'package:intl/intl.dart';
 
-class AppointmentsListScreen extends StatefulWidget {
-  const AppointmentsListScreen({super.key});
+class RequestListScreen extends StatefulWidget {
+  const RequestListScreen({super.key});
 
   @override
-  State<AppointmentsListScreen> createState() => _AppointmentsListScreenState();
+  State<RequestListScreen> createState() => _RequestListScreenState();
 }
 
-class _AppointmentsListScreenState extends State<AppointmentsListScreen> {
+class _RequestListScreenState extends State<RequestListScreen> {
   var searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -47,8 +48,7 @@ class _AppointmentsListScreenState extends State<AppointmentsListScreen> {
               StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('service')
-                      .where('assignedTo',
-                          isEqualTo: SessionController().userId)
+                      .where('assignedTo', isEqualTo: '')
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -86,7 +86,7 @@ class _AppointmentsListScreenState extends State<AppointmentsListScreen> {
                             padding: const EdgeInsets.all(10),
                             child: ListTile(
                               onTap: () {
-                                Get.to(ServicedetailScreen(
+                                Get.to(ManagerServicedetailScreen(
                                   snap: snap,
                                 ));
                               },

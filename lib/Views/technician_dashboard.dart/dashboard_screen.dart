@@ -63,9 +63,9 @@ class _TechnicianDashboardScreenState extends State<TechnicianDashboardScreen>
       )),
       // const TechnicianProfileScreen(),
       ProfileScreen(showBackButton: false),
-      const Scaffold(),
-      const Scaffold(),
-      const Scaffold(),
+      // const Scaffold(),
+      // const Scaffold(),
+      // const Scaffold(),
     ];
   }
 
@@ -85,27 +85,27 @@ class _TechnicianDashboardScreenState extends State<TechnicianDashboardScreen>
         inactiveColorPrimary: AppColors.whiteColor,
         activeColorSecondary: AppColors.blackColor,
       ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        inactiveIcon: Icon(Icons.home_outlined),
-        activeColorPrimary: AppColors.blackColor,
-        inactiveColorPrimary: AppColors.whiteColor,
-        activeColorSecondary: AppColors.blackColor,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        inactiveIcon: Icon(Icons.home_outlined),
-        activeColorPrimary: AppColors.blackColor,
-        inactiveColorPrimary: AppColors.whiteColor,
-        activeColorSecondary: AppColors.blackColor,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        inactiveIcon: Icon(Icons.home_outlined),
-        activeColorPrimary: AppColors.blackColor,
-        inactiveColorPrimary: AppColors.whiteColor,
-        activeColorSecondary: AppColors.blackColor,
-      ),
+      // PersistentBottomNavBarItem(
+      //   icon: Icon(Icons.home),
+      //   inactiveIcon: Icon(Icons.home_outlined),
+      //   activeColorPrimary: AppColors.blackColor,
+      //   inactiveColorPrimary: AppColors.whiteColor,
+      //   activeColorSecondary: AppColors.blackColor,
+      // ),
+      // PersistentBottomNavBarItem(
+      //   icon: Icon(Icons.home),
+      //   inactiveIcon: Icon(Icons.home_outlined),
+      //   activeColorPrimary: AppColors.blackColor,
+      //   inactiveColorPrimary: AppColors.whiteColor,
+      //   activeColorSecondary: AppColors.blackColor,
+      // ),
+      // PersistentBottomNavBarItem(
+      //   icon: Icon(Icons.home),
+      //   inactiveIcon: Icon(Icons.home_outlined),
+      //   activeColorPrimary: AppColors.blackColor,
+      //   inactiveColorPrimary: AppColors.whiteColor,
+      //   activeColorSecondary: AppColors.blackColor,
+      // ),
     ];
   }
 
