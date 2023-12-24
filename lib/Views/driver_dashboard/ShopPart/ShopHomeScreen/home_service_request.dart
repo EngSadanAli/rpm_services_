@@ -519,15 +519,15 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                                       fontSize: 10.sp,
                                       fontWeight: FontWeight.w400,
                                     ),
-                                    SizedBox(
-                                      width: 10.w,
-                                    ),
-                                    CustomText(
-                                      title: "10% off",
-                                      color: AppColors.redTextColor,
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                    // SizedBox(
+                                    //   width: 10.w,
+                                    // ),
+                                    // CustomText(
+                                    //   title: "10% off",
+                                    //   color: AppColors.redTextColor,
+                                    //   fontSize: 10.sp,
+                                    //   fontWeight: FontWeight.w400,
+                                    // ),
                                     StreamBuilder<DocumentSnapshot>(
                                       stream: FirebaseFirestore.instance
                                           .collection('products')

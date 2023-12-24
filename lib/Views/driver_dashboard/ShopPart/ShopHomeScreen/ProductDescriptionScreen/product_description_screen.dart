@@ -170,7 +170,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
               height: 25.h,
             ),
             CustomText(
-              title: "Honda Civic Rebirth Genuine Alloy Wheels",
+              title: widget.snap['title'],
               fontSize: 16.sp,
               fontWeight: FontWeight.w400,
               color: AppColors.blackColor,
@@ -279,7 +279,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
               height: 10.h,
             ),
             CustomText(
-              title: "\$${1000}",
+              title: "\$${widget.snap['price']}",
               fontSize: 16.sp,
               fontWeight: FontWeight.w400,
               color: AppColors.textColorB,
@@ -310,8 +310,7 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
               height: 8.h,
             ),
             CustomText(
-              title:
-                  "Honda Civic Rebirth Genuine Alloy Wheels are made from an\naluminum or magnesium. Combinations are blends of a\nmetaland other components.",
+              title: widget.snap['desc'],
               fontWeight: FontWeight.w400,
               fontSize: 10.sp,
               color: AppColors.blackColor.withOpacity(.70),
@@ -376,36 +375,36 @@ class _ProductDescriptionScreenState extends State<ProductDescriptionScreen> {
             // SizedBox(
             //   height: 35.h,
             // ),
-            Row(
-              children: [
-                CustomText(
-                  title: "Weight :",
-                  fontWeight: FontWeight.w600,
-                  fontSize: 10.sp,
-                  color: AppColors.secondGTextColor,
-                ),
-                SizedBox(
-                  width: 8.w,
-                ),
-                Container(
-                  height: 21.h,
-                  width: 21.w,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: AppColors.greySeTextColor)
-                      // color: AppColors.blackColor,
-                      ),
-                  child: Center(
-                    child: CustomText(
-                      title: "KG",
-                      fontWeight: FontWeight.w600,
-                      fontSize: 10.sp,
-                      color: AppColors.secondGTextColor,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     CustomText(
+            //       title: "Weight :",
+            //       fontWeight: FontWeight.w600,
+            //       fontSize: 10.sp,
+            //       color: AppColors.secondGTextColor,
+            //     ),
+            //     SizedBox(
+            //       width: 8.w,
+            //     ),
+            //     Container(
+            //       height: 21.h,
+            //       width: 21.w,
+            //       decoration: BoxDecoration(
+            //           borderRadius: BorderRadius.circular(4),
+            //           border: Border.all(color: AppColors.greySeTextColor)
+            //           // color: AppColors.blackColor,
+            //           ),
+            //       child: Center(
+            //         child: CustomText(
+            //           title: "KG",
+            //           fontWeight: FontWeight.w600,
+            //           fontSize: 10.sp,
+            //           color: AppColors.secondGTextColor,
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             SizedBox(
               height: 10.h,
             ),
