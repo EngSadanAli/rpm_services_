@@ -20,8 +20,8 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
   int Index = 0;
   List<Widget> widgetList = [
     HomeServicesRequest(),
-    MyWishlistScreen(),
-    EngineServiceScreen(),
+    MyWishlistScreen(showBackButton: false),
+    EngineServiceScreen(showBackButton: false),
     // AddToCartScreen(),
     CartScreen(showBackButton: false),
     SettingScreen(),

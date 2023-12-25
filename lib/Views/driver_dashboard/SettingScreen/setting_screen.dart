@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/Auth/LogInScreen/login_screen.dart';
+import 'package:rpm/Views/profile/profile_detail_screen.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/Views/profile/profile_screen.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
@@ -43,7 +44,8 @@ class SettingScreen extends StatelessWidget {
           children: [
             SettingContainerWidget(
               onTap: () {
-                Get.to(ProfileScreen(showBackButton: true));
+                // Get.to(ProfileScreen(showBackButton: true));
+                Get.to(ProfileDetails(showBackButton: true));
               },
               title: "Account",
               icon: const Icon(Icons.person_outline),
@@ -77,6 +79,7 @@ class SettingScreen extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog.adaptive(
+                      backgroundColor: AppColors.textFieldBorderColor,
                       title: Text('Logout'),
                       content: Text('Are you sure you want to logout?'),
                       actions: <Widget>[
@@ -98,13 +101,15 @@ class SettingScreen extends StatelessWidget {
                                   (route) => false);
                             });
                           },
-                          child: Text('OK'),
+                          child: Text('OK',
+                              style: Theme.of(context).textTheme.titleSmall!),
                         ),
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pop(); // Close the dialog
                           },
-                          child: Text('Cancel'),
+                          child: Text('Cancel',
+                              style: Theme.of(context).textTheme.titleSmall!),
                         ),
                       ],
                     );

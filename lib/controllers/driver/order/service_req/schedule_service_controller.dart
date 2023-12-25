@@ -35,7 +35,7 @@ class ScheduleServiceController with ChangeNotifier {
   }
 
   // sign up func
-  void scheduleService(
+  Future<void> scheduleService(
     BuildContext context,
     String vin,
     String currentMileage,
@@ -43,6 +43,7 @@ class ScheduleServiceController with ChangeNotifier {
     String complaint,
     String selectedDate,
     String selectedTime,
+    String Additionalcomplaint,
   ) async {
     setLoading(true);
     try {
@@ -67,12 +68,18 @@ class ScheduleServiceController with ChangeNotifier {
           'type': 'normal',
           'assignedBy': '',
           'assignedTo': '',
+          'approved': false,
           'technicianNotes': '',
           'managerNotes': '',
+          'additionalComplaint': Additionalcomplaint,
         };
         // saving user data in database
         ScheduleServiceRepository().scheduleService(docId, data);
-      }).then((value) => Get.to(AllSuccessScreen()));
+      }).then((value) {
+        Get.to(AllSuccessScreen());
+        _imageFile == null;
+        notifyListeners();
+      });
     } catch (e) {
       log(e.toString());
       setLoading(false);

@@ -9,6 +9,7 @@ import 'package:rpm/Views/driver_dashboard/ScheduleServiceScreen/widget/schedule
 import 'package:rpm/config/app_config.dart';
 import 'package:rpm/controllers/driver/order/service_req/schedule_service_controller.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
+import 'package:rpm/utils/utils.dart';
 import '../widgets/custom_textField.dart';
 import '../ShopPart/Auth/Components/big_text.dart';
 import '../../../utils/app_colors.dart';
@@ -29,6 +30,8 @@ class _ScheduleServiceScreenState extends State<ScheduleServiceScreen> {
   final passwordFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
   final nameFocusNode = FocusNode();
+  final AdditionalconplaintController = TextEditingController();
+  final additionalconplaintFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -340,6 +343,7 @@ class _ScheduleServiceScreenState extends State<ScheduleServiceScreen> {
                         SizedBox(
                           height: 16.h,
                         ),
+
                         // GestureDetector(
                         //   onTap: () {},
                         //   child: Container(
@@ -365,20 +369,59 @@ class _ScheduleServiceScreenState extends State<ScheduleServiceScreen> {
                         //     ),
                         //   ),
                         // ),
-                        // SizedBox(
-                        //   height: 15.h,
-                        // ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        CustomTextField(
+                          readOnly: false,
+                          controller: AdditionalconplaintController,
+                          focusNode: additionalconplaintFocusNode,
+                          onFieldSubmittedValue: (newValue) {},
+                          keyBoardType: TextInputType.text,
+                          obscureText: false,
+                          hint: 'Additional Complaint',
+                          onChange: (value) {},
+                          // validator: (value) {
+                          //   if (value == null || value.isEmpty) {
+                          //     return 'Please enter Additional Complaint';
+                          //   }
+                          //   return null;
+                          // },
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
                         GestureDetector(
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
-                              Get.to(SelectDateAndTime(
-                                  title: 'Date Time',
-                                  vin: vinController.text.trim(),
-                                  currentMileage:
-                                      currentMileageController.text.trim(),
-                                  engineHours:
-                                      engineHoursController.text.trim(),
-                                  complaint: conplaintController.text.trim()));
+                              if (value.imageFile != null) {
+                                Get.to(
+                                  SelectDateAndTime(
+                                      title: 'Date Time',
+                                      vin: vinController.text.trim(),
+                                      currentMileage:
+                                          currentMileageController.text.trim(),
+                                      engineHours:
+                                          engineHoursController.text.trim(),
+                                      complaint:
+                                          conplaintController.text.trim(),
+                                      additionalcomplaint:
+                                          AdditionalconplaintController.text
+                                              .trim()),
+                                )!
+                                    .then((value) {
+                                  vinController.clear();
+                                  currentMileageController.clear();
+                                  engineHoursController.clear();
+                                  conplaintController.clear();
+                                  AdditionalconplaintController.clear();
+                                });
+                              } else {
+                                Utils.flushBarErrorMessage(
+                                    'Please Attached a image',
+                                    BuildContext,
+                                    context);
+                              }
                             }
                           },
                           child: Container(

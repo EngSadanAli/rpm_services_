@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
 import 'package:rpm/Views/manager_dashboard.dart/home/requests_list/request_list.dart';
+import 'package:rpm/Views/profile/profile_detail_screen.dart';
 import 'package:rpm/Views/profile/profile_screen.dart';
 import 'package:rpm/Views/technician_dashboard.dart/home/appointments_list/appoinments_list_screen.dart';
 import 'package:rpm/Views/technician_dashboard.dart/home/products/procuts_screen.dart';
@@ -62,7 +63,9 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen>
         ),
       )),
       // const TechnicianProfileScreen(),
-      ProfileScreen(showBackButton: false),
+      // ProfileScreen(showBackButton: false),
+      ProfileDetails(showBackButton: false),
+
       // const Scaffold(),
       // const Scaffold(),
       // const Scaffold(),

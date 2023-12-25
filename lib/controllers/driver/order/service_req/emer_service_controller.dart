@@ -41,6 +41,7 @@ class EmergencyServiceController with ChangeNotifier {
     String currentMileage,
     String engineHours,
     String complaint,
+    String additionalComplaint,
   ) async {
     setLoading(true);
     try {
@@ -60,18 +61,20 @@ class EmergencyServiceController with ChangeNotifier {
           'phone': SessionController().phone,
           'image': newUrl,
           'status': 'pending',
+          'approved': false,
           'type': 'emg',
           'assignedBy': '',
           'assignedTo': '',
           'technicianNotes': '',
           'managerNotes': '',
+          'additionalComplaint': additionalComplaint,
         };
         // saving user data in database
         ScheduleServiceRepository().scheduleService(docId, data);
       }).then((value) {
         Get.to(AllSuccessScreen());
         _imageFile = null;
-      setLoading(false);
+        setLoading(false);
         notifyListeners();
       });
     } catch (e) {

@@ -82,7 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(height: 28.9),
                             Container(
                               padding: EdgeInsets.all(20),
-                              width: 358,
+                              width: double.infinity,
                               height: 235.83,
                               decoration: ShapeDecoration(
                                 color: Color(0xFF0061BF),

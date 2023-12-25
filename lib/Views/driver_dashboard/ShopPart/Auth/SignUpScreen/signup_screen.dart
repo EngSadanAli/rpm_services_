@@ -207,7 +207,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   focusNode: conPasswordFocusNode,
                   onFieldSubmittedValue: (newValue) {},
                   keyBoardType: TextInputType.visiblePassword,
-                  obscureText: false,
+                  obscureText: true,
+                  maxLines: 1,
                   prefixIcon: Icon(Icons.lock_open_rounded,
                       color: AppColors.textFieldBorderColor),
                   hint: 'Confirm Password',
@@ -455,7 +456,7 @@ class ProfilePickImageDailog extends StatelessWidget {
           builder: (context, value, child) => Column(
             children: [
               ListTile(
-                tileColor: AppColors.hintText,
+                tileColor: AppColors.textFieldBorderColor,
                 onTap: () {
                   value.pickImage(context, ImageSource.camera);
                   Navigator.pop(context);
@@ -467,7 +468,7 @@ class ProfilePickImageDailog extends StatelessWidget {
                 title: const Text('Camera'),
               ),
               ListTile(
-                tileColor: AppColors.hintText,
+                tileColor: AppColors.textFieldBorderColor,
                 onTap: () {
                   value.pickImage(context, ImageSource.gallery);
                   Navigator.pop(context);
@@ -603,7 +604,8 @@ class ImagePickerWidget extends StatelessWidget {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return const AlertDialog(
+                            return AlertDialog(
+                                backgroundColor: AppColors.textFieldBorderColor,
                                 content: ProfilePickImageDailog());
                           });
                     },

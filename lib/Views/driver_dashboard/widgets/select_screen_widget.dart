@@ -14,7 +14,7 @@ class SelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.blue),
+      // appBar: AppBar(backgroundColor: Colors.blue),
       body: Center(
         child: Container(
           width: 333,
@@ -104,85 +104,99 @@ class SelectionTwoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Container(
-          width: 333,
-          height: 357,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(17),
-              color: AppColors.textFieldBorderColor),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 43.h,
-              ),
-              CustomText(
-                title: "Welcome ${SessionController().name.toString()}",
-                color: AppColors.whiteColor,
-                fontWeight: FontWeight.w400,
-                fontSize: 13.85.sp,
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              CustomText(
-                title: "What would  you Like To",
-                color: AppColors.whiteColor.withOpacity(0.90),
-                fontWeight: FontWeight.w400,
-                fontSize: 10.56.sp,
-              ),
-              SizedBox(
-                height: 50.h,
-              ),
-              InkWell(
-                onTap: () {
-                  Get.to(EngineServiceScreen());
-                },
-                child: Container(
-                  width: 289.w,
-                  height: 52.w,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(17.r),
-                      color: AppColors.redTextColor),
-                  child: Center(
-                    child: CustomText(
-                      title: "Emergency Service",
-                      color: AppColors.whiteColor,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15.85.sp,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+            leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+        )),
+        body: Center(
+          child: Container(
+            width: 333,
+            height: 357,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(17),
+                color: AppColors.textFieldBorderColor),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 43.h,
+                ),
+                CustomText(
+                  title: "Welcome ${SessionController().name.toString()}",
+                  color: AppColors.whiteColor,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 13.85.sp,
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                CustomText(
+                  title: "What would  you Like To",
+                  color: AppColors.whiteColor.withOpacity(0.90),
+                  fontWeight: FontWeight.w400,
+                  fontSize: 10.56.sp,
+                ),
+                SizedBox(
+                  height: 50.h,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.to(EngineServiceScreen(
+                      showBackButton: true,
+                    ));
+                  },
+                  child: Container(
+                    width: 289.w,
+                    height: 52.w,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(17.r),
+                        color: AppColors.redTextColor),
+                    child: Center(
+                      child: CustomText(
+                        title: "Emergency Service",
+                        color: AppColors.whiteColor,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15.85.sp,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 35.h,
-              ),
-              InkWell(
-                onTap: () {
-                  Get.to(ScheduleServiceScreen());
-                },
-                child: Container(
-                  width: 289.w,
-                  height: 52.h,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(17.r),
-                      color: Colors.white),
-                  child: Center(
-                    child: CustomText(
-                      title: "Schedule Service",
-                      color: AppColors.blackColor,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15.85.sp,
+                SizedBox(
+                  height: 20.h,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.to(ScheduleServiceScreen());
+                  },
+                  child: Container(
+                    width: 289.w,
+                    height: 52.h,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(17.r),
+                        color: Colors.white),
+                    child: Center(
+                      child: CustomText(
+                        title: "Schedule Service",
+                        color: AppColors.blackColor,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15.85.sp,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-            ],
+                SizedBox(
+                  height: 10.h,
+                ),
+              ],
+            ),
           ),
         ),
       ),

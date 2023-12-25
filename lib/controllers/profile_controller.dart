@@ -99,6 +99,7 @@ class ProfileController with ChangeNotifier {
         context: context,
         builder: (context) {
           return AlertDialog(
+            backgroundColor: AppColors.textFieldBorderColor,
             title: Center(
                 child: Text(
               'Update Info',
@@ -125,13 +126,10 @@ class ProfileController with ChangeNotifier {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text(
-                    'Cancel',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(color: AppColors.redTextColor),
-                  )),
+                  child: Text('Cancel',
+                      style: Theme.of(context).textTheme.titleSmall!
+                      // .copyWith(color: AppColors.redTextColor),
+                      )),
               TextButton(
                   onPressed: () {
                     _repository
@@ -149,10 +147,8 @@ class ProfileController with ChangeNotifier {
                     });
                     Navigator.pop(context);
                   },
-                  child: Text(
-                    'Ok',
-                    // style: Theme.of(context).textTheme.titleSmall,
-                  ))
+                  child: Text('Ok',
+                      style: Theme.of(context).textTheme.titleSmall!))
             ],
           );
         });

@@ -9,6 +9,7 @@ import 'package:rpm/Views/driver_dashboard/SettingScreen/NotificationScreen/noti
 import 'package:rpm/Views/driver_dashboard/ShopPart/Auth/LogInScreen/login_screen.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/ShopHomeScreen/HelpScreen.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/ShopHomeScreen/ProductDescriptionScreen/product_description_screen.dart';
+import 'package:rpm/Views/profile/profile_detail_screen.dart';
 import 'package:rpm/utils/app_images.dart';
 import 'package:rpm/Views/profile/profile_screen.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
@@ -93,7 +94,7 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                     ),
                     onTap: () {
                       // Add your onTap logic for item 1
-                      Get.to(ProfileScreen(showBackButton: true));
+                      Get.to(ProfileDetails(showBackButton: true));
                     },
                   ),
                   Divider(
@@ -152,7 +153,9 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                     ),
                     onTap: () {
                       // Add your onTap logic for item 1
-                      Get.to(MyWishlistScreen());
+                      Get.to(MyWishlistScreen(
+                        showBackButton: true,
+                      ));
                     },
                   ),
                   Divider(
@@ -202,6 +205,7 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog.adaptive(
+                              backgroundColor: AppColors.textFieldBorderColor,
                               title: Text('Logout'),
                               content: Text('Are you sure you want to logout?'),
                               actions: <Widget>[
@@ -225,14 +229,20 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                                           (route) => false);
                                     });
                                   },
-                                  child: Text('OK'),
+                                  child: Text('OK',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!),
                                 ),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context)
                                         .pop(); // Close the dialog
                                   },
-                                  child: Text('Cancel'),
+                                  child: Text('Cancel',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!),
                                 ),
                               ],
                             );
@@ -528,7 +538,7 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                                     //   fontSize: 10.sp,
                                     //   fontWeight: FontWeight.w400,
                                     // ),
-                                Spacer(),
+                                    Spacer(),
                                     StreamBuilder<DocumentSnapshot>(
                                       stream: FirebaseFirestore.instance
                                           .collection('products')

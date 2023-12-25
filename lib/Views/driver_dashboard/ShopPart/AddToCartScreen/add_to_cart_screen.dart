@@ -938,20 +938,21 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text('Cart'),
-          leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: widget.showBackButton
-                ? Icon(
+          leading: widget.showBackButton
+              ? IconButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  icon: Icon(
                     Icons.arrow_back,
                     color: Colors.black,
-                  )
-                : SizedBox.shrink(),
-          ),
+                  ))
+              : SizedBox.shrink(),
         ),
         body: StreamBuilder(
           stream: FirebaseFirestore.instance

@@ -69,7 +69,9 @@ class ProfilePictureWidget extends StatelessWidget {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return const AlertDialog(
+                                          return AlertDialog(
+                                              backgroundColor: AppColors
+                                                  .textFieldBorderColor,
                                               content: PickImageDailog());
                                         });
                                   },
@@ -92,7 +94,9 @@ class PickImageDailog extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            tileColor: AppColors.hintText,
+            tileColor: AppColors.textFieldBorderColor,
+
+            // : AppColors.hintText,
             onTap: () {
               ProfileController().pickImage(context, ImageSource.camera);
               Navigator.pop(context);
@@ -104,7 +108,8 @@ class PickImageDailog extends StatelessWidget {
             title: const Text('Camera'),
           ),
           ListTile(
-            tileColor: AppColors.hintText,
+            tileColor: AppColors.textFieldBorderColor,
+            // tileColor: AppColors.hintText,
             onTap: () {
               ProfileController().pickImage(context, ImageSource.gallery);
               Navigator.pop(context);

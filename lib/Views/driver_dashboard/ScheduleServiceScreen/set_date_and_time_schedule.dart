@@ -11,20 +11,24 @@ import 'package:rpm/Views/driver_dashboard/ShopPart/Auth/Components/big_text.dar
 import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/controllers/driver/order/service_req/schedule_service_controller.dart';
+import 'package:rpm/utils/utils.dart';
+import 'package:intl/intl.dart';
 
 class SelectDateAndTime extends StatefulWidget {
   final String vin;
   final String currentMileage;
   final String engineHours;
-  final String complaint;
-  SelectDateAndTime(
-      {Key? key,
-      required this.title,
-      required this.vin,
-      required this.currentMileage,
-      required this.engineHours,
-      required this.complaint})
-      : super(key: key);
+  final String complaint; //
+  final String additionalcomplaint; //additionalcomplaint
+  SelectDateAndTime({
+    Key? key,
+    required this.title,
+    required this.vin,
+    required this.currentMileage,
+    required this.engineHours,
+    required this.complaint,
+    required this.additionalcomplaint,
+  }) : super(key: key);
 
   final String title;
 
@@ -33,9 +37,15 @@ class SelectDateAndTime extends StatefulWidget {
 }
 
 class _SelectDateAndTimeState extends State<SelectDateAndTime> {
+  final meetingTimeController = TextEditingController();
   DateTime _currentDate = DateTime.now();
+  final meetingTimeFocusNode = FocusNode();
   Duration initialTimer = const Duration();
-  var time;
+  // var time;
+
+  TimeOfDay timeOfDay =
+      TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
+
 //  List<DateTime> _markedDate = [DateTime(2018, 9, 20), DateTime(2018, 10, 11)];
   static Widget _eventIcon = new Container(
     decoration: BoxDecoration(
@@ -48,21 +58,21 @@ class _SelectDateAndTimeState extends State<SelectDateAndTime> {
     ),
   );
 
-  Widget timerPicker() {
-    return CupertinoTimerPicker(
-      mode: CupertinoTimerPickerMode.hm,
-      minuteInterval: 1,
-      secondInterval: 1,
-      initialTimerDuration: initialTimer,
-      onTimerDurationChanged: (Duration changeTimer) {
-        setState(() {
-          initialTimer = changeTimer;
-          time =
-              '${changeTimer.inHours} hrs ${changeTimer.inMinutes % 60} mins ${changeTimer.inSeconds % 60} secs';
-        });
-      },
-    );
-  }
+  // Widget timerPicker() {
+  //   return CupertinoTimerPicker(
+  //     mode: CupertinoTimerPickerMode.hm,
+  //     minuteInterval: 1,
+  //     secondInterval: 1,
+  //     initialTimerDuration: initialTimer,
+  //     onTimerDurationChanged: (Duration changeTimer) {
+  //       setState(() {
+  //         initialTimer = changeTimer;
+  //         time =
+  //             '${changeTimer.inHours} hrs ${changeTimer.inMinutes % 60} mins ${changeTimer.inSeconds % 60} secs';
+  //       });
+  //     },
+  //   );
+  // }
 
   Widget _buildContainer(Widget picker) {
     return Container(
@@ -187,38 +197,157 @@ class _SelectDateAndTimeState extends State<SelectDateAndTime> {
                 /// null for not rendering any border, true for circular border, false for rectangular border
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    showCupertinoModalPopup<void>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return _buildContainer(timerPicker());
-                        });
-                  },
-                  child: CustomText(
-                    title: "Select Time",
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textFieldBorderColor,
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(top: 8, bottom: 8),
-                  child: Text(
-                    time == null ? 'No Select Time' : ' $time',
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     InkWell(
+            //       onTap: () {
+            //         showCupertinoModalPopup<void>(
+            //             context: context,
+            //             builder: (BuildContext context) {
+            //               return _buildContainer(timerPicker());
+            //             });
+            //       },
+            //       child: CustomText(
+            //         title: "Select Time",
+            //         fontSize: 18.sp,
+            //         fontWeight: FontWeight.bold,
+            //         color: AppColors.textFieldBorderColor,
+            //       ),
+            //     ),
+            //     Container(
+            //       padding: const EdgeInsets.only(top: 8, bottom: 8),
+            //       child: Text(
+            //         time == null ? 'No Select Time' : ' $time',
+            //         style: const TextStyle(
+            //             color: Colors.black,
+            //             fontSize: 16,
+            //             fontWeight: FontWeight.bold),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             SizedBox(
               height: 20.h,
+            ),
+            InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        height: 400,
+                        width: double.infinity,
+                        color: Colors.transparent,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CupertinoButton(
+                                    child: Text('Cancel',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline4!
+                                        // .copyWith(
+                                        //     fontSize: 20,
+                                        //     color: AppColors.alertColor)
+                                        ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  CupertinoButton(
+                                    child: Text('OK',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline4!
+                                            .copyWith(
+                                                fontSize: 20,
+                                                color: AppColors.blackColor)),
+                                    onPressed: () {
+                                      if (meetingTimeController.text.isEmpty) {
+                                        timeOfDay = TimeOfDay(
+                                            hour: DateTime.now().hour,
+                                            minute: DateTime.now().minute);
+                                        meetingTimeController.text =
+                                            ourFormatTime(timeOfDay);
+                                      }
+                                      setState(() {});
+
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 300,
+                              child: CupertinoDatePicker(
+                                mode: CupertinoDatePickerMode.time,
+                                initialDateTime: DateTime(
+                                    DateTime.now().year,
+                                    DateTime.now().month,
+                                    DateTime.now().day,
+                                    timeOfDay.hour,
+                                    timeOfDay.minute),
+                                onDateTimeChanged: (DateTime newDateTime) {
+                                  print(newDateTime);
+                                  timeOfDay = TimeOfDay(
+                                      hour: newDateTime.hour,
+                                      minute: newDateTime.minute);
+
+                                  meetingTimeController.text =
+                                      ourFormatTime(timeOfDay);
+                                  print(newDateTime);
+                                },
+                                use24hFormat: false,
+                                minuteInterval: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    });
+              },
+              child: Container(
+                height: 50,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Center(
+                  child: Text(
+                    meetingTimeController.text == ''
+                        ? 'Select Time'
+                        : meetingTimeController.text,
+                    style: TextStyle(color: Colors.black, fontSize: 20),
+                  ),
+                ),
+              ),
+              //  AddPostTextFields(
+              //     myController: meetingTimeController,
+              //     focusNode: meetingTimeFocusNode,
+              //     enable: false,
+              //     onFiledSubmittedValue: (value) {
+              //       // Utils.fieldFocusChange(
+              //       //     context, meetingTimeFocusNode, meetingEndTimeFocusNode);
+              //     },
+              //     showSuffix: true,
+              //     suffixIcon: Icons.timer_outlined,
+              //     keyBoardType: TextInputType.text,
+              //     hint: '12/12/2022',
+              //     labelText: 'Meeting Start Time',
+              //     onValidator: (value) {
+              //       if (value.isEmpty) {
+              //         return "Enter Meeting Start Time";
+              //       }
+              //       return null;
+              //     }),
             ),
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -263,15 +392,26 @@ class _SelectDateAndTimeState extends State<SelectDateAndTime> {
                       loading: value.loading,
                       title: 'Done',
                       onPress: () {
-                        value.scheduleService(
-                          context,
-                          widget.vin,
-                          widget.currentMileage,
-                          widget.engineHours,
-                          widget.complaint,
-                          _currentDate.toString(),
-                          time,
-                        );
+                        if (meetingTimeController.text != '') {
+                          value
+                              .scheduleService(
+                            context,
+                            widget.vin,
+                            widget.currentMileage,
+                            widget.engineHours,
+                            widget.complaint,
+                            _currentDate.toString(),
+                            meetingTimeController.text,
+                            widget.additionalcomplaint,
+                            // time,
+                          )
+                              .then((value) {
+                            meetingTimeController.text == '';
+                          });
+                        } else {
+                          Utils.flushBarErrorMessage(
+                              'Please select time', BuildContext, context);
+                        }
                       },
                     ),
                   ),
@@ -322,37 +462,44 @@ class _SelectDateAndTimeState extends State<SelectDateAndTime> {
       ),
     );
   }
-}
 
-class SelectTimeWidget extends StatelessWidget {
-  String title;
-  SelectTimeWidget({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 29.h,
-      width: 100.w,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: AppColors.whiteColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.25), // Shadow color
-            spreadRadius: 0,
-            blurRadius: 4,
-            offset: Offset(1, 1), // Offset in x and y direction
-          ),
-        ],
-      ),
-      child: Center(
-        child: CustomText(
-          title: title,
-          fontSize: 18.sp,
-          fontWeight: FontWeight.bold,
-          color: AppColors.textFieldBorderColor,
-        ),
-      ),
-    );
+  String ourFormatTime(TimeOfDay time) {
+    var df = DateFormat("h:mm a");
+    var dt = df.parse(time!.format(context));
+    var finalTime = DateFormat.jm().format(dt);
+    return finalTime;
   }
 }
+
+// class SelectTimeWidget extends StatelessWidget {
+//   String title;
+//   SelectTimeWidget({super.key, required this.title});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 29.h,
+//       width: 100.w,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(5),
+//         color: AppColors.whiteColor,
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.black.withOpacity(0.25), // Shadow color
+//             spreadRadius: 0,
+//             blurRadius: 4,
+//             offset: Offset(1, 1), // Offset in x and y direction
+//           ),
+//         ],
+//       ),
+//       child: Center(
+//         child: CustomText(
+//           title: title,
+//           fontSize: 18.sp,
+//           fontWeight: FontWeight.bold,
+//           color: AppColors.textFieldBorderColor,
+//         ),
+//       ),
+//     );
+//   }
+// }
