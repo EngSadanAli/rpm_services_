@@ -79,7 +79,13 @@ class MyWishlistScreen extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Text("Loading");
             }
-
+            if (snapshot.data!.docs.length == 0) {
+              return Center(
+                  child: Text(
+                'No Data',
+                style: TextStyle(color: AppColors.blackColor),
+              ));
+            }
             return Padding(
               padding: const EdgeInsets.only(top: 10),
               child: GridView.builder(

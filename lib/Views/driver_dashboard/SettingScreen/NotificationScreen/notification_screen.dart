@@ -73,8 +73,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: LoadingWidget());
           }
-          if (!snapshot.hasData) {
-            return Center(child: Text('No Data'));
+          if (snapshot.data!.docs.length == 0) {
+            return Center(
+                child: Text(
+              'No Data',
+              style: TextStyle(color: AppColors.blackColor),
+            ));
           }
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,

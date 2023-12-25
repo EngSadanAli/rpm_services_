@@ -38,9 +38,51 @@ class _AddressScreenState extends State<AddressScreen> {
   final phoneController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-
+  String selectedPaymentMethod =
+      ''; // Class-level variable to store the selection
   Map<String, dynamic>? paymentIntentData;
   bool _loading = false;
+  void _performPurchase() {
+    // Ensure _loading state starts
+    setState(() {
+      _loading = true;
+    });
+
+    // Perform the purchase action
+    // Example: Firestore update or network request
+    var docId = Uuid().v4();
+    FirebaseFirestore.instance.collection('orders').doc(docId).set({
+      'docId': docId,
+      'selectedPaymentMethod': selectedPaymentMethod,
+      'customerId': SessionController().userId,
+      'totalAmmount': widget.totalPrice,
+      'cartProductsIds': widget.cartProductsIds,
+      'name': nameController.text.trim(),
+      'email': emailController.text.trim(),
+      'city': cityController.text.trim(),
+      'postalCode': addressController.text.trim(),
+      'phone': phoneController.text.trim(),
+    }).then((value) {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(SessionController().userId)
+          .update({'cart': []});
+      nameController.clear();
+      emailController.clear();
+      cityController.clear();
+      addressController.clear();
+      phoneController.clear();
+      setState(() => _loading = false);
+      navigator!.pop(context);
+      setState(() => _loading = false); // Stop the loading indicator
+      // navigator!.pop(context);
+      Utils.toastMessage('You Have Bought this item');
+    });
+    // After the action completes, stop the loading state
+    setState(() {
+      _loading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -322,36 +364,104 @@ class _AddressScreenState extends State<AddressScreen> {
                               // makePayment('newBooking', context);
                               if (_formKey.currentState!.validate()) {
                                 setState(() => _loading = true);
-                                var docId = Uuid().v4();
-                                FirebaseFirestore.instance
-                                    .collection('orders')
-                                    .doc(docId)
-                                    .set({
-                                  'docId': docId,
-                                  'customerId': SessionController().userId,
-                                  'totalAmmount': widget.totalPrice,
-                                  'cartProductsIds': widget.cartProductsIds,
-                                  'name': nameController.text.trim(),
-                                  'email': emailController.text.trim(),
-                                  'city': cityController.text.trim(),
-                                  'postalCode': addressController.text.trim(),
-                                  'phone': phoneController.text.trim(),
-                                }).then((value) {
-                                  FirebaseFirestore.instance
-                                      .collection('users')
-                                      .doc(SessionController().userId)
-                                      .update({'cart': []});
-                                  nameController.clear();
-                                  emailController.clear();
-                                  cityController.clear();
-                                  addressController.clear();
-                                  phoneController.clear();
-                                  setState(() => _loading = false);
-                                  navigator!.pop(context);
-                                  // navigator!.pop(context);
-                                  Utils.toastMessage(
-                                      'You Have Bought this item');
-                                });
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return StatefulBuilder(builder:
+                                        (BuildContext context,
+                                            StateSetter setState) {
+                                      return AlertDialog(
+                                        backgroundColor: Colors.white,
+                                        title: Text(
+                                          'Select Payment Method',
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  selectedPaymentMethod =
+                                                      'Credit Card';
+                                                });
+                                              },
+                                              child: ListTile(
+                                                tileColor:
+                                                    selectedPaymentMethod ==
+                                                            'Credit Card'
+                                                        ? Colors.blue
+                                                        : Colors.transparent,
+                                                title: Text(
+                                                  'Credit Card',
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  selectedPaymentMethod =
+                                                      'Cash on Delivery';
+                                                });
+                                              },
+                                              child: ListTile(
+                                                tileColor:
+                                                    selectedPaymentMethod ==
+                                                            'Cash on Delivery'
+                                                        ? Colors.blue
+                                                        : Colors.transparent,
+                                                title: Text(
+                                                  'Cash on Delivery',
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                _loading = false;
+                                              });
+                                              Navigator.of(context)
+                                                  .pop(); // Close the dialog on cancel
+                                            },
+                                            child: Text('Cancel'),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              // Proceed with the selected payment method
+                                              if (selectedPaymentMethod
+                                                  .isNotEmpty) {
+                                                // Perform actions based on the selected payment method
+                                                // For example, trigger the order placement
+
+                                                _performPurchase();
+
+                                                Navigator.of(context)
+                                                    .pop(); // Close the dialog
+                                              } else {
+                                                // Show a message that a payment method needs to be selected
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                        'Please select a payment method.'),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            child: Text('Proceed'),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                                  },
+                                );
                               }
                             },
                           ),

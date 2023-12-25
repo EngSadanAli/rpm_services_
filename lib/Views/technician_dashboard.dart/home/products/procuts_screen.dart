@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/AddToCartScreen/add_to_cart_screen.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/Auth/Components/big_text.dart';
@@ -23,27 +24,84 @@ class _ProductsScreenState extends State<ProductsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Products'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          'Products',
+          style: TextStyle(color: Colors.black),
+        ),
+        leading: IconButton(
+            onPressed: () {
+              // Get.to(AddToCartScreen());
+              Get.back();
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            )),
         actions: [
           IconButton(
               onPressed: () {
                 // Get.to(AddToCartScreen());
                 Get.to(CartScreen(showBackButton: true));
               },
-              icon: Icon(Icons.shopping_cart))
+              icon: Icon(
+                Icons.shopping_cart,
+                color: Colors.blue,
+              ))
         ],
       ),
       body: Column(
         children: [
-          TextFormField(
-            controller: searchController,
-            decoration: InputDecoration(
-              hintText: 'Search',
-              border: OutlineInputBorder(),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              height: 35.h,
+              child: TextField(
+                controller: searchController,
+                onChanged: (value) => setState(() {}),
+                textAlign: TextAlign.start, // Center the input text
+                style: TextStyle(
+                  color: AppColors.blackColor,
+                ),
+                decoration: InputDecoration(
+                  // suffixIcon: Icon(Icons.search,
+                  //     color: AppColors.textFieldTextColor),
+                  hintText: 'Search',
+                  hintStyle: TextStyle(
+                    color: AppColors.textFieldTextColor,
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.textFieldTextColor),
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.r),
+                    borderSide: BorderSide(color: AppColors.textFieldTextColor),
+                  ),
+                  disabledBorder: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 8.0.h, // Adjust this value for vertical centering
+                    horizontal: 10.w,
+                  ),
+                ),
+              ),
             ),
-            onChanged: (value) => setState(() {}),
-            style: TextStyle(color: Colors.blue), // Change input text color
           ),
+          // TextFormField(
+          //   controller: searchController,
+          //   decoration: InputDecoration(
+          //     hintText: 'Search',
+          //     border: OutlineInputBorder(),
+          //   ),
+          //   onChanged: (value) => setState(() {}),
+          //   style: TextStyle(color: Colors.blue), // Change input text color
+          // ),
           SizedBox(height: 10),
           StreamBuilder<QuerySnapshot>(
             stream:

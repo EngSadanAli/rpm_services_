@@ -278,8 +278,8 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                       color: AppColors.blackColor,
                     ),
                     decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.search,
-                          color: AppColors.textFieldTextColor),
+                      // suffixIcon: Icon(Icons.search,
+                      //     color: AppColors.textFieldTextColor),
                       hintText: 'Search',
                       hintStyle: TextStyle(
                         color: AppColors.textFieldTextColor,
@@ -300,7 +300,10 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                       ),
                       disabledBorder: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(
-                          vertical: 15.0.h, horizontal: 10.w),
+                        vertical:
+                            8.0.h, // Adjust this value for vertical centering
+                        horizontal: 10.w,
+                      ),
                     ),
                   ),
                 ),
