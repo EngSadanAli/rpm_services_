@@ -498,18 +498,16 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                             ),
                             child: Column(
                               children: [
-                                Image.asset(AppImages.pngWingImg),
-                                SizedBox(
-                                  height: 4.h,
-                                ),
+                                NetworkImageWidget(
+                                    height: 80,
+                                    width: 90,
+                                    imageUrl: snap['productImage'][0]),
+                                // Image.network(snap['productImage'][0]),
                                 CustomText(
                                   title: snap['title'],
                                   color: AppColors.blackColor,
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400,
-                                ),
-                                SizedBox(
-                                  height: 6.h,
                                 ),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
