@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:rpm/Views/driver_dashboard/PaymentSection/AddressScreem/widgets/textfield_widget.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/Auth/Components/big_text.dart';
+import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/controllers/driver/order/order_controller.dart';
 
@@ -15,15 +16,32 @@ import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/utils.dart';
 import 'package:uuid/uuid.dart';
 
-class AddressScreen extends StatelessWidget {
-  AddressScreen({super.key});
+class AddressScreen extends StatefulWidget {
+  final double totalPrice;
+  final List<String> cartProductsIds;
+  AddressScreen(
+      {super.key, required this.totalPrice, required this.cartProductsIds});
+
+  @override
+  State<AddressScreen> createState() => _AddressScreenState();
+}
+
+class _AddressScreenState extends State<AddressScreen> {
   final nameController = TextEditingController();
+
   final emailController = TextEditingController();
+
   final cityController = TextEditingController();
+
   final addressController = TextEditingController();
+
   final phoneController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
   Map<String, dynamic>? paymentIntentData;
+  bool _loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,8 +111,8 @@ class AddressScreen extends StatelessWidget {
                                 hint: 'Your Name',
                                 onChange: (value) {},
                                 validator: (value) {
-                                  if (!GetUtils.isEmail(value!)) {
-                                    return "Please enter Your Name";
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter a valid email";
                                   }
                                   return null;
                                 },
@@ -118,8 +136,8 @@ class AddressScreen extends StatelessWidget {
                                 hint: 'example@email.com',
                                 onChange: (value) {},
                                 validator: (value) {
-                                  if (!GetUtils.isEmail(value!)) {
-                                    return "Please enter Your Valid Email";
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter a valid email";
                                   }
                                   return null;
                                 },
@@ -154,7 +172,7 @@ class AddressScreen extends StatelessWidget {
                                           validator: (value) {
                                             if (value == null ||
                                                 value.isEmpty) {
-                                              return 'Please enter Your City';
+                                              return "Please enter a valid email";
                                             }
                                             return null;
                                           },
@@ -188,8 +206,9 @@ class AddressScreen extends StatelessWidget {
                                           hint: 'Your City',
                                           onChange: (value) {},
                                           validator: (value) {
-                                            if (!GetUtils.isEmail(value!)) {
-                                              return "Please enter Your Address";
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Please enter a valid email";
                                             }
                                             return null;
                                           },
@@ -218,8 +237,8 @@ class AddressScreen extends StatelessWidget {
                                 hint: 'Phone Number',
                                 onChange: (value) {},
                                 validator: (value) {
-                                  if (!GetUtils.isEmail(value!)) {
-                                    return "Please enter Your Phone Number";
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter a valid email";
                                   }
                                   return null;
                                 },
@@ -266,64 +285,77 @@ class AddressScreen extends StatelessWidget {
                         //   ),
                         // ),
                         Expanded(child: SizedBox()),
-                        GestureDetector(
-                          onTap: () {
-                            // _showReviewDialog(context);
-                            // log('make============');
-                            // makePayment('newBooking', context);
-                            if (_formKey.currentState!.validate()) {
-                              var docId = Uuid().v4();
-                              FirebaseFirestore.instance
-                                  .collection('orders')
-                                  .doc(docId)
-                                  .set({
-                                docId: docId,
-                                'name': nameController.text.trim(),
-                                'email': emailController.text.trim(),
-                                'city': cityController.text.trim(),
-                                'postalCode': addressController.text.trim(),
-                                'phone': phoneController.text.trim(),
-                              }).then((value) {
+                        // GestureDetector(
+                        //   child: Container(
+                        //     width: 143,
+                        //     height: 38,
+                        //     decoration: BoxDecoration(
+                        //         boxShadow: [
+                        //           BoxShadow(
+                        //             color: Colors.black
+                        //                 .withOpacity(0.25), // Shadow color
+                        //             spreadRadius: 2,
+                        //             blurRadius: 5,
+                        //             offset: Offset(
+                        //                 0, 3), // Offset in x and y direction
+                        //           ),
+                        //         ],
+                        //         borderRadius: BorderRadius.circular(10),
+                        //         color: Color(0xff0061BF)),
+                        //     child: Center(
+                        //       child: Text('Proceed to Checkout',
+                        //           style: TextStyle(
+                        //               fontSize: 11.sp,
+                        //               fontWeight: FontWeight.w400,
+                        //               color: Colors.white)),
+                        //     ),
+                        //   ),
+                        // ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.height / 5,
+                          child: RoundButton(
+                            loading: _loading,
+                            title: 'Proceed to Checkout',
+                            onPress: () {
+                              // _showReviewDialog(context);
+                              // log('make============');
+                              // makePayment('newBooking', context);
+                              if (_formKey.currentState!.validate()) {
+                                setState(() => _loading = true);
+                                var docId = Uuid().v4();
                                 FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(SessionController().userId)
-                                    .update({'cart': []});
-                                nameController.clear();
-                                emailController.clear();
-                                cityController.clear();
-                                addressController.clear();
-                                phoneController.clear();
-                                navigator!.pop(context);
-                                // navigator!.pop(context);
-                                Utils.toastMessage('You Have Bought this item');
-                              });
-                            }
-                          },
-                          child: Container(
-                            width: 143,
-                            height: 38,
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black
-                                        .withOpacity(0.25), // Shadow color
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                    offset: Offset(
-                                        0, 3), // Offset in x and y direction
-                                  ),
-                                ],
-                                borderRadius: BorderRadius.circular(10),
-                                color: Color(0xff0061BF)),
-                            child: Center(
-                              child: Text('Proceed to Checkout',
-                                  style: TextStyle(
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.white)),
-                            ),
+                                    .collection('orders')
+                                    .doc(docId)
+                                    .set({
+                                  'docId': docId,
+                                  'customerId': SessionController().userId,
+                                  'totalAmmount': widget.totalPrice,
+                                  'cartProductsIds': widget.cartProductsIds,
+                                  'name': nameController.text.trim(),
+                                  'email': emailController.text.trim(),
+                                  'city': cityController.text.trim(),
+                                  'postalCode': addressController.text.trim(),
+                                  'phone': phoneController.text.trim(),
+                                }).then((value) {
+                                  FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(SessionController().userId)
+                                      .update({'cart': []});
+                                  nameController.clear();
+                                  emailController.clear();
+                                  cityController.clear();
+                                  addressController.clear();
+                                  phoneController.clear();
+                                  setState(() => _loading = false);
+                                  navigator!.pop(context);
+                                  // navigator!.pop(context);
+                                  Utils.toastMessage(
+                                      'You Have Bought this item');
+                                });
+                              }
+                            },
                           ),
-                        ),
+                        )
                       ],
                     )
                   ],

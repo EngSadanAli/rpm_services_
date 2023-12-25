@@ -1,9 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 import 'dart:io';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -56,6 +55,7 @@ class LoginController with ChangeNotifier {
         .get()
         .then((DocumentSnapshot documentSnapshot) async {
       if (documentSnapshot.exists) {
+        final prefs = await SharedPreferences.getInstance();
         SessionController().name = documentSnapshot.get('userName');
         SessionController().email = documentSnapshot.get('email');
         SessionController().profilePic = documentSnapshot.get('profileImage');
@@ -63,6 +63,7 @@ class LoginController with ChangeNotifier {
         SessionController().role = documentSnapshot.get('role');
         SessionController().userId = documentSnapshot.get('uid');
         if (documentSnapshot.get('role') == 'Driver') {
+          await prefs.setString('role', 'Driver');
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => SelectionScreen()),
@@ -70,6 +71,7 @@ class LoginController with ChangeNotifier {
           Utils.flushBarDoneMessage("login successfully", context);
         }
         if (documentSnapshot.get('role') == 'Manager') {
+          await prefs.setString('role', 'Manager');
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => ManagerDashboardScreen()),
@@ -77,6 +79,7 @@ class LoginController with ChangeNotifier {
           Utils.flushBarDoneMessage("login successfully", context);
         }
         if (documentSnapshot.get('role') == 'Mechanic') {
+          await prefs.setString('role', 'Mechanic');
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(

@@ -730,10 +730,13 @@
 //     );
 //   }
 // }
+import 'dart:developer';
+
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rpm/Views/driver_dashboard/PaymentSection/AddressScreem/home_address_screem.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/network_image_widget.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 
@@ -934,6 +937,7 @@ class _CartScreenState extends State<CartScreen> {
   double totalPrice = 0.0;
   double tax = 0.0;
   List<double> prices = [];
+  List<String> cartProductsIds = [];
 
   @override
   Widget build(BuildContext context) {
@@ -997,11 +1001,14 @@ class _CartScreenState extends State<CartScreen> {
 
                           var productData = productSnapshot.data!.data()!
                               as Map<String, dynamic>;
-
+                          log(productData.toString());
                           var prodPrice =
                               double.parse(productData['price'] as String);
+                          var prodIds = productData['docId'];
                           prices.clear();
                           prices.add(prodPrice);
+                          cartProductsIds.clear();
+                          cartProductsIds.add(prodIds);
 
                           return Slidable(
                             // Specify a key if the Slidable is dismissible.
@@ -1023,16 +1030,7 @@ class _CartScreenState extends State<CartScreen> {
                                     });
                                     // setState(() {});
                                     didChangeDependencies();
-                                  }
-                                  // FirebaseFirestore
-                                  //     .instance
-                                  //     .collection('rooms')
-                                  //     .doc(roomId)
-                                  //     .update({
-                                  //   'members':
-                                  //       FieldValue.arrayRemove([memberUid])
-                                  // }),
-                                  ,
+                                  },
                                   backgroundColor: Colors.grey,
                                   foregroundColor: Colors.white,
                                   icon: Icons.group_remove_sharp,
@@ -1082,6 +1080,10 @@ class _CartScreenState extends State<CartScreen> {
                       ElevatedButton(
                         onPressed: () {
                           // Implement checkout logic here
+                          Get.to(AddressScreen(
+                            totalPrice: totalPrice,
+                            cartProductsIds: cartProductsIds,
+                          ));
                         },
                         child: Text('Checkout'),
                       ),
