@@ -69,7 +69,16 @@ class _RequestListScreenState extends State<RequestListScreen> {
                     // }).toList();
 
                     if (snapshot.data!.docs.isEmpty) {
-                      return Text('No matching products found');
+                      return Text(
+                        'No matching service found',
+                        style: TextStyle(color: Colors.black),
+                      );
+                    }
+                    if (snapshot.data!.docs.length == 0) {
+                      return Text(
+                        'No matching service found',
+                        style: TextStyle(color: Colors.black),
+                      );
                     }
                     return Expanded(
                       child: ListView.builder(
@@ -77,50 +86,88 @@ class _RequestListScreenState extends State<RequestListScreen> {
                         //  filteredProducts.length,
                         itemBuilder: (context, index) {
                           var snap = snapshot.data!.docs[index];
-                          DateTime inputDate =
-                              DateTime.parse(snap['selectedDate']);
+                          if (snap['type'] == 'normal') {
+                            DateTime inputDate =
+                                DateTime.parse(snap['selectedDate']);
 
-                          String formattedDate =
-                              DateFormat('dd MMM yyyy').format(inputDate);
-                          return Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: ListTile(
-                              onTap: () {
-                                Get.to(ManagerServicedetailScreen(
-                                  snap: snap,
-                                ));
-                              },
-                              tileColor: Colors.grey.shade300,
-                              title: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    formattedDate,
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  Text(
-                                    snap['selectedTime'],
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ],
+                            String formattedDate =
+                                DateFormat('dd MMM yyyy').format(inputDate);
+                            return Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: ListTile(
+                                onTap: () {
+                                  Get.to(ManagerServicedetailScreen(
+                                    snap: snap,
+                                  ));
+                                },
+                                tileColor: Colors.grey.shade300,
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      formattedDate,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    Text(
+                                      snap['selectedTime'],
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ],
+                                ),
+                                subtitle: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      snap['name'],
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    Text(
+                                      snap['complaint'],
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ],
+                                ),
                               ),
-                              subtitle: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    snap['name'],
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  Text(
-                                    snap['complaint'],
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ],
+                            );
+                          } else {
+                            return Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: ListTile(
+                                onTap: () {
+                                  Get.to(ManagerServicedetailScreen(
+                                    snap: snap,
+                                  ));
+                                },
+                                tileColor: Colors.grey.shade300,
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Emergency service',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ],
+                                ),
+                                subtitle: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      snap['name'],
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                    Text(
+                                      snap['complaint'],
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          }
                         },
                       ),
                     );

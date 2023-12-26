@@ -421,7 +421,7 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                 height: 22.h,
               ),
               CustomText(
-                title: "Popular Items",
+                title: "Products",
                 color: AppColors.blackColor,
                 fontSize: 20.sp,
                 fontWeight: FontWeight.bold,

@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/ShopHomeScreen/ProductDescriptionScreen/product_description_screen.dart';
+import 'package:rpm/Views/driver_dashboard/widgets/network_image_widget.dart';
 import 'package:rpm/utils/app_images.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/utils.dart';
@@ -129,7 +130,11 @@ class MyWishlistScreen extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            Image.asset(AppImages.pngWingImg),
+                            // Image.asset(AppImages.pngWingImg),
+                            NetworkImageWidget(
+                                height: 80,
+                                width: 90,
+                                imageUrl: snap['productImage'][0]),
                             SizedBox(
                               height: 4.h,
                             ),

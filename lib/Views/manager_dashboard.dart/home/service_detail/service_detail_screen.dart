@@ -39,7 +39,7 @@ class _ManagerServicedetailScreenState
             Container(
               padding: EdgeInsets.all(20),
               margin: EdgeInsets.only(bottom: 20, top: 50, right: 20, left: 20),
-              height: 340,
+              height: 400,
               width: double.infinity,
               color: Colors.grey.shade300,
               child: Column(
@@ -53,7 +53,13 @@ class _ManagerServicedetailScreenState
                       title: 'Engine Hours', value: widget.snap['engineHours']),
                   ReusableRow(
                       title: 'Complaint', value: widget.snap['complaint']),
-                  ReusableRow(title: 'Complaint', value: widget.snap['status']),
+                  ReusableRow(
+                      title: 'Driver Contact', value: widget.snap['phone']),
+                  ReusableRow(
+                      title: 'Status',
+                      value: widget.snap['approved'] == true
+                          ? 'Approved'
+                          : 'Not approved' + "::" + widget.snap['status']),
                   RoundButton(
                     title: 'Attached image',
                     onPress: () {
@@ -81,18 +87,66 @@ class _ManagerServicedetailScreenState
               width: 240,
               child: RoundButton(
                 onPress: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return UserListBottomSheet(
-                        serviceDocId: widget.snap['docId'],
-                      );
-                    },
-                  );
+                  if (widget.snap['approved'] != true) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Approve Service'),
+                            content: Text(
+                                'Are you sure you want to approve this service?'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  // Perform approve action here
+                                  FirebaseFirestore.instance
+                                      .collection('service')
+                                      .doc(widget.snap['docId'])
+                                      .update({'approved': true}).then(
+                                          (value) {});
+                                  // This is where you'd put the logic to approve the service
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                  Utils.flushBarDoneMessage(
+                                      "Service Approved", context);
+                                },
+                                child: Text('Approve'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                                child: Text('Cancel'),
+                              ),
+                            ],
+                          );
+                        });
+                  }
                 },
-                title: 'Assign service to technician',
+                title: widget.snap['approved'] == true
+                    ? 'Approved'
+                    : 'Approve this service',
               ),
-            )
+            ),
+            // SizedBox(
+            //   width: 240,
+            //   child: RoundButton(
+            //     onPress: () {
+            //       showModalBottomSheet(
+            //         context: context,
+            //         builder: (BuildContext context) {
+            //           return UserListBottomSheet(
+            //             serviceDocId: widget.snap['docId'],
+            //           );
+            //         },
+            //       );
+            //     },
+            //     title: 'Assign service to technician',
+            //   ),
+            // )
           ],
         ),
       ),

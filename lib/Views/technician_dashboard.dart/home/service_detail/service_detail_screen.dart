@@ -77,67 +77,72 @@ class _ServicedetailScreenState extends State<ServicedetailScreen> {
               width: 240,
               child: RoundButton(
                 onPress: () {
-                  final TextEditingController _textFieldController =
-                      TextEditingController();
-                  showDialog<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Mark Service as Complete'),
-                          content: SizedBox(
-                            width: double.maxFinite,
-                            child: TextField(
-                              controller: _textFieldController,
-                              maxLines: null, // Set to null for multiline
-                              decoration: InputDecoration(
-                                hintText: 'Enter service completion notes',
-                                border: OutlineInputBorder(),
+                  if (widget.snap['status'] != 'completed') {
+                    final TextEditingController _textFieldController =
+                        TextEditingController();
+                    showDialog<void>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Mark Service as Complete'),
+                            content: SizedBox(
+                              width: double.maxFinite,
+                              child: TextField(
+                                controller: _textFieldController,
+                                maxLines: null, // Set to null for multiline
+                                decoration: InputDecoration(
+                                  hintText: 'Enter service completion notes',
+                                  border: OutlineInputBorder(),
+                                ),
                               ),
                             ),
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Cancel'),
-                            ),
-                            SizedBox(
-                              width: 90,
-                              height: 40,
-                              child: RoundButton(
-                                loading: _loading,
-                                title: 'Submit',
-                                onPress: () {
-                                  // setState(() => _loading = true);
-                                  try {
-                                    FirebaseFirestore.instance
-                                        .collection('service')
-                                        .doc(widget.snap['docId'])
-                                        .update({
-                                      'status': 'completed',
-                                      'technicianNotes':
-                                          _textFieldController.text.trim(),
-                                    });
-                                    Navigator.of(context).pop();
-                                    Utils.flushBarDoneMessage(
-                                      'Your service submission has been recieved',
-                                      context,
-                                    );
-                                  } catch (e) {
-                                    Utils.flushBarErrorMessage(
-                                        e.toString(), BuildContext, context);
-                                    Navigator.of(context).pop();
-                                  }
-                                  // Access the text field value using _textFieldController.text
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
                                 },
+                                child: Text('Cancel'),
                               ),
-                            )
-                          ],
-                        );
-                      });
+                              SizedBox(
+                                width: 90,
+                                height: 40,
+                                child: RoundButton(
+                                  loading: _loading,
+                                  title: 'Submit',
+                                  onPress: () {
+                                    // setState(() => _loading = true);
+                                    try {
+                                      FirebaseFirestore.instance
+                                          .collection('service')
+                                          .doc(widget.snap['docId'])
+                                          .update({
+                                        'status': 'completed',
+                                        'technicianNotes':
+                                            _textFieldController.text.trim(),
+                                      });
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                      Utils.flushBarDoneMessage(
+                                        'Your service submission has been recieved',
+                                        context,
+                                      );
+                                    } catch (e) {
+                                      Utils.flushBarErrorMessage(
+                                          e.toString(), BuildContext, context);
+                                      Navigator.of(context).pop();
+                                    }
+                                    // Access the text field value using _textFieldController.text
+                                  },
+                                ),
+                              )
+                            ],
+                          );
+                        });
+                  }
                 },
-                title: 'Mark service as complete',
+                title: widget.snap['status'] != 'completed'
+                    ? 'Mark service as complete'
+                    : 'Completed',
               ),
             )
           ],

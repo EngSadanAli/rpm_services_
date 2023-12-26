@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/AddToCartScreen/add_to_cart_screen.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/Auth/Components/big_text.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/ShopHomeScreen/ProductDescriptionScreen/product_description_screen.dart';
+import 'package:rpm/Views/driver_dashboard/widgets/network_image_widget.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/utils/app_images.dart';
@@ -169,7 +170,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         ),
                         child: Column(
                           children: [
-                            Image.asset(AppImages.pngWingImg),
+                            NetworkImageWidget(
+                                height: 80,
+                                width: 90,
+                                imageUrl: snap['productImage'][0]),
+                            // Image.asset(AppImages.pngWingImg),
                             SizedBox(height: 4),
                             CustomText(
                               title: snap['title'],

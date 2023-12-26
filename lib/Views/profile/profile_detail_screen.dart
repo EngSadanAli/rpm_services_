@@ -110,9 +110,14 @@ class ProfileDetails extends StatelessWidget {
                             builder: (BuildContext context) {
                               return AlertDialog.adaptive(
                                 backgroundColor: AppColors.textFieldBorderColor,
-                                title: Text('Logout'),
-                                content:
-                                    Text('Are you sure you want to logout?'),
+                                title: Text(
+                                  'Logout',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                content: Text(
+                                  'Are you sure you want to logout?',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 actions: <Widget>[
                                   TextButton(
                                     onPressed: () {
@@ -138,7 +143,8 @@ class ProfileDetails extends StatelessWidget {
                                     child: Text('OK',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .titleSmall!),
+                                            .titleSmall!
+                                            .copyWith(color: Colors.white)),
                                   ),
                                   TextButton(
                                     onPressed: () {
@@ -148,7 +154,8 @@ class ProfileDetails extends StatelessWidget {
                                     child: Text('Cancel',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .titleSmall!),
+                                            .titleSmall!
+                                            .copyWith(color: Colors.white)),
                                   ),
                                 ],
                               );

@@ -154,7 +154,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                 onChange: (value) {},
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return "Please enter a valid email";
+                                    return "Please enter a Name";
                                   }
                                   return null;
                                 },
@@ -201,7 +201,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                         height: 5.h,
                                       ),
                                       SizedBox(
-                                        height: 45.h,
+                                        height: 64.h,
                                         width: 154.w,
                                         child: AddressTextFieldWidget(
                                           readOnly: false,
@@ -214,7 +214,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                           validator: (value) {
                                             if (value == null ||
                                                 value.isEmpty) {
-                                              return "Please enter a valid email";
+                                              return "Please enter City";
                                             }
                                             return null;
                                           },
@@ -237,7 +237,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                         height: 5.h,
                                       ),
                                       SizedBox(
-                                        height: 45.h,
+                                        height: 64.h,
                                         width: 154.w,
                                         child: AddressTextFieldWidget(
                                           readOnly: false,
@@ -245,12 +245,12 @@ class _AddressScreenState extends State<AddressScreen> {
                                           onFieldSubmittedValue: (newValue) {},
                                           keyBoardType: TextInputType.text,
                                           obscureText: false,
-                                          hint: 'Your City',
+                                          hint: 'Postal Address',
                                           onChange: (value) {},
                                           validator: (value) {
                                             if (value == null ||
                                                 value.isEmpty) {
-                                              return "Please enter a valid email";
+                                              return "Please enter Postal Address";
                                             }
                                             return null;
                                           },
@@ -280,7 +280,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                 onChange: (value) {},
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return "Please enter a valid email";
+                                    return "Please enter Phone Number";
                                   }
                                   return null;
                                 },
