@@ -88,12 +88,52 @@ class _PreviousWorkScreenState extends State<PreviousWorkScreen> {
                 child: ListTile(
                   tileColor: Colors.grey,
                   title: Text(
-                    data['vin'],
+                    "Vin :: " + data['vin'],
                     style: TextStyle(color: Colors.black),
                   ),
-                  subtitle: Text(
-                    data['status'],
-                    style: TextStyle(color: Colors.black),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Status",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          Text(
+                            data['status'],
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Driver Contact",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          Text(
+                            data['phone'],
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Driver Name",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          Text(
+                            data['name'],
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               );
