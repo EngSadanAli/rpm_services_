@@ -62,86 +62,96 @@ class SignupController with ChangeNotifier {
     String role,
     String phone,
   ) async {
-    setLoading(true);
-    try {
-      // ignore: unused_local_variable
-      auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) async {
-        if (_image != null) {
-          // ignore: use_build_context_synchronously
-          // uploadImage(context);
-          firebase_storage.Reference storageRef = firebase_storage
-              .FirebaseStorage.instance
-              .ref('/profileImage/profileImage${value.user!.uid}');
+    if (_image != null) {
+      setLoading(true);
+      try {
+        // ignore: unused_local_variable
+        auth
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) async {
+          if (_image != null) {
+            // ignore: use_build_context_synchronously
+            // uploadImage(context);
+            firebase_storage.Reference storageRef = firebase_storage
+                .FirebaseStorage.instance
+                .ref('/profileImage/profileImage${value.user!.uid}');
 
-          firebase_storage.UploadTask uploadTask =
-              storageRef.putFile(File(image!.path).absolute);
+            firebase_storage.UploadTask uploadTask =
+                storageRef.putFile(File(image!.path).absolute);
 
-          await Future.value(uploadTask);
-          final newUrl = await storageRef.getDownloadURL();
-          // await _repository
-          //     .updateUserProfileUrl(
-          //         SessionController().userId.toString(), newUrl)
-          //     .then((value) {
-          //   SessionController().profilePic = newUrl;
-          //   Utils.toastMessage('Profile update');
-          //   setLoading(false);
-          //   _image = null;
+            await Future.value(uploadTask);
+            final newUrl = await storageRef.getDownloadURL();
+            // await _repository
+            //     .updateUserProfileUrl(
+            //         SessionController().userId.toString(), newUrl)
+            //     .then((value) {
+            //   SessionController().profilePic = newUrl;
+            //   Utils.toastMessage('Profile update');
+            //   setLoading(false);
+            //   _image = null;
 
-          UserModel user = UserModel(
-            userName: username,
-            email: value.user!.email,
-            profileImage: newUrl,
-            role: role,
-            uid: value.user!.uid,
-            phone: phone,
-            cart: [],
-          );
-          SessionController().userId = value.user!.uid.toString();
-          SessionController().email = value.user!.email.toString();
-          SessionController().name = username.toString();
-          SessionController().phone = phone;
-          SessionController().profilePic = newUrl.toString();
-          SessionController().role = role.toString();
-          await db.collection('users').doc(user.uid).set(user.toJson());
+            UserModel user = UserModel(
+              userName: username,
+              email: value.user!.email,
+              profileImage: newUrl,
+              role: role,
+              uid: value.user!.uid,
+              phone: phone,
+              cart: [],
+            );
+            SessionController().userId = value.user!.uid.toString();
+            SessionController().email = value.user!.email.toString();
+            SessionController().name = username.toString();
+            SessionController().phone = phone;
+            SessionController().profilePic = newUrl.toString();
+            SessionController().role = role.toString();
+            await db.collection('users').doc(user.uid).set(user.toJson());
+            setLoading(false);
+            if (SessionController().role == 'Driver') {
+              _image == null;
+              notifyListeners();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
+            }
+            if (SessionController().role == 'Manager') {
+              _image == null;
+              notifyListeners();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
+            }
+            if (SessionController().role == 'Mechanic') {
+              _image == null;
+              notifyListeners();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
+            }
+          }
+          if (_image == null) {
+            Utils.flushBarErrorMessage('Please add an image', context, 1);
+          }
+
+          await Utils.toastMessage("Account created successfully");
+        }).onError((error, stackTrace) {
           setLoading(false);
-          if (SessionController().role == 'Driver') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => LoginScreen()),
-            );
-          }
-          if (SessionController().role == 'Manager') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => LoginScreen()),
-            );
-          }
-          if (SessionController().role == 'Mechanic') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => LoginScreen()),
-            );
-          }
-        }
-        if (_image == null) {
-          Utils.flushBarErrorMessage('Please add an image', context, 1);
-        }
-
-        await Utils.toastMessage("Account created successfully");
-      }).onError((error, stackTrace) {
+          Utils.toastMessage(error.toString());
+          //
+          setLoading(false);
+        }).onError((error, stackTrace) {
+          setLoading(false);
+          Utils.toastMessage(error.toString());
+        });
+      } catch (e) {
         setLoading(false);
-        Utils.toastMessage(error.toString());
-        //
-        setLoading(false);
-      }).onError((error, stackTrace) {
-        setLoading(false);
-        Utils.toastMessage(error.toString());
-      });
-    } catch (e) {
-      setLoading(false);
-      Utils.toastMessage(e.toString());
+        Utils.toastMessage(e.toString());
+      }
+    } else {
+      Utils.toastMessage('Please upload your image first');
     }
   }
 
