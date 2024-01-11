@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/network_image_widget.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
+import 'package:rpm/Views/manager_dashboard.dart/manager_dashboard.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/utils/utils.dart';
@@ -105,10 +107,11 @@ class _ManagerServicedetailScreenState
                                       .update({'approved': true}).then(
                                           (value) {});
                                   // This is where you'd put the logic to approve the service
-                                  Navigator.of(context)
-                                      .pop(); // Close the dialog
-                                  Navigator.of(context)
-                                      .pop(); // Close the dialog
+                                  // Navigator.of(context)
+                                  //     .pop(); // Close the dialog
+                                  // Navigator.of(context)
+                                  //     .pop(); // Close the dialog
+                                  Get.to(ManagerDashboardScreen());
                                   Utils.flushBarDoneMessage(
                                       "Service Approved", context);
                                 },

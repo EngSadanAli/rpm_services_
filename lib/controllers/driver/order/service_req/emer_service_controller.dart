@@ -2,6 +2,7 @@ import 'dart:core';
 import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rpm/Views/driver_dashboard/SelectDataAndTimeScreen/AllSuccessScreen/all_success_screen.dart';
@@ -20,16 +21,28 @@ class EmergencyServiceController with ChangeNotifier {
     notifyListeners();
   }
 
-  final picker = ImagePicker();
-  File? _imageFile;
-  File? get imageFile => _imageFile;
-  //pick image
-  Future<void> pickImage(BuildContext context, ImageSource imageSource) async {
-    final pickedFile =
-        await picker.pickImage(source: imageSource, imageQuality: 100);
+  // final picker = ImagePicker();
+  // File? _imageFile;
+  // File? get imageFile => _imageFile;
+  // //pick image
+  // Future<void> pickImage(BuildContext context, ImageSource imageSource) async {
+  //   final pickedFile =
+  //       await picker.pickImage(source: imageSource, imageQuality: 100);
 
-    if (pickedFile != null) {
-      _imageFile = File(pickedFile.path);
+  //   if (pickedFile != null) {
+  //     _imageFile = File(pickedFile.path);
+  //     notifyListeners();
+  //   }
+  // }
+  List<File> _images = [];
+  List<File> get images => _images;
+  List<String> _imageUrls = [];
+  Future<void> pickImage(BuildContext context) async {
+    final images = await ImagePicker().pickMultiImage();
+    if (images != null) {
+      // imagefiles = pickedfiles;
+      _images = images.map((image) => File(image.path)).toList();
+
       notifyListeners();
     }
   }
@@ -42,44 +55,64 @@ class EmergencyServiceController with ChangeNotifier {
     String engineHours,
     String complaint,
     String additionalComplaint,
+    String location,
   ) async {
     setLoading(true);
     try {
       var docId = const Uuid().v4();
       setLoading(true);
+      // await ScheduleServiceRepository()
+      //     .uploadImage(docId, File(_imageFile!.path).absolute)
+      //     .then((newUrl) {
+      final _storage = FirebaseStorage.instance;
+      for (var image in _images) {
+        // Create a reference to the Firebase Storage location
+        final storageRef =
+            _storage.ref().child('images/${DateTime.now().toString()}');
+
+        // Upload the file to Firebase Storage
+        final uploadTask = storageRef.putFile(image);
+        await uploadTask;
+
+        // Get the download URL for the image
+        final imageUrl = await storageRef.getDownloadURL();
+        _imageUrls.add(imageUrl);
+      }
+
+      // Store the download URLs in Firestore
+
+      var data = {
+        'docId': docId,
+        'vin': vin,
+        'currentMileage': currentMileage,
+        'engineHours': engineHours,
+        'complaint': complaint,
+        'name': SessionController().name,
+        'uid': SessionController().userId,
+        'phone': SessionController().phone,
+        'image': _imageUrls,
+        'status': 'pending',
+        'approved': false,
+        'type': 'emg',
+        'assignedBy': '',
+        'assignedTo': '',
+        'technicianNotes': '',
+        'managerNotes': '',
+        'additionalComplaint': additionalComplaint,
+        'location': location,
+      };
+      // saving user data in database
       await ScheduleServiceRepository()
-          .uploadImage(docId, File(_imageFile!.path).absolute)
-          .then((newUrl) {
-        var data = {
-          'docId': docId,
-          'vin': vin,
-          'currentMileage': currentMileage,
-          'engineHours': engineHours,
-          'complaint': complaint,
-          'name': SessionController().name,
-          'uid': SessionController().userId,
-          'phone': SessionController().phone,
-          'image': newUrl,
-          'status': 'pending',
-          'approved': false,
-          'type': 'emg',
-          'assignedBy': '',
-          'assignedTo': '',
-          'technicianNotes': '',
-          'managerNotes': '',
-          'additionalComplaint': additionalComplaint,
-        };
-        // saving user data in database
-        ScheduleServiceRepository().scheduleService(docId, data);
-      }).then((value) {
+          .scheduleService(docId, data)
+          .then((value) {
         Get.to(AllSuccessScreen());
-        _imageFile = null;
+        _images = [];
         setLoading(false);
         notifyListeners();
       });
     } catch (e) {
       log(e.toString());
-      _imageFile = null;
+      _images = [];
       notifyListeners();
       setLoading(false);
     }

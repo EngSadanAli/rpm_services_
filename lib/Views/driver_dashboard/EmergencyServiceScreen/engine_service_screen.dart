@@ -4,20 +4,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:rpm/Views/driver_dashboard/EmergencyServiceScreen/MechanicsProfile/mechanics_profile_screen.dart';
 import 'package:rpm/Views/driver_dashboard/ScheduleServiceScreen/widget/schedule_row_widget.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
-import 'package:rpm/config/app_config.dart';
 import 'package:rpm/controllers/driver/order/service_req/emer_service_controller.dart';
-import 'package:rpm/controllers/driver/order/service_req/schedule_service_controller.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/utils.dart';
 import '../widgets/custom_textField.dart';
-import '../ScheduleServiceScreen/set_date_and_time_schedule.dart';
-import '../SelectDataAndTimeScreen/select_date_time_screen.dart';
 import '../ShopPart/Auth/Components/big_text.dart';
 import '../../../utils/app_colors.dart';
-import 'Widgets/emergency_row_widget.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:geocoding/geocoding.dart';
 
 class EngineServiceScreen extends StatefulWidget {
   final bool showBackButton;
@@ -38,6 +35,8 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
   final passwordFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
   final nameFocusNode = FocusNode();
+  String? currentLocation; // Variable to store the location data
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -192,7 +191,7 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
                         height: 10.h,
                       ),
                       Container(
-                        height: 160.h,
+                        // height: 160.h,
                         decoration: BoxDecoration(
                             color: AppColors.whiteColor,
                             borderRadius: BorderRadius.circular(10),
@@ -225,110 +224,128 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CustomText(
-                                    title: "Add Image/Video",
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 10.sp,
-                                    color: AppColors.blackColor,
-                                  ),
+                                  TextButton.icon(
+                                      onPressed: () => value.pickImage(context),
+                                      icon: Icon(Icons.image),
+                                      label: Text('Add Images')),
                                   SizedBox(
                                     height: 6.h,
                                   ),
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                        onTap: () => value.pickImage(
-                                            context, ImageSource.camera),
-                                        child: Container(
-                                          height: 50.h,
-                                          width: 78.w,
-                                          decoration: BoxDecoration(
-                                            color: AppColors.whiteColor,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black.withOpacity(
-                                                    0.16), // Shadow color
-                                                spreadRadius: 0,
-                                                blurRadius: 4,
-                                                offset: Offset(1,
-                                                    3), // Offset in x and y direction
-                                              ),
-                                            ],
-                                            borderRadius:
-                                                BorderRadius.circular(6.r),
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              if (value.imageFile != null)
-                                                Stack(children: [
-                                                  Container(
-                                                    height: 50.h,
-                                                    width: 78.w,
-                                                    decoration: BoxDecoration(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .onPrimary,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              13),
-                                                      image: DecorationImage(
-                                                        image: FileImage(
-                                                            value.imageFile!),
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Positioned(
-                                                      bottom: 2,
-                                                      right: 2,
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          value.pickImage(
-                                                              context,
-                                                              ImageSource
-                                                                  .camera);
-                                                        },
-                                                        child: Container(
-                                                            height: 20,
-                                                            width: 20,
-                                                            decoration: BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color: AppColors
-                                                                    .redTextColor),
-                                                            child: Icon(
-                                                              Icons.add,
-                                                              color:
-                                                                  Colors.white,
-                                                            )),
-                                                      ))
-                                                ]),
-                                              if (value.imageFile == null)
-                                                Icon(
-                                                  Icons.camera_alt_outlined,
-                                                  color: Colors.red,
-                                                ),
-                                              if (value.imageFile == null)
-                                                SizedBox(
-                                                  height: 2.h,
-                                                ),
-                                              if (value.imageFile == null)
-                                                CustomText(
-                                                  title: "Take Picture",
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 10.sp,
-                                                  color: AppColors.blackColor,
-                                                ),
-                                            ],
+                                  // if (value.images.length >
+                                  //     1) // Check if there are more than one image
+                                  Wrap(
+                                    spacing: 4.0, // Adjust spacing as needed
+                                    runSpacing: 4.0,
+                                    children: value.images.map((image) {
+                                      return Container(
+                                        height: 50.h,
+                                        width: 78.w,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                          borderRadius:
+                                              BorderRadius.circular(13),
+                                          image: DecorationImage(
+                                            image: FileImage(image),
+                                            fit: BoxFit.cover,
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  )
+                                      );
+                                    }).toList(),
+                                  ),
+                                  // Row(
+                                  //   children: [
+                                  //     InkWell(
+                                  //       onTap: () => value.pickImage(context),
+                                  //       child: Container(
+                                  //         height: 50.h,
+                                  //         width: 78.w,
+                                  //         decoration: BoxDecoration(
+                                  //           color: AppColors.whiteColor,
+                                  //           boxShadow: [
+                                  //             BoxShadow(
+                                  //               color: Colors.black.withOpacity(
+                                  //                   0.16), // Shadow color
+                                  //               spreadRadius: 0,
+                                  //               blurRadius: 4,
+                                  //               offset: Offset(1,
+                                  //                   3), // Offset in x and y direction
+                                  //             ),
+                                  //           ],
+                                  //           borderRadius:
+                                  //               BorderRadius.circular(6.r),
+                                  //         ),
+                                  //         child: Column(
+                                  //           mainAxisAlignment:
+                                  //               MainAxisAlignment.center,
+                                  //           crossAxisAlignment:
+                                  //               CrossAxisAlignment.center,
+                                  //           children: [
+                                  //             if (value.images.isNotEmpty)
+                                  //               Stack(children: [
+                                  //                 Container(
+                                  //                   height: 50.h,
+                                  //                   width: 78.w,
+                                  //                   decoration: BoxDecoration(
+                                  //                     color: Theme.of(context)
+                                  //                         .colorScheme
+                                  //                         .onPrimary,
+                                  //                     borderRadius:
+                                  //                         BorderRadius.circular(
+                                  //                             13),
+                                  //                     image: DecorationImage(
+                                  //                       image: FileImage(
+                                  //                           value.images[0]),
+                                  //                       fit: BoxFit.cover,
+                                  //                     ),
+                                  //                   ),
+                                  //                 ),
+                                  //                 Positioned(
+                                  //                     bottom: 2,
+                                  //                     right: 2,
+                                  //                     child: InkWell(
+                                  //                       onTap: () {
+                                  //                         value.pickImage(
+                                  //                             context);
+                                  //                       },
+                                  //                       child: Container(
+                                  //                           height: 20,
+                                  //                           width: 20,
+                                  //                           decoration: BoxDecoration(
+                                  //                               shape: BoxShape
+                                  //                                   .circle,
+                                  //                               color: AppColors
+                                  //                                   .redTextColor),
+                                  //                           child: Icon(
+                                  //                             Icons.add,
+                                  //                             color:
+                                  //                                 Colors.white,
+                                  //                           )),
+                                  //                     ))
+                                  //               ]),
+                                  //             if (value.images.isNotEmpty)
+                                  //               Icon(
+                                  //                 Icons.camera_alt_outlined,
+                                  //                 color: Colors.red,
+                                  //               ),
+                                  //             if (value.images.isNotEmpty)
+                                  //               SizedBox(
+                                  //                 height: 2.h,
+                                  //               ),
+                                  //             if (value.images.isNotEmpty)
+                                  //               CustomText(
+                                  //                 title: "Take Picture",
+                                  //                 fontWeight: FontWeight.w400,
+                                  //                 fontSize: 10.sp,
+                                  //                 color: AppColors.blackColor,
+                                  //               ),
+                                  //           ],
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // )
                                 ],
                               ),
                             ),
@@ -357,80 +374,31 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
                       SizedBox(
                         height: 10.h,
                       ),
-                      Container(
-                        height: 50,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                          child: Text('Share Location'),
-                        ),
+                      RoundButton(
+                        buttonColor: currentLocation == null
+                            ? Colors.blue
+                            : AppColors.garyIconColor,
+                        height: currentLocation == null ? 50 : 100,
+                        loading: loading,
+                        title: currentLocation == null
+                            ? 'Share Location'
+                            : currentLocation.toString(),
+                        onPress: () async {
+                          // Get location data when the button is pressed
+                          setState(() => loading = true);
+                          String location = await _getLocation();
+                          setState(() {
+                            currentLocation = location;
+                            loading = false;
+                          });
+                        },
                       ),
                       SizedBox(
                         height: 16.h,
                       ),
-                      // GestureDetector(
-                      //   onTap: () {},
-                      //   child: Container(
-                      //     width: double.infinity,
-                      //     height: 50,
-                      //     decoration: BoxDecoration(
-                      //         boxShadow: [
-                      //           BoxShadow(
-                      //             color:
-                      //                 Colors.black.withOpacity(0.50), // Shadow color
-                      //             spreadRadius: 0,
-                      //             blurRadius: 4,
-                      //             offset: Offset(1, 2), // Offset in x and y direction
-                      //           ),
-                      //         ],
-                      //         borderRadius: BorderRadius.circular(10),
-                      //         color: Color(0xffF3F5F7)),
-                      //     child: Center(
-                      //       child: Text('Add Additional Complaint',
-                      //           style: TextStyle(
-                      //               fontSize: 14.sp,
-                      //               fontWeight: FontWeight.w400,
-                      //               color: AppColors.textFieldBorderColor)),
-                      //     ),
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   height: 15.h,
-                      // ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     // Get.to(SelectDateAndTime(title: "date time",));
-                      //   },
-                      //   child: Container(
-                      //     width: double.infinity,
-                      //     height: 50,
-                      //     decoration: BoxDecoration(
-                      //         boxShadow: [
-                      //           BoxShadow(
-                      //             color:
-                      //                 Colors.black.withOpacity(0.50), // Shadow color
-                      //             spreadRadius: 0,
-                      //             blurRadius: 4,
-                      //             offset: Offset(1, 2), // Offset in x and y direction
-                      //           ),
-                      //         ],
-                      //         borderRadius: BorderRadius.circular(10),
-                      //         color: Color(0xffF3F5F7)),
-                      //     child: Center(
-                      //       child: Text('Dispatch Emergency Service',
-                      //           style: TextStyle(
-                      //               fontSize: 14.sp,
-                      //               fontWeight: FontWeight.w400,
-                      //               color: AppColors.textFieldBorderColor)),
-                      //     ),
-                      //   ),
-                      // ),
                       SizedBox(
                         height: 10.h,
                       ),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -441,23 +409,35 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
                               title: 'Next',
                               onPress: () {
                                 if (_formKey.currentState!.validate()) {
-                                  if (value.imageFile != null) {
-                                    value
-                                        .emergencyService(
-                                      context,
-                                      vinController.text.trim(),
-                                      currentMileageController.text.trim(),
-                                      engineHoursController.text.trim(),
-                                      conplaintController.text.trim(),
-                                      AdditionalconplaintController.text.trim(),
-                                    )
-                                        .then((value) {
-                                      currentMileageController.clear();
-                                      vinController.clear();
-                                      conplaintController.clear();
-                                      engineHoursController.clear();
-                                      AdditionalconplaintController.clear();
-                                    });
+                                  if (value.images.isNotEmpty) {
+                                    if (currentLocation != null) {
+                                      value
+                                          .emergencyService(
+                                        context,
+                                        vinController.text.trim(),
+                                        currentMileageController.text.trim(),
+                                        engineHoursController.text.trim(),
+                                        conplaintController.text.trim(),
+                                        AdditionalconplaintController.text
+                                            .trim(),
+                                        currentLocation.toString(),
+                                      )
+                                          .then((value) {
+                                        currentMileageController.clear();
+                                        vinController.clear();
+                                        conplaintController.clear();
+                                        engineHoursController.clear();
+                                        AdditionalconplaintController.clear();
+                                        setState(() {
+                                          currentLocation == null;
+                                        });
+                                      });
+                                    } else {
+                                      Utils.flushBarErrorMessage(
+                                          'Please share current location',
+                                          BuildContext,
+                                          context);
+                                    }
                                   } else {
                                     Utils.flushBarErrorMessage(
                                         'Please Attached a image',
@@ -468,54 +448,6 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
                               },
                             ),
                           ),
-                          // GestureDetector(
-                          //   onTap: () {
-                          //     // if (_formKey.currentState!.validate()) {
-                          //     //   value
-                          //     //       .emergencyService(
-                          //     //     context,
-                          //     //     vinController.text.trim(),
-                          //     //     currentMileageController.text.trim(),
-                          //     //     engineHoursController.text.trim(),
-                          //     //     conplaintController.text.trim(),
-                          //     //   )
-                          //     //       .then((value) {
-                          //     //     currentMileageController.clear();
-                          //     //     vinController.clear();
-                          //     //     conplaintController.clear();
-                          //     //     engineHoursController.clear();
-                          //     //   });
-                          //     // }
-
-                          //     // Get.to(MechanicsProfileScreen());
-                          //   },
-                          //   child: Container(
-                          //     // padding: EdgeInsets.only(left: 20.w,right: 20.w),
-                          //     width: 140.w,
-                          //     height: 38.w,
-                          //     decoration: BoxDecoration(
-                          //         boxShadow: [
-                          //           BoxShadow(
-                          //             color: Colors.grey
-                          //                 .withOpacity(0.35), // Shadow color
-                          //             spreadRadius: 2,
-                          //             blurRadius: 5,
-                          //             offset: Offset(
-                          //                 1, 3), // Offset in x and y direction
-                          //           ),
-                          //         ],
-                          //         borderRadius: BorderRadius.circular(10.r),
-                          //         color: AppColors.textFieldBorderColor),
-                          //     child: Center(
-                          //       child: CustomText(
-                          //         title: "Next",
-                          //         color: AppColors.whiteColor,
-                          //         fontWeight: FontWeight.w400,
-                          //         fontSize: 13.85.sp,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
                         ],
                       ),
                     ],
@@ -525,5 +457,44 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
             ),
           ),
         ));
+  }
+
+  Future<String> _getLocation() async {
+    var status = await Permission.location.request();
+
+    if (status == PermissionStatus.granted) {
+      try {
+        Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high,
+        );
+
+        double latitude = position.latitude;
+        double longitude = position.longitude;
+
+        // Perform reverse geocoding to get the address from latitude and longitude
+        List<Placemark> placemarks =
+            await placemarkFromCoordinates(latitude, longitude);
+
+        // Extract the address from the first placemark
+        if (placemarks.isNotEmpty) {
+          Placemark placemark = placemarks.first;
+          String address =
+              "${placemark.street}, ${placemark.locality}, ${placemark.administrativeArea}";
+
+          // Assign the address to your variable
+          setState(() {
+            currentLocation = address;
+          });
+
+          return 'Address: $address';
+        } else {
+          return 'No address found for the given coordinates';
+        }
+      } catch (e) {
+        return 'Error getting location: $e';
+      }
+    } else {
+      return 'Location permission denied';
+    }
   }
 }
