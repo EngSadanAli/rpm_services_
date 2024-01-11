@@ -53,20 +53,77 @@ class _ServicedetailScreenState extends State<ServicedetailScreen> {
                   RoundButton(
                     title: 'Attached image',
                     onPress: () {
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => Scaffold(
+                      //             appBar: AppBar(),
+                      //             body: Center(
+                      //               child: InteractiveViewer(
+                      //                   child: NetworkImageWidget(
+                      //                 borderRadius: 0,
+                      //                 imageUrl: widget.snap['image'],
+                      //                 width: MediaQuery.of(context).size.width,
+                      //                 height: MediaQuery.of(context).size.width,
+                      //               )),
+                      //             ))));
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => Scaffold(
-                                  appBar: AppBar(),
-                                  body: Center(
-                                    child: InteractiveViewer(
-                                        child: NetworkImageWidget(
-                                      borderRadius: 0,
-                                      imageUrl: widget.snap['image'],
-                                      width: MediaQuery.of(context).size.width,
-                                      height: MediaQuery.of(context).size.width,
-                                    )),
-                                  ))));
+                                    appBar: AppBar(),
+                                    body: ListView.builder(
+                                      itemCount: widget.snap['image'].length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Container(
+                                          margin: EdgeInsets.all(8.0),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder:
+                                                          (context) => Scaffold(
+                                                                appBar:
+                                                                    AppBar(),
+                                                                body: Center(
+                                                                  child:
+                                                                      InteractiveViewer(
+                                                                          child:
+                                                                              NetworkImageWidget(
+                                                                    borderRadius:
+                                                                        0,
+                                                                    imageUrl: widget
+                                                                            .snap['image']
+                                                                        [index],
+                                                                    width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width,
+                                                                    height: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width,
+                                                                  )),
+                                                                ),
+                                                              )));
+                                            },
+                                            child: Image.network(
+                                              widget.snap['image'][index],
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  )));
                     },
                   )
                 ],
