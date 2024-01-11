@@ -36,6 +36,7 @@ class _AddressScreenState extends State<AddressScreen> {
   final addressController = TextEditingController();
 
   final phoneController = TextEditingController();
+  final stateController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   String selectedPaymentMethod =
@@ -62,6 +63,7 @@ class _AddressScreenState extends State<AddressScreen> {
       'city': cityController.text.trim(),
       'postalCode': addressController.text.trim(),
       'phone': phoneController.text.trim(),
+      'state': stateController.text.trim(),
     }).then((value) {
       FirebaseFirestore.instance
           .collection('users')
@@ -262,14 +264,42 @@ class _AddressScreenState extends State<AddressScreen> {
                               ),
                               SizedBox(height: 24.h),
                               CustomText(
+                                title: "State",
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.blackColor,
+                              ),
+                              // SizedBox(
+                              //   height: 5.h,
+                              // ),
+                              AddressTextFieldWidget(
+                                readOnly: false,
+                                controller: stateController,
+                                onFieldSubmittedValue: (newValue) {},
+                                keyBoardType: TextInputType.text,
+                                obscureText: false,
+                                hint: 'State',
+                                onChange: (value) {},
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter State";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              SizedBox(height: 24.h),
+                              CustomText(
                                 title: "Phone Number",
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
                                 color: AppColors.blackColor,
                               ),
-                              SizedBox(
-                                height: 5.h,
-                              ),
+                              // SizedBox(
+                              //   height: 5.h,
+                              // ),
                               AddressTextFieldWidget(
                                 readOnly: false,
                                 controller: phoneController,
@@ -286,7 +316,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                 },
                               ),
                               SizedBox(
-                                height: 20.h,
+                                height: 10.h,
                               ),
                             ],
                           ),
@@ -294,7 +324,7 @@ class _AddressScreenState extends State<AddressScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 60.h,
+                      height: 10.h,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,

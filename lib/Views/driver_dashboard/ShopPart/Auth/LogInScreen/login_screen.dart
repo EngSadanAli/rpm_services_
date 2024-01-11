@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:rpm/Views/driver_dashboard/ShopPart/Auth/forgot_password_screen/forgot.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/controllers/auth/login_controller.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/custom_textField.dart';
@@ -79,28 +80,28 @@ class _LoginScreenState extends State<LoginScreen> {
                       Image.asset(AppImages.appLogo, height: 130.h
                           // width: 231.w,
                           ),
-                      SizedBox(height: 20.h),
+                      SizedBox(height: 10.h),
                       CustomText(
-                          title: "Welcome Again!",
+                          title: "Welcome",
                           color: AppColors.blackColor,
                           fontWeight: FontWeight.w400,
                           fontSize: 22.sp),
-                      SizedBox(height: 10.h),
-                      CustomText(
-                        title: "Welcome back! You have been",
-                        color: AppColors.grayText2,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14.sp,
-                      ),
-                      Center(
-                        child: CustomText(
-                          title: "missed",
-                          color: AppColors.grayText2,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                      SizedBox(height: 20.h),
+                      // SizedBox(height: 10.h),
+                      // CustomText(
+                      //   title: "Welcome back! You have been",
+                      //   color: AppColors.grayText2,
+                      //   fontWeight: FontWeight.w400,
+                      //   fontSize: 14.sp,
+                      // ),
+                      // Center(
+                      //   child: CustomText(
+                      //     title: "missed",
+                      //     color: AppColors.grayText2,
+                      //     fontWeight: FontWeight.w400,
+                      //     fontSize: 14.sp,
+                      //   ),
+                      // ),
+                      SizedBox(height: 30.h),
                       CustomTextField(
                         readOnly: false,
                         controller: emailController,
@@ -146,6 +147,25 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                           return null;
                         },
+                      ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(ForgotPasswordScreen());
+                          },
+                          child: Text('Forgot Password?',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(
+                                      color: AppColors.textFieldBorderColor,
+                                      fontSize: 15,
+                                      decoration: TextDecoration.underline)),
+                        ),
                       ),
                       SizedBox(
                         height: 20.h,

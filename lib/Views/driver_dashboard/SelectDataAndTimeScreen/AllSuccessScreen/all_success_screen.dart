@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/Auth/Components/big_text.dart';
+import 'package:rpm/Views/driver_dashboard/widgets/bottom_navigation_bar.dart';
+import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/app_images.dart';
 
@@ -40,6 +43,15 @@ class AllSuccessScreen extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 fontSize: 17.sp,
               ),
+              SizedBox(
+                height: 10.h,
+              ),
+              RoundButton(
+                title: 'Go to Home screen',
+                onPress: () {
+                  Get.to(AppNavigationBar());
+                },
+              )
             ],
           ),
         ),

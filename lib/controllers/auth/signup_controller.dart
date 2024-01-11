@@ -132,9 +132,10 @@ class SignupController with ChangeNotifier {
               );
             }
           }
-          if (_image == null) {
-            Utils.flushBarErrorMessage('Please add an image', context, 1);
-          }
+          // if (_image == null) {
+          //   Utils.flushBarErrorMessage(
+          //       'Please add an image', BuildContext, context);
+          // }
 
           await Utils.toastMessage("Account created successfully");
         }).onError((error, stackTrace) {
@@ -150,8 +151,74 @@ class SignupController with ChangeNotifier {
         setLoading(false);
         Utils.toastMessage(e.toString());
       }
-    } else {
-      Utils.toastMessage('Please upload your image first');
+    } else if (_image == null) {
+      setLoading(true);
+      try {
+        // ignore: unused_local_variable
+        auth
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) async {
+          UserModel user = UserModel(
+            userName: username,
+            email: value.user!.email,
+            profileImage: '',
+            role: role,
+            uid: value.user!.uid,
+            phone: phone,
+            cart: [],
+          );
+          SessionController().userId = value.user!.uid.toString();
+          SessionController().email = value.user!.email.toString();
+          SessionController().name = username.toString();
+          SessionController().phone = phone;
+          SessionController().profilePic = '';
+          SessionController().role = role.toString();
+          await db.collection('users').doc(user.uid).set(user.toJson());
+          setLoading(false);
+          if (SessionController().role == 'Driver') {
+            _image == null;
+            notifyListeners();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+            );
+          }
+          if (SessionController().role == 'Manager') {
+            _image == null;
+            notifyListeners();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+            );
+          }
+          if (SessionController().role == 'Mechanic') {
+            _image == null;
+            notifyListeners();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+            );
+          }
+
+          // if (_image == null) {
+          //   Utils.flushBarErrorMessage(
+          //       'Please add an image', BuildContext, context);
+          // }
+
+          await Utils.toastMessage("Account created successfully");
+        }).onError((error, stackTrace) {
+          setLoading(false);
+          Utils.toastMessage(error.toString());
+          //
+          setLoading(false);
+        }).onError((error, stackTrace) {
+          setLoading(false);
+          Utils.toastMessage(error.toString());
+        });
+      } catch (e) {
+        setLoading(false);
+        Utils.toastMessage(e.toString());
+      }
     }
   }
 

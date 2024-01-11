@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -12,6 +13,7 @@ import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/controllers/auth/signup_controller.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/custom_textField.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
+import 'package:rpm/utils/utils.dart';
 import '../../../widgets/login_button_widgets.dart';
 import '../../../widgets/select_screen_widget.dart';
 import '../../../../../utils/app_images.dart';
@@ -348,14 +350,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           // isLoginButtonEnabled
                           //     ? () {
                           if (_formKey.currentState!.validate()) {
-                            value.signUpUser(
-                              context,
-                              nameController.text.trim(),
-                              emailController.text.trim(),
-                              passwordController.text.trim(),
-                              selectedValue.toString(),
-                              phoneController.text.trim().toString(),
-                            );
+                            log(selectedValue.toString());
+                            if (selectedValue != null) {
+                              value.signUpUser(
+                                context,
+                                nameController.text.trim(),
+                                emailController.text.trim(),
+                                passwordController.text.trim(),
+                                selectedValue.toString(),
+                                phoneController.text.trim().toString(),
+                              );
+                            } else {
+                              Utils.toastMessage('Select role');
+                            }
+
                             // Navigate to the LoginScreen
                           }
                           //   }

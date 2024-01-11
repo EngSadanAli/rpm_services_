@@ -364,7 +364,7 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
                             color: Colors.blue,
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
-                          child: Text('Pick location'),
+                          child: Text('Share Location'),
                         ),
                       ),
                       SizedBox(
