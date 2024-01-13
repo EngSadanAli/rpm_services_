@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get/get.dart';
 import 'package:rpm/Views/manager_dashboard.dart/manager_dashboard.dart';
 import 'package:rpm/Views/technician_dashboard.dart/dashboard_screen.dart';
@@ -105,71 +105,71 @@ class LoginController with ChangeNotifier {
         .exists;
   }
 
-  // google sig  in
-  Future<void> loginWithGoogle(BuildContext context) async {
-    setLoading(true);
-    try {
-      //To check internet connectivity
-      await InternetAddress.lookup('firebase.google.com');
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-      if (googleAuth == null) {
-        return;
-      }
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      await FirebaseAuth.instance
-          .signInWithCredential(credential)
-          .then((value) async {
-        SessionController().userId = value.user!.uid.toString();
-        if (await userExists()) {
-          Get.to(const SelectionScreen());
-          Utils.toastMessage("User login successfully");
-          setLoading(false);
-        } else {
-          UserModel user = UserModel(
-            userName: value.user!.displayName,
-            email: value.user!.email,
-            profileImage: value.user!.photoURL,
-            role: 'driver',
-            uid: value.user!.uid,
-            phone: '',
-            cart: [],
-          );
-          SessionController().userId = value.user!.uid.toString();
-          SessionController().email = value.user!.email.toString();
-          SessionController().name = value.user!.displayName.toString();
-          SessionController().phone = '';
-          SessionController().profilePic = value.user!.uid.toString();
-          SessionController().role = 'driver'.toString();
-          FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .set(user.toJson());
-          setLoading(false);
-          if (SessionController().role == 'driver') {
-            Get.to(const SelectionScreen());
-          }
-          Utils.flushBarDoneMessage("Account created successfully", context);
-        }
-      }).then((value) {
-        Get.to(const SelectionScreen());
-        Utils.flushBarDoneMessage("User login successfully", context);
-        setLoading(false);
-      }).onError((error, stackTrace) {
-        setLoading(false);
-        Utils.toastMessage(error.toString());
-      });
-    } catch (e) {
-      setLoading(false);
-      Utils.toastMessage(e.toString());
-      if (kDebugMode) {
-        print("Error: $e");
-      }
-      return;
-    }
-  }
+  // // google sig  in
+  // Future<void> loginWithGoogle(BuildContext context) async {
+  //   setLoading(true);
+  //   try {
+  //     //To check internet connectivity
+  //     await InternetAddress.lookup('firebase.google.com');
+  //     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  //     final GoogleSignInAuthentication? googleAuth =
+  //         await googleUser?.authentication;
+  //     if (googleAuth == null) {
+  //       return;
+  //     }
+  //     final credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth.accessToken,
+  //       idToken: googleAuth.idToken,
+  //     );
+  //     await FirebaseAuth.instance
+  //         .signInWithCredential(credential)
+  //         .then((value) async {
+  //       SessionController().userId = value.user!.uid.toString();
+  //       if (await userExists()) {
+  //         Get.to(const SelectionScreen());
+  //         Utils.toastMessage("User login successfully");
+  //         setLoading(false);
+  //       } else {
+  //         UserModel user = UserModel(
+  //           userName: value.user!.displayName,
+  //           email: value.user!.email,
+  //           profileImage: value.user!.photoURL,
+  //           role: 'driver',
+  //           uid: value.user!.uid,
+  //           phone: '',
+  //           cart: [],
+  //         );
+  //         SessionController().userId = value.user!.uid.toString();
+  //         SessionController().email = value.user!.email.toString();
+  //         SessionController().name = value.user!.displayName.toString();
+  //         SessionController().phone = '';
+  //         SessionController().profilePic = value.user!.uid.toString();
+  //         SessionController().role = 'driver'.toString();
+  //         FirebaseFirestore.instance
+  //             .collection('users')
+  //             .doc(user.uid)
+  //             .set(user.toJson());
+  //         setLoading(false);
+  //         if (SessionController().role == 'driver') {
+  //           Get.to(const SelectionScreen());
+  //         }
+  //         Utils.flushBarDoneMessage("Account created successfully", context);
+  //       }
+  //     }).then((value) {
+  //       Get.to(const SelectionScreen());
+  //       Utils.flushBarDoneMessage("User login successfully", context);
+  //       setLoading(false);
+  //     }).onError((error, stackTrace) {
+  //       setLoading(false);
+  //       Utils.toastMessage(error.toString());
+  //     });
+  //   } catch (e) {
+  //     setLoading(false);
+  //     Utils.toastMessage(e.toString());
+  //     if (kDebugMode) {
+  //       print("Error: $e");
+  //     }
+  //     return;
+  //   }
+  // }
 }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/network_image_widget.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
+import 'package:rpm/Views/manager_dashboard.dart/home/service_detail/service_detail_screen.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/utils/utils.dart';
 
@@ -35,12 +36,24 @@ class _ServicedetailScreenState extends State<ServicedetailScreen> {
             Container(
               padding: EdgeInsets.all(20),
               margin: EdgeInsets.only(bottom: 20, top: 50, right: 20, left: 20),
-              height: 340,
+              height: widget.snap['video'] != '' ? 500 : 470,
               width: double.infinity,
               color: Colors.grey.shade300,
               child: Column(
                 children: [
-                  ReusableRow(title: 'Service Address', value: ''),
+                  if (widget.snap['type'] == 'emg')
+                    ReusableRow(title: 'Service Address:', value: ''),
+                  if (widget.snap['type'] == 'emg')
+                    Text(
+                      widget.snap['location'] != null
+                          ? widget.snap['location']
+                          : '',
+                      style: TextStyle(
+                          color: AppColors.blackColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  SizedBox(height: 6),
                   ReusableRow(title: 'VIN #', value: widget.snap['vin']),
                   ReusableRow(
                       title: 'Current Mileage',
@@ -125,7 +138,19 @@ class _ServicedetailScreenState extends State<ServicedetailScreen> {
                                     ),
                                   )));
                     },
-                  )
+                  ),
+                  if (widget.snap['video'] != '') SizedBox(height: 10),
+                  if (widget.snap['video'] != '')
+                    RoundButton(
+                      title: 'Attached video',
+                      onPress: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VideoPlayerPage(
+                                    videoUrl: widget.snap['video'])));
+                      },
+                    )
                 ],
               ),
             ),

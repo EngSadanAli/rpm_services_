@@ -21,7 +21,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
   List<Widget> widgetList = [
     HomeServicesRequest(),
     MyWishlistScreen(showBackButton: false),
-    EngineServiceScreen(showBackButton: false),
+    // EngineServiceScreen(showBackButton: false),
     // AddToCartScreen(),
     CartScreen(showBackButton: false),
     SettingScreen(),
@@ -59,12 +59,12 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
                     Icons.favorite_border,
                   ),
                   label: "Wishlist"),
-              BottomNavigationBarItem(
-                  icon: Image.asset(
-                    AppImages.sirenImg,
-                    color: Colors.red,
-                  ),
-                  label: "Emergency"),
+              // BottomNavigationBarItem(
+              //     icon: Image.asset(
+              //       AppImages.sirenImg,
+              //       color: Colors.red,
+              //     ),
+              //     label: "Emergency"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.shopping_cart_outlined), label: "Cart"),
               BottomNavigationBarItem(

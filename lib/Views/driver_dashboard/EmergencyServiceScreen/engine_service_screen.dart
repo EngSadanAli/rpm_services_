@@ -1,8 +1,11 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:provider/provider.dart';
 import 'package:rpm/Views/driver_dashboard/ScheduleServiceScreen/widget/schedule_row_widget.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
@@ -224,10 +227,22 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  TextButton.icon(
-                                      onPressed: () => value.pickImage(context),
-                                      icon: Icon(Icons.image),
-                                      label: Text('Add Images')),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TextButton.icon(
+                                          onPressed: () =>
+                                              value.pickImage(context),
+                                          icon: Icon(Icons.image),
+                                          label: Text('Add Images')),
+                                      TextButton.icon(
+                                          onPressed: () =>
+                                              value.pickVideo(context),
+                                          icon: Icon(Icons.image),
+                                          label: Text('Add Video')),
+                                    ],
+                                  ),
+
                                   SizedBox(
                                     height: 6.h,
                                   ),
@@ -352,6 +367,12 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
                           ],
                         ),
                       ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      value.videoFile != null
+                          ? VideoThumbnailWidget(videoFile: value.videoFile!)
+                          : Text(''),
                       SizedBox(
                         height: 10.h,
                       ),
@@ -496,5 +517,162 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
     } else {
       return 'Location permission denied';
     }
+  }
+}
+
+class VideoPlayerPage extends StatefulWidget {
+  final File videoFile;
+
+  VideoPlayerPage({required this.videoFile});
+
+  @override
+  _VideoPlayerPageState createState() => _VideoPlayerPageState();
+}
+
+class _VideoPlayerPageState extends State<VideoPlayerPage> {
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.file(widget.videoFile);
+    _initializeVideoPlayerFuture = _controller.initialize();
+    _controller.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Video Player'),
+      ),
+      body: FutureBuilder(
+        future: _initializeVideoPlayerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return GestureDetector(
+              onTap: () {
+                if (_controller.value.isPlaying) {
+                  _controller.pause();
+                } else {
+                  _controller.play();
+                }
+              },
+              child: AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            if (_controller.value.isPlaying) {
+              _controller.pause();
+            } else {
+              _controller.play();
+            }
+          });
+        },
+        child: Icon(
+          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+}
+
+// class VideoThumbnailWidget extends StatelessWidget {
+//   final File videoFile;
+
+//   VideoThumbnailWidget({required this.videoFile});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: () {
+//         Get.to(VideoPlayerPage(videoFile: videoFile));
+//         // Navigator.push(
+//         //   context,
+//         //   MaterialPageRoute(
+//         //     builder: (context) => VideoPlayerPage(videoFile: videoFile),
+//         //   ),
+//         // );
+//       },
+//       child: Container(
+//         child: Image.file(videoFile, fit: BoxFit.cover),
+//       ),
+//     );
+//   }
+// }
+
+class VideoThumbnailWidget extends StatelessWidget {
+  final File videoFile;
+
+  VideoThumbnailWidget({required this.videoFile});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => VideoPlayerPage(videoFile: videoFile),
+        //   ),
+        // );
+        Get.to(VideoPlayerPage(videoFile: videoFile));
+      },
+      child: Container(
+        child: FutureBuilder(
+          future: _generateThumbnail(videoFile),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                      height: 200,
+                      width: double.infinity,
+                      child: Image.memory(snapshot.data as Uint8List,
+                          fit: BoxFit.cover)),
+                  Text(
+                    'Click to watch the video',
+                    style: TextStyle(color: AppColors.whiteColor, fontSize: 22),
+                  )
+                ],
+              );
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Future<Uint8List> _generateThumbnail(File videoFile) async {
+    final thumbnailBytes = await VideoThumbnail.thumbnailData(
+      video: videoFile.path,
+      imageFormat: ImageFormat.JPEG,
+      maxWidth: 150,
+      quality: 25,
+    );
+    return Uint8List.fromList(thumbnailBytes!);
   }
 }

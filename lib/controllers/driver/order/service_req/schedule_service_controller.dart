@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rpm/Views/driver_dashboard/SelectDataAndTimeScreen/AllSuccessScreen/all_success_screen.dart';
@@ -21,6 +22,12 @@ class ScheduleServiceController with ChangeNotifier {
     notifyListeners();
   }
 
+  String _VideoUrl = '';
+  String get VideoUrl => _VideoUrl;
+  setVideoUrl(String value) {
+    _VideoUrl = value;
+    notifyListeners();
+  }
   // final picker = ImagePicker();
   // File? _imageFile;
   // File? get imageFile => _imageFile;
@@ -43,6 +50,20 @@ class ScheduleServiceController with ChangeNotifier {
       // imagefiles = pickedfiles;
       _images = images.map((image) => File(image.path)).toList();
 
+      notifyListeners();
+    }
+  }
+
+  File? _videoFile;
+  File? get videoFile => _videoFile;
+  //pickVideo
+  Future<void> pickVideo(BuildContext context) async {
+    final pickedFile =
+        await ImagePicker().pickVideo(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      _videoFile = File(pickedFile.path);
+      print(_videoFile);
       notifyListeners();
     }
   }
@@ -79,8 +100,13 @@ class ScheduleServiceController with ChangeNotifier {
         final imageUrl = await storageRef.getDownloadURL();
         _imageUrls.add(imageUrl);
       }
-
+      if (_videoFile != null) {
+        await uploadImage(docId, File(_videoFile!.path).absolute).then((value) {
+          setVideoUrl(value);
+        });
+      }
       // Store the download URLs in Firestore
+
       var data = {
         'docId': docId,
         'vin': vin,
@@ -93,6 +119,7 @@ class ScheduleServiceController with ChangeNotifier {
         'selectedDate': selectedDate,
         'selectedTime': selectedTime,
         'image': _imageUrls,
+        'video': VideoUrl,
         'status': 'pending',
         'type': 'normal',
         'assignedBy': '',
@@ -119,4 +146,14 @@ class ScheduleServiceController with ChangeNotifier {
 
   @override
   notifyListeners();
+}
+
+Future uploadImage(postId, imagePath) async {
+  firebase_storage.Reference storageRef =
+      firebase_storage.FirebaseStorage.instance.ref('/posts/${postId}');
+
+  firebase_storage.UploadTask uploadTask = storageRef.putFile(imagePath);
+  await Future.value(uploadTask);
+  final newUrl = await storageRef.getDownloadURL();
+  return newUrl;
 }

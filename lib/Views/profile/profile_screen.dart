@@ -140,7 +140,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   value.updateDialogAlert(
                                       context,
                                       snapshot.data!.docs[0]['userName']
-                                          .toString(),
+                                          .toString()
+                                          .toUpperCase(),
                                       'userName',
                                       TextInputType.name);
                                 },
@@ -149,7 +150,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 tileColor: Color(0xff0FF0061BF),
                                 leading: Icon(Icons.person),
                                 title: Text(
-                                  snapshot.data!.docs[0]['userName'].toString(),
+                                  snapshot.data!.docs[0]['userName']
+                                      .toString()
+                                      .toUpperCase(),
                                   style:
                                       Theme.of(context).textTheme.bodyMedium!,
                                 ),

@@ -60,7 +60,7 @@ class ProfileDetails extends StatelessWidget {
                     ),
                     SizedBox(height: 30),
                     Text(
-                      '${data['userName']}',
+                      '${data['userName'].toUpperCase()}',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,

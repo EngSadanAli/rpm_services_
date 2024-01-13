@@ -33,7 +33,7 @@ class _TechnicianDashboardScreenState extends State<TechnicianDashboardScreen>
             Image.asset(AppImages.appLogo, height: 130),
             SizedBox(height: 20),
             Text(
-              SessionController().name.toString(),
+              SessionController().name.toString().toUpperCase(),
               style: TextStyle(
                 color: AppColors.blackColor,
               ),
@@ -76,16 +76,16 @@ class _TechnicianDashboardScreenState extends State<TechnicianDashboardScreen>
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
         inactiveIcon: Icon(Icons.home_outlined),
-        activeColorPrimary: AppColors.blackColor,
-        inactiveColorPrimary: AppColors.whiteColor,
-        activeColorSecondary: AppColors.blackColor,
+        activeColorPrimary: Color(0xff0061BF),
+        inactiveColorPrimary: Color(0xff606060),
+        activeColorSecondary: Color(0xff0061BF),
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.person),
         inactiveIcon: Icon(Icons.person_2_outlined),
-        activeColorPrimary: AppColors.blackColor,
-        inactiveColorPrimary: AppColors.whiteColor,
-        activeColorSecondary: AppColors.blackColor,
+        activeColorPrimary: Color(0xff0061BF),
+        inactiveColorPrimary: Color(0xff606060),
+        activeColorSecondary: Color(0xff0061BF),
       ),
       // PersistentBottomNavBarItem(
       //   icon: Icon(Icons.home),
@@ -150,13 +150,14 @@ class _TechnicianDashboardScreenState extends State<TechnicianDashboardScreen>
       screens: _buildScren(),
       items: _navBarItem(),
       controller: controler,
-      backgroundColor: Colors.grey.shade500,
+      padding: NavBarPadding.symmetric(horizontal: 100),
+      backgroundColor: Color(0xffD1D1D1),
       // backgroundColor: Theme.of(context).colorScheme.onPrimary,
       decoration: NavBarDecoration(
         borderRadius: BorderRadius.circular(0.0),
         // colorBehindNavBar: AppColors.iconBlueColor,
       ),
-      navBarStyle: NavBarStyle.style3,
+      navBarStyle: NavBarStyle.style12,
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +10,7 @@ import 'package:rpm/Views/manager_dashboard.dart/manager_dashboard.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/utils/utils.dart';
+import 'package:video_player/video_player.dart';
 
 class ManagerServicedetailScreen extends StatefulWidget {
   final snap;
@@ -41,12 +44,24 @@ class _ManagerServicedetailScreenState
             Container(
               padding: EdgeInsets.all(20),
               margin: EdgeInsets.only(bottom: 20, top: 50, right: 20, left: 20),
-              height: 400,
+              height: widget.snap['video'] != '' ? 500 : 470,
               width: double.infinity,
               color: Colors.grey.shade300,
               child: Column(
                 children: [
-                  ReusableRow(title: 'Service Address', value: ''),
+                  if (widget.snap['type'] == 'emg')
+                    ReusableRow(title: 'Service Address:', value: ''),
+                  if (widget.snap['type'] == 'emg')
+                    Text(
+                      widget.snap['location'] != null
+                          ? widget.snap['location']
+                          : '',
+                      style: TextStyle(
+                          color: AppColors.blackColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  SizedBox(height: 6),
                   ReusableRow(title: 'VIN #', value: widget.snap['vin']),
                   ReusableRow(
                       title: 'Current Mileage',
@@ -123,7 +138,19 @@ class _ManagerServicedetailScreenState
                                     ),
                                   )));
                     },
-                  )
+                  ),
+                  if (widget.snap['video'] != '') SizedBox(height: 10),
+                  if (widget.snap['video'] != '')
+                    RoundButton(
+                      title: 'Attached video',
+                      onPress: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VideoPlayerPage(
+                                    videoUrl: widget.snap['video'])));
+                      },
+                    )
                 ],
               ),
             ),
@@ -452,5 +479,86 @@ class UserInfoDialog extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class VideoPlayerPage extends StatefulWidget {
+  final String videoUrl;
+
+  VideoPlayerPage({required this.videoUrl});
+
+  @override
+  _VideoPlayerPageState createState() => _VideoPlayerPageState();
+}
+
+class _VideoPlayerPageState extends State<VideoPlayerPage> {
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(widget.videoUrl);
+    _initializeVideoPlayerFuture = _controller.initialize();
+    _controller.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Video Player'),
+      ),
+      body: FutureBuilder(
+        future: _initializeVideoPlayerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return GestureDetector(
+              onTap: () {
+                if (_controller.value.isPlaying) {
+                  _controller.pause();
+                } else {
+                  _controller.play();
+                }
+              },
+              child: AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              ),
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return Center(
+              child: Text('Error loading video'),
+            );
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            if (_controller.value.isPlaying) {
+              _controller.pause();
+            } else {
+              _controller.play();
+            }
+          });
+        },
+        child: Icon(
+          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 }

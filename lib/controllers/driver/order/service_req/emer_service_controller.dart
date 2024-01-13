@@ -10,6 +10,7 @@ import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rpm/repository/schedule_service_repository.dart';
 import 'package:uuid/uuid.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class EmergencyServiceController with ChangeNotifier {
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -18,6 +19,13 @@ class EmergencyServiceController with ChangeNotifier {
   bool get loading => _loading;
   setLoading(bool value) {
     _loading = value;
+    notifyListeners();
+  }
+
+  String _VideoUrl = '';
+  String get VideoUrl => _VideoUrl;
+  setVideoUrl(String value) {
+    _VideoUrl = value;
     notifyListeners();
   }
 
@@ -43,6 +51,20 @@ class EmergencyServiceController with ChangeNotifier {
       // imagefiles = pickedfiles;
       _images = images.map((image) => File(image.path)).toList();
 
+      notifyListeners();
+    }
+  }
+
+  File? _videoFile;
+  File? get videoFile => _videoFile;
+  //pickVideo
+  Future<void> pickVideo(BuildContext context) async {
+    final pickedFile =
+        await ImagePicker().pickVideo(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      _videoFile = File(pickedFile.path);
+      print(_videoFile);
       notifyListeners();
     }
   }
@@ -78,7 +100,11 @@ class EmergencyServiceController with ChangeNotifier {
         final imageUrl = await storageRef.getDownloadURL();
         _imageUrls.add(imageUrl);
       }
-
+      if (_videoFile != null) {
+        await uploadImage(docId, File(_videoFile!.path).absolute).then((value) {
+          setVideoUrl(value);
+        });
+      }
       // Store the download URLs in Firestore
 
       var data = {
@@ -91,6 +117,7 @@ class EmergencyServiceController with ChangeNotifier {
         'uid': SessionController().userId,
         'phone': SessionController().phone,
         'image': _imageUrls,
+        'video': VideoUrl,
         'status': 'pending',
         'approved': false,
         'type': 'emg',
@@ -121,4 +148,14 @@ class EmergencyServiceController with ChangeNotifier {
 
   @override
   notifyListeners();
+}
+
+Future uploadImage(postId, imagePath) async {
+  firebase_storage.Reference storageRef =
+      firebase_storage.FirebaseStorage.instance.ref('/posts/${postId}');
+
+  firebase_storage.UploadTask uploadTask = storageRef.putFile(imagePath);
+  await Future.value(uploadTask);
+  final newUrl = await storageRef.getDownloadURL();
+  return newUrl;
 }
