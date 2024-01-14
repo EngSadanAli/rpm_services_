@@ -401,92 +401,284 @@ class _AddressScreenState extends State<AddressScreen> {
                                         (BuildContext context,
                                             StateSetter setState) {
                                       return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(32.0))),
+                                        contentPadding: EdgeInsets.all(30.0),
                                         backgroundColor: Colors.white,
-                                        title: Text(
-                                          'Select Payment Method',
-                                          style: TextStyle(color: Colors.black),
+                                        title: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Payment Methods',
+                                              style: TextStyle(
+                                                color: Colors.black.withOpacity(
+                                                    0.8700000047683716),
+                                                fontSize: 17.05,
+                                                fontFamily: 'Futura Hv BT',
+                                                fontWeight: FontWeight.w400,
+                                                height: 0,
+                                              ),
+                                            ),
+                                            SizedBox(height: 11),
+                                            Text(
+                                              'Select a payment method to continue.',
+                                              style: TextStyle(
+                                                color: Colors.black.withOpacity(
+                                                    0.3799999952316284),
+                                                fontSize: 11.37,
+                                                fontFamily: 'Futura Md BT',
+                                                fontWeight: FontWeight.w400,
+                                                height: 0,
+                                                letterSpacing: -0.11,
+                                              ),
+                                            )
+                                          ],
                                         ),
                                         content: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  selectedPaymentMethod =
-                                                      'Credit Card';
-                                                });
-                                              },
-                                              child: ListTile(
-                                                tileColor:
-                                                    selectedPaymentMethod ==
-                                                            'Credit Card'
-                                                        ? Colors.blue
-                                                        : Colors.transparent,
-                                                title: Text(
-                                                  'Credit Card',
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                            ),
+                                                onTap: () {
+                                                  setState(() {
+                                                    selectedPaymentMethod =
+                                                        'Credit Card';
+                                                  });
+                                                },
+                                                child:
+
+                                                    //  ListTile(
+                                                    //   tileColor:
+                                                    // selectedPaymentMethod ==
+                                                    //         'Credit Card'
+                                                    //     ? Colors.blue
+                                                    //     : Colors.transparent,
+                                                    //   title: Text(
+                                                    //     'Credit Card',
+                                                    //     style: TextStyle(
+                                                    //         color: Colors.black),
+                                                    //   ),
+                                                    // ),
+                                                    Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 20),
+                                                  width: double.infinity,
+                                                  height: 56.83,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      border: Border.all(
+                                                        color:
+                                                            Color(0x7F000000),
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20)),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Image.asset(
+                                                              'assets/images/credit-card.png'),
+                                                          SizedBox(width: 20),
+                                                          Text(
+                                                            'Credit Card',
+                                                            style: TextStyle(
+                                                              color: Colors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      0.6000000238418579),
+                                                              fontSize: 13.26,
+                                                              fontFamily:
+                                                                  'Futura Hv BT',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              height: 0.19,
+                                                              letterSpacing:
+                                                                  -0.13,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Icon(
+                                                        Icons
+                                                            .check_circle_outline_outlined,
+                                                        color:
+                                                            selectedPaymentMethod ==
+                                                                    'Credit Card'
+                                                                ? Colors.blue
+                                                                : Colors
+                                                                    .transparent,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )),
+                                            SizedBox(height: 10),
                                             GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  selectedPaymentMethod =
-                                                      'Cash on Delivery';
-                                                });
-                                              },
-                                              child: ListTile(
-                                                tileColor:
-                                                    selectedPaymentMethod ==
-                                                            'Cash on Delivery'
-                                                        ? Colors.blue
-                                                        : Colors.transparent,
-                                                title: Text(
-                                                  'Cash on Delivery',
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                            ),
+                                                onTap: () {
+                                                  setState(() {
+                                                    selectedPaymentMethod =
+                                                        'Cash on Delivery';
+                                                  });
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 20),
+                                                  width: double.infinity,
+                                                  height: 56.83,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      border: Border.all(
+                                                        color:
+                                                            Color(0x7F000000),
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20)),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Image.asset(
+                                                              'assets/images/money_cash_img.png'),
+                                                          SizedBox(width: 20),
+                                                          Text(
+                                                            'Cash',
+                                                            style: TextStyle(
+                                                              color: Colors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      0.6000000238418579),
+                                                              fontSize: 13.26,
+                                                              fontFamily:
+                                                                  'Futura Hv BT',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              height: 0.19,
+                                                              letterSpacing:
+                                                                  -0.13,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Icon(
+                                                        Icons
+                                                            .check_circle_outline_outlined,
+                                                        color: selectedPaymentMethod ==
+                                                                'Cash on Delivery'
+                                                            ? Colors.blue
+                                                            : Colors
+                                                                .transparent,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )),
                                           ],
                                         ),
                                         actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                _loading = false;
-                                              });
-                                              Navigator.of(context)
-                                                  .pop(); // Close the dialog on cancel
-                                            },
-                                            child: Text('Cancel'),
-                                          ),
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              // Proceed with the selected payment method
-                                              if (selectedPaymentMethod
-                                                  .isNotEmpty) {
-                                                // Perform actions based on the selected payment method
-                                                // For example, trigger the order placement
-
-                                                _performPurchase();
-
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3,
+                                            child: RoundButton(
+                                              textColor: Colors.blue,
+                                              buttonColor: Colors.grey.shade100,
+                                              title: 'Cancel',
+                                              onPress: () {
+                                                setState(() {
+                                                  _loading = false;
+                                                });
                                                 Navigator.of(context)
-                                                    .pop(); // Close the dialog
-                                              } else {
-                                                // Show a message that a payment method needs to be selected
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                        'Please select a payment method.'),
-                                                  ),
-                                                );
-                                              }
-                                            },
-                                            child: Text('Proceed'),
+                                                    .pop(); // Close the dialog on cancel
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
                                           ),
+                                          // TextButton(
+                                          //   onPressed: () {
+                                          //     setState(() {
+                                          //       _loading = false;
+                                          //     });
+                                          //     Navigator.of(context)
+                                          //         .pop(); // Close the dialog on cancel
+                                          //     // Navigator.of(context).pop();
+                                          //   },
+                                          //   child: Text('Cancel'),
+                                          // ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3,
+                                            child: RoundButton(
+                                              // textColor: Colors.blue,
+                                              // buttonColor:
+                                              //     Colors.white.withOpacity(.5),
+                                              title: 'Proceed',
+                                              onPress: () {
+                                                // Proceed with the selected payment method
+                                                if (selectedPaymentMethod
+                                                    .isNotEmpty) {
+                                                  // Perform actions based on the selected payment method
+                                                  // For example, trigger the order placement
+
+                                                  _performPurchase();
+
+                                                  Navigator.of(context)
+                                                      .pop(); // Close the dialog
+                                                } else {
+                                                  // Show a message that a payment method needs to be selected
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                          'Please select a payment method.'),
+                                                    ),
+                                                  );
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                          // ElevatedButton(
+                                          //   onPressed: () {
+                                          //     // Proceed with the selected payment method
+                                          //     if (selectedPaymentMethod
+                                          //         .isNotEmpty) {
+                                          //       // Perform actions based on the selected payment method
+                                          //       // For example, trigger the order placement
+
+                                          //       _performPurchase();
+
+                                          //       Navigator.of(context)
+                                          //           .pop(); // Close the dialog
+                                          //     } else {
+                                          //       // Show a message that a payment method needs to be selected
+                                          //       ScaffoldMessenger.of(context)
+                                          //           .showSnackBar(
+                                          //         SnackBar(
+                                          //           content: Text(
+                                          //               'Please select a payment method.'),
+                                          //         ),
+                                          //       );
+                                          //     }
+                                          //   },
+                                          //   child: Text('Proceed'),
+                                          // ),
                                         ],
                                       );
                                     });
