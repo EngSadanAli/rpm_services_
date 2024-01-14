@@ -44,7 +44,7 @@ class _ManagerServicedetailScreenState
             Container(
               padding: EdgeInsets.all(20),
               margin: EdgeInsets.only(bottom: 20, top: 50, right: 20, left: 20),
-              height: widget.snap['video'] != '' ? 500 : 470,
+              // height: widget.snap['additionalVideo'] != '' ? 600 : 470,
               width: double.infinity,
               color: Colors.grey.shade300,
               child: Column(
@@ -139,6 +139,73 @@ class _ManagerServicedetailScreenState
                                   )));
                     },
                   ),
+                  if (widget.snap['additionalImage'].length != 0)
+                    SizedBox(height: 10),
+                  if (widget.snap['additionalImage'].length != 0)
+                    RoundButton(
+                      title: 'Additional complaint images',
+                      onPress: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Scaffold(
+                                      appBar: AppBar(),
+                                      body: ListView.builder(
+                                        itemCount: widget
+                                            .snap['additionalImage'].length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Container(
+                                            margin: EdgeInsets.all(8.0),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder:
+                                                            (context) =>
+                                                                Scaffold(
+                                                                  appBar:
+                                                                      AppBar(),
+                                                                  body: Center(
+                                                                    child: InteractiveViewer(
+                                                                        child: NetworkImageWidget(
+                                                                      borderRadius:
+                                                                          0,
+                                                                      imageUrl:
+                                                                          widget.snap['additionalImage']
+                                                                              [
+                                                                              index],
+                                                                      width: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width,
+                                                                      height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width,
+                                                                    )),
+                                                                  ),
+                                                                )));
+                                              },
+                                              child: Image.network(
+                                                widget.snap['additionalImage']
+                                                    [index],
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )));
+                      },
+                    ),
                   if (widget.snap['video'] != '') SizedBox(height: 10),
                   if (widget.snap['video'] != '')
                     RoundButton(
@@ -149,6 +216,19 @@ class _ManagerServicedetailScreenState
                             MaterialPageRoute(
                                 builder: (context) => VideoPlayerPage(
                                     videoUrl: widget.snap['video'])));
+                      },
+                    ),
+                  if (widget.snap['additionalVideo'] != '')
+                    SizedBox(height: 10),
+                  if (widget.snap['additionalVideo'] != '')
+                    RoundButton(
+                      title: 'Additional complaint video',
+                      onPress: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VideoPlayerPage(
+                                    videoUrl: widget.snap['additionalVideo'])));
                       },
                     )
                 ],
