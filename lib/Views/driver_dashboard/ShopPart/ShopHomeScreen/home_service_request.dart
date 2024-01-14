@@ -330,6 +330,7 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
       body: Padding(
         padding: EdgeInsets.only(left: 16.w, top: 20.h),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
