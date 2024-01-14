@@ -11,7 +11,9 @@ import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/utils/app_images.dart';
 
 class TechnicianDashboardScreen extends StatefulWidget {
-  const TechnicianDashboardScreen({Key? key}) : super(key: key);
+  final int initialIndex;
+  const TechnicianDashboardScreen({Key? key, this.initialIndex = 0})
+      : super(key: key);
 
   @override
   State<TechnicianDashboardScreen> createState() =>
@@ -20,7 +22,7 @@ class TechnicianDashboardScreen extends StatefulWidget {
 
 class _TechnicianDashboardScreenState extends State<TechnicianDashboardScreen>
     with WidgetsBindingObserver {
-  final controler = PersistentTabController(initialIndex: 0);
+  // final controler = ;
 
   List<Widget> _buildScren() {
     return [
@@ -149,7 +151,7 @@ class _TechnicianDashboardScreenState extends State<TechnicianDashboardScreen>
       context,
       screens: _buildScren(),
       items: _navBarItem(),
-      controller: controler,
+      controller: PersistentTabController(initialIndex: widget.initialIndex),
       padding: NavBarPadding.symmetric(horizontal: 100),
       backgroundColor: Color(0xffD1D1D1),
       // backgroundColor: Theme.of(context).colorScheme.onPrimary,

@@ -4,15 +4,16 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/round_button.dart';
 import 'package:rpm/Views/manager_dashboard.dart/home/requests_list/request_list.dart';
 import 'package:rpm/Views/profile/profile_detail_screen.dart';
-import 'package:rpm/Views/profile/profile_screen.dart';
-import 'package:rpm/Views/technician_dashboard.dart/home/appointments_list/appoinments_list_screen.dart';
-import 'package:rpm/Views/technician_dashboard.dart/home/products/procuts_screen.dart';
+import 'package:rpm/Views/manager_dashboard.dart/home/products/products_screen.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/utils/app_images.dart';
 
 class ManagerDashboardScreen extends StatefulWidget {
-  const ManagerDashboardScreen({Key? key}) : super(key: key);
+  final int initialIndex;
+
+  const ManagerDashboardScreen({Key? key, this.initialIndex = 0})
+      : super(key: key);
 
   @override
   State<ManagerDashboardScreen> createState() => _ManagerDashboardScreenState();
@@ -47,7 +48,7 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen>
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ProductsScreen()));
+                            builder: (context) => ManagerProductsScreen()));
                   }),
             ),
             SizedBox(height: 20),
@@ -150,7 +151,7 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen>
       context,
       screens: _buildScren(),
       items: _navBarItem(),
-      controller: controler,
+      controller: PersistentTabController(initialIndex: widget.initialIndex),
       padding: NavBarPadding.symmetric(horizontal: 100),
       backgroundColor: Color(0xffD1D1D1),
       // backgroundColor: Theme.of(context).colorScheme.onPrimary,

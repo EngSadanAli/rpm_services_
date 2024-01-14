@@ -6,6 +6,7 @@ import 'package:rpm/Views/driver_dashboard/ShopPart/AddToCartScreen/add_to_cart_
 import 'package:rpm/Views/driver_dashboard/ShopPart/Auth/Components/big_text.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/ShopHomeScreen/ProductDescriptionScreen/product_description_screen.dart';
 import 'package:rpm/Views/driver_dashboard/widgets/network_image_widget.dart';
+import 'package:rpm/Views/technician_dashboard.dart/dashboard_screen.dart';
 import 'package:rpm/controllers/services/session_manager.dart';
 import 'package:rpm/utils/app_colors.dart';
 import 'package:rpm/utils/app_images.dart';
@@ -290,6 +291,37 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     );
                   },
                 );
+              },
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.grey.shade300, // Set the color as needed
+        shape: const CircularNotchedRectangle(), // Use the shape you prefer
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          TechnicianDashboardScreen(initialIndex: 0),
+                    ));
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.person),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          TechnicianDashboardScreen(initialIndex: 1),
+                    ));
               },
             ),
           ],
