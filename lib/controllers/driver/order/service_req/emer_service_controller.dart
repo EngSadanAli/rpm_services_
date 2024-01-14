@@ -29,6 +29,13 @@ class EmergencyServiceController with ChangeNotifier {
     notifyListeners();
   }
 
+  String _additionalVideoUrl = '';
+  String get additionalVideoUrl => _additionalVideoUrl;
+  additionalsetVideoUrl(String value) {
+    _additionalVideoUrl = value;
+    notifyListeners();
+  }
+
   // final picker = ImagePicker();
   // File? _imageFile;
   // File? get imageFile => _imageFile;
@@ -55,6 +62,19 @@ class EmergencyServiceController with ChangeNotifier {
     }
   }
 
+  List<File> _additionalimages = [];
+  List<File> get additionalimages => _additionalimages;
+  List<String> _additionalimageUrls = [];
+  Future<void> additionalpickImage(BuildContext context) async {
+    final images = await ImagePicker().pickMultiImage();
+    if (images != null) {
+      // imagefiles = pickedfiles;
+      _additionalimages = images.map((image) => File(image.path)).toList();
+
+      notifyListeners();
+    }
+  }
+
   File? _videoFile;
   File? get videoFile => _videoFile;
   //pickVideo
@@ -64,6 +84,20 @@ class EmergencyServiceController with ChangeNotifier {
 
     if (pickedFile != null) {
       _videoFile = File(pickedFile.path);
+      print(_videoFile);
+      notifyListeners();
+    }
+  }
+
+  File? _additionalvideoFile;
+  File? get additionalvideoFile => _additionalvideoFile;
+  //pickVideo
+  Future<void> additionalpickVideo(BuildContext context) async {
+    final pickedFile =
+        await ImagePicker().pickVideo(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      _additionalvideoFile = File(pickedFile.path);
       print(_videoFile);
       notifyListeners();
     }
@@ -106,7 +140,29 @@ class EmergencyServiceController with ChangeNotifier {
         });
       }
       // Store the download URLs in Firestore
+      //
+      if (_additionalvideoFile != null) {
+        await uploadImage(docId, File(_additionalvideoFile!.path).absolute)
+            .then((value) {
+          additionalsetVideoUrl(value);
+        });
+      }
+      if (_additionalimages.isNotEmpty) {
+        for (var additionalimage in _additionalimages) {
+          // Create a reference to the Firebase Storage location
+          final storageRef = _storage
+              .ref()
+              .child('additionalImages/${DateTime.now().toString()}');
 
+          // Upload the file to Firebase Storage
+          final uploadTask = storageRef.putFile(additionalimage);
+          await uploadTask;
+
+          // Get the download URL for the image
+          final imageUrl = await storageRef.getDownloadURL();
+          _additionalimageUrls.add(imageUrl);
+        }
+      }
       var data = {
         'docId': docId,
         'vin': vin,
@@ -117,7 +173,9 @@ class EmergencyServiceController with ChangeNotifier {
         'uid': SessionController().userId,
         'phone': SessionController().phone,
         'image': _imageUrls,
+        'additionalImage': _additionalimageUrls,
         'video': VideoUrl,
+        'additionalVideo': additionalVideoUrl,
         'status': 'pending',
         'approved': false,
         'type': 'emg',

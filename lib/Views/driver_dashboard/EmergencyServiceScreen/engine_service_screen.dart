@@ -269,98 +269,116 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
                                       );
                                     }).toList(),
                                   ),
-                                  // Row(
-                                  //   children: [
-                                  //     InkWell(
-                                  //       onTap: () => value.pickImage(context),
-                                  //       child: Container(
-                                  //         height: 50.h,
-                                  //         width: 78.w,
-                                  //         decoration: BoxDecoration(
-                                  //           color: AppColors.whiteColor,
-                                  //           boxShadow: [
-                                  //             BoxShadow(
-                                  //               color: Colors.black.withOpacity(
-                                  //                   0.16), // Shadow color
-                                  //               spreadRadius: 0,
-                                  //               blurRadius: 4,
-                                  //               offset: Offset(1,
-                                  //                   3), // Offset in x and y direction
-                                  //             ),
-                                  //           ],
-                                  //           borderRadius:
-                                  //               BorderRadius.circular(6.r),
-                                  //         ),
-                                  //         child: Column(
-                                  //           mainAxisAlignment:
-                                  //               MainAxisAlignment.center,
-                                  //           crossAxisAlignment:
-                                  //               CrossAxisAlignment.center,
-                                  //           children: [
-                                  //             if (value.images.isNotEmpty)
-                                  //               Stack(children: [
-                                  //                 Container(
-                                  //                   height: 50.h,
-                                  //                   width: 78.w,
-                                  //                   decoration: BoxDecoration(
-                                  //                     color: Theme.of(context)
-                                  //                         .colorScheme
-                                  //                         .onPrimary,
-                                  //                     borderRadius:
-                                  //                         BorderRadius.circular(
-                                  //                             13),
-                                  //                     image: DecorationImage(
-                                  //                       image: FileImage(
-                                  //                           value.images[0]),
-                                  //                       fit: BoxFit.cover,
-                                  //                     ),
-                                  //                   ),
-                                  //                 ),
-                                  //                 Positioned(
-                                  //                     bottom: 2,
-                                  //                     right: 2,
-                                  //                     child: InkWell(
-                                  //                       onTap: () {
-                                  //                         value.pickImage(
-                                  //                             context);
-                                  //                       },
-                                  //                       child: Container(
-                                  //                           height: 20,
-                                  //                           width: 20,
-                                  //                           decoration: BoxDecoration(
-                                  //                               shape: BoxShape
-                                  //                                   .circle,
-                                  //                               color: AppColors
-                                  //                                   .redTextColor),
-                                  //                           child: Icon(
-                                  //                             Icons.add,
-                                  //                             color:
-                                  //                                 Colors.white,
-                                  //                           )),
-                                  //                     ))
-                                  //               ]),
-                                  //             if (value.images.isNotEmpty)
-                                  //               Icon(
-                                  //                 Icons.camera_alt_outlined,
-                                  //                 color: Colors.red,
-                                  //               ),
-                                  //             if (value.images.isNotEmpty)
-                                  //               SizedBox(
-                                  //                 height: 2.h,
-                                  //               ),
-                                  //             if (value.images.isNotEmpty)
-                                  //               CustomText(
-                                  //                 title: "Take Picture",
-                                  //                 fontWeight: FontWeight.w400,
-                                  //                 fontSize: 10.sp,
-                                  //                 color: AppColors.blackColor,
-                                  //               ),
-                                  //           ],
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //   ],
-                                  // )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: value.videoFile != null ? 10.h : 0,
+                      ),
+                      // SizedBox(
+                      //   height: 10.h,
+                      // ),
+                      value.videoFile != null
+                          ? VideoThumbnailWidget(videoFile: value.videoFile!)
+                          : Text(''),
+                      SizedBox(
+                        height: value.videoFile != null ? 10.h : 0,
+                      ),
+                      // SizedBox(
+                      //   height: 10.h,
+                      // ),
+                      // CustomTextField(
+                      //   readOnly: false,
+                      //   controller: AdditionalconplaintController,
+                      //   focusNode: additionalconplaintFocusNode,
+                      //   onFieldSubmittedValue: (newValue) {},
+                      //   keyBoardType: TextInputType.text,
+                      //   obscureText: false,
+                      //   hint: 'Additional Complaint',
+                      //   onChange: (value) {},
+                      // ),
+////////
+                      Container(
+                        // height: 160.h,
+                        decoration: BoxDecoration(
+                            color: AppColors.whiteColor,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                                color: AppColors.textFieldBorderColor,
+                                width: 1.5.w)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextFormField(
+                              style: TextStyle(color: Colors.black),
+                              controller: AdditionalconplaintController,
+                              focusNode: additionalconplaintFocusNode,
+                              decoration: InputDecoration(
+                                  labelText: 'Additional Complaint',
+                                  contentPadding: const EdgeInsets.all(10),
+                                  border: InputBorder.none,
+                                  prefixIcon: Icon(
+                                    Icons.person_outline,
+                                    color: AppColors.textFieldBorderColor,
+                                  )),
+                              // validator: (value) {
+                              //   if (value == null || value.isEmpty) {
+                              //     return 'Please enter a Complaint';
+                              //   }
+                              //   return null;
+                              // },
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 20.w, top: 20.h),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TextButton.icon(
+                                          onPressed: () => value
+                                              .additionalpickImage(context),
+                                          icon: Icon(Icons.image),
+                                          label: Text('Add Images')),
+                                      TextButton.icon(
+                                          onPressed: () => value
+                                              .additionalpickVideo(context),
+                                          icon: Icon(Icons.image),
+                                          label: Text('Add Video')),
+                                    ],
+                                  ),
+
+                                  SizedBox(
+                                    height: 6.h,
+                                  ),
+                                  // if (value.images.length >
+                                  //     1) // Check if there are more than one image
+                                  Wrap(
+                                    spacing: 4.0, // Adjust spacing as needed
+                                    runSpacing: 4.0,
+                                    children:
+                                        value.additionalimages.map((image) {
+                                      return Container(
+                                        height: 50.h,
+                                        width: 78.w,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                          borderRadius:
+                                              BorderRadius.circular(13),
+                                          image: DecorationImage(
+                                            image: FileImage(image),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
                                 ],
                               ),
                             ),
@@ -370,30 +388,14 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
                       SizedBox(
                         height: 10.h,
                       ),
-                      value.videoFile != null
-                          ? VideoThumbnailWidget(videoFile: value.videoFile!)
+                      value.additionalvideoFile != null
+                          ? VideoThumbnailWidget(
+                              videoFile: value.additionalvideoFile!)
                           : Text(''),
+////////
+
                       SizedBox(
-                        height: 10.h,
-                      ),
-                      CustomTextField(
-                        readOnly: false,
-                        controller: AdditionalconplaintController,
-                        focusNode: additionalconplaintFocusNode,
-                        onFieldSubmittedValue: (newValue) {},
-                        keyBoardType: TextInputType.text,
-                        obscureText: false,
-                        hint: 'Additional Complaint',
-                        onChange: (value) {},
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter Additional Complaint';
-                        //   }
-                        //   return null;
-                        // },
-                      ),
-                      SizedBox(
-                        height: 10.h,
+                        height: value.additionalvideoFile != null ? 10.h : 0,
                       ),
                       RoundButton(
                         buttonColor: currentLocation == null
@@ -414,9 +416,7 @@ class _EngineServiceScreenState extends State<EngineServiceScreen> {
                           });
                         },
                       ),
-                      SizedBox(
-                        height: 16.h,
-                      ),
+
                       SizedBox(
                         height: 10.h,
                       ),
