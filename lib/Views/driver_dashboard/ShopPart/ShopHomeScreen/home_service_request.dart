@@ -9,6 +9,7 @@ import 'package:rpm/Views/driver_dashboard/SettingScreen/NotificationScreen/noti
 import 'package:rpm/Views/driver_dashboard/ShopPart/Auth/LogInScreen/login_screen.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/ShopHomeScreen/HelpScreen.dart';
 import 'package:rpm/Views/driver_dashboard/ShopPart/ShopHomeScreen/ProductDescriptionScreen/product_description_screen.dart';
+import 'package:rpm/Views/driver_dashboard/widgets/select_screen_widget.dart';
 import 'package:rpm/Views/profile/profile_detail_screen.dart';
 import 'package:rpm/utils/app_images.dart';
 import 'package:rpm/Views/profile/profile_screen.dart';
@@ -68,17 +69,24 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                     },
                   ),
                   SizedBox(height: 15.h),
-                  CustomText(
-                    title: SessionController().name.toString(),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 15.sp,
-                    color: AppColors.whiteColor,
+                  // CustomText(
+                  //   title: SessionController().name.toString(),
+                  //   fontWeight: FontWeight.w700,
+                  //   fontSize: 15.sp,
+                  //   color: AppColors.whiteColor,
+                  // ),
+                  Text(
+                    '${SessionController().name}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall!
+                        .copyWith(fontSize: 20),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(right: 100.w),
+              padding: EdgeInsets.only(right: 0.w),
               child: Column(
                 children: [
                   ListTile(
@@ -86,11 +94,12 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                       Icons.perm_identity,
                       color: AppColors.whiteColor,
                     ),
-                    title: CustomText(
-                      title: "Profile",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15.sp,
-                      color: AppColors.whiteColor,
+                    title: Text(
+                      'Profile',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(fontSize: 18),
                     ),
                     onTap: () {
                       // Add your onTap logic for item 1
@@ -125,12 +134,19 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                       Icons.menu_book,
                       color: AppColors.whiteColor,
                     ),
-                    title: CustomText(
-                      title: "Previous work",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15.sp,
-                      color: AppColors.whiteColor,
+                    title: Text(
+                      "Previous work",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(fontSize: 18),
                     ),
+                    //  CustomText(
+                    //   title: "Previous work",
+                    //   fontWeight: FontWeight.w700,
+                    //   fontSize: 15.sp,
+                    //   color: AppColors.whiteColor,
+                    // ),
                     onTap: () {
                       // Add your onTap logic for item 1
                       Get.to(PreviousWorkScreen());
@@ -145,12 +161,19 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                       Icons.favorite_border,
                       color: AppColors.whiteColor,
                     ),
-                    title: CustomText(
-                      title: "Favorites",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15.sp,
-                      color: AppColors.whiteColor,
+                    title: Text(
+                      "Favorites",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(fontSize: 18),
                     ),
+                    //  CustomText(
+                    //   title: "Favorites",
+                    //   fontWeight: FontWeight.w700,
+                    //   fontSize: 15.sp,
+                    //   color: AppColors.whiteColor,
+                    // ),
                     onTap: () {
                       // Add your onTap logic for item 1
                       Get.to(MyWishlistScreen(
@@ -167,15 +190,49 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                       Icons.help_outline,
                       color: AppColors.whiteColor,
                     ),
-                    title: CustomText(
-                      title: "Help",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15.sp,
-                      color: AppColors.whiteColor,
+                    title: Text(
+                      "Help",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(fontSize: 18),
                     ),
+                    // CustomText(
+                    //   title: "Help",
+                    //   fontWeight: FontWeight.w700,
+                    //   fontSize: 15.sp,
+                    //   color: AppColors.whiteColor,
+                    // ),
                     onTap: () {
                       // Add your onTap logic for item 1
                       Get.to(HelpScreen());
+                    },
+                  ),
+                  Divider(
+                    thickness: 1,
+                    color: Colors.black,
+                  ),
+                  ListTile(
+                    // leading: Icon(
+                    //   Icons.help_outline,
+                    //   color: AppColors.whiteColor,
+                    // ),
+                    title: Text(
+                      "Back to main screen",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(fontSize: 18),
+                    ),
+                    // CustomText(
+                    //   title: "Help",
+                    //   fontWeight: FontWeight.w700,
+                    //   fontSize: 15.sp,
+                    //   color: AppColors.whiteColor,
+                    // ),
+                    onTap: () {
+                      // Add your onTap logic for item 1
+                      Get.to(SelectionScreen());
                     },
                   ),
                   Divider(
@@ -194,12 +251,19 @@ class _HomeServicesRequestState extends State<HomeServicesRequest> {
                         Icons.logout,
                         color: AppColors.whiteColor,
                       ),
-                      title: CustomText(
-                        title: "LogOut",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15.sp,
-                        color: AppColors.whiteColor,
+                      title: Text(
+                        "LogOut",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(fontSize: 18),
                       ),
+                      // CustomText(
+                      //     title: "LogOut",
+                      //     fontWeight: FontWeight.w700,
+                      //     fontSize: 15.sp,
+                      //     color: AppColors.whiteColor,
+                      //   ),
                       onTap: () {
                         showDialog(
                           context: context,
